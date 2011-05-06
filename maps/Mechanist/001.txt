@@ -1,0 +1,26 @@
+name: The Entrance                                                          
+NNNNNNNNNNNN########NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN    
+NNNNNNNNNNNN#      #NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN     
+NNNNNNNNNNNN#Oa&   #NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN      
+NNNNNNNNNNNN#### # #NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN       
+NNNNNNNNNNNNNNN# # #NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN        
+N             N# # #NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN         
+N&NK$NN+NNNNNAN# # #N+                                 j                        
+N=N$NNN+######## # #N+                                 j                        
+Nk$NNNN+         % #N+                                 j2             Q         
+N######+##########G#N+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNN#+#NNNNNNNNNNNN+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNN#+#NNNNNNNN    +                                +N
+NNNNNN#+#NNNNNNNNBNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN+N
+N######+########NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN+N
+N      +         bONN+                                +N
+N      +        NNNNN+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N      +        NNNNN+N&N<N
+N      +        NNNNN+N=N=N
+N      +             +Nh jN
+N      +         NNNNNNg NN
+N@     +       1NNNNNN%  %g
+NNNNNNNNNNNNNNNNNNNNNNNJNNH
+message: Here at last.
+message1: A scratched sign still reads: "The Museum of Mechanism. Please ring the doorbell to gain entrance."
+message2: Dim lights clank on as you enter. Tarnished brass plates the walls.

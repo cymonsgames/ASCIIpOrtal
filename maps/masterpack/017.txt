@@ -1,0 +1,15 @@
+music:default2
+name:Portile11
+message:Think fast!
+NNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNN <    N
+#####NNN###########=#####N
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #####            $ #
+#     @             Q$ #
+#"######################

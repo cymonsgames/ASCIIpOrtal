@@ -1,0 +1,24 @@
+music:default2
+name:Portile22
+message:Do you have a plan if you miss the first time?
+NNNNNNNNNNN
+NNNN     <N
+NNN#=#NNNNN
+NNN# #
+NNN# #
+NNN# #
+#### #
+# @  #
+#### #
+NNN# #####
+NNN# $   #
+NNN# $ Q #
+NNN# #####
+NNN# #
+NNN# #
+NNN# #
+NNN# #
+N### #
+N#   ####
+N###   "#
+NNN######

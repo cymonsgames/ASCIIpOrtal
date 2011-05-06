@@ -1,0 +1,59 @@
+name: The Pit
+NNNNNNNNNNNNNNNNN
+N      $   ######
+N      $        #
+#@     $        #
+########        #
+NNNNN#          #
+NNNNN#          #
+NNNNN#          #
+NNNNN#$$$$$$#   #
+NNNNN#$NNNN$#   #
+NNNNN#      #   #
+NNNNN#      #   #
+NNNNN#      #####
+NNNNN##""""##NNNN
+NNNNN$$$$$$$NNNNN
+#  2 $      NNNNN
+#    $      N###N
+NNNN $       g1#N
+NQ   $      N###N
+NNNNNNN####NNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN
+N&NNNNNNNNNNNNNNN
+NaNNNNNNNNNNNNNNN
+N1gN>h         NN
+NGHNNNNNNNNNNN NN
+N              NN
+N NNNNNNNNNNNNNNN
+N              NN
+NNNNNNNNNNNNNN NN
+N              NN
+N NNNNNNNNNNNNNNN
+N              NN
+NNNNNNNNNNNNNN NN
+"              NN
+NANNNNNNNNNNNNNNN
+
+message1: This test has been known to induce frustration. Please express your emotions on the padded walls provided. The cell will open when you achieve neurochemical balance.
+message2: Very slick.

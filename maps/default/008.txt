@@ -1,0 +1,13 @@
+music:default
+name:Portile4
+message:I wouldn't touch the spikes if I were soft, like you.
+######################N
+#                     N
+#                     N
+# @                   N
+####  ###  ###  ###   N
+NNN#  #N#  #N#  #N#   N
+NNN#  #N#  #N#  #N#   N
+NNN#  #N#  #N#  #N#   N
+NNN#XX#N#XX#N#XX#N# Q N
+NNN####N####N####N####N

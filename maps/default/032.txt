@@ -1,0 +1,39 @@
+NN&NNN
+NN=NNN
+NNhNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNNNN@NNNNNNNNNNNNNNNNNNNNNNN
+NNjNNNNNjNNNNNNNNNNNNNNNNNNNNNNN
+#jjjjjjjjjjjjjjjjj NNN       NNN
+#jjjjjjjjjjjjjjjNNANNN  OOO  NN
+#jjjjjjjjjjjjjjjjj NNNNOOOOONN
+#jjjjjjjjjjjjjjjNNBNNNNNOOONNN
+#jjjjjjjjjjjjjjjNNNNNNNNN=NNNN
+#jjjjjjjjjjjjjjjjj NNNNNN  &"N
+#jjjjjjjjjjjjjjjNNCNNNNN   JNN
+#jjjjjjjjjjjjjjjjj NNNN     NNN
+#jjjjjjjjjjjjjjjNNDNNN       NNN
+#jjjjjjjjjjjjjjjNNNNNN       NNNN
+#jjjjjjjjjjjjjjjNNNNNNNNNNNNNNNNN
+#jjjjjjjjjjjjjjjabcdjjjjjN
+#jjjjjjjjjjjjjjjabcdjjQjjN
+####HN$N$N$N$N$NNNNNNNNNNN
+NNNNN$N$N$N$N$N$NNNNNNNNNN
+message:That was too easy. Let's add a time limit.
+name:Multiple Redundancies 2

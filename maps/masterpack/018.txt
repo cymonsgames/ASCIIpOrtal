@@ -1,0 +1,40 @@
+music:default2
+NN&NNN
+NN=N&N
+NNhNJN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNN
+NN NNNNN@N
+NN NNNNNjNNNNNNNNNNN
+#                  N
+#               NNAN
+#                  N
+#               NNBN
+#               NNNN
+#                  N
+#               NNCN
+#                  N
+#               NNDN
+#               NNNN
+#              %NNNNNNNNNN
+#               abcd     N
+#               abcd  Q  N
+####HN$N$N$N$N$NNNNNNNNNNN
+NNNNN$N$N$N$N$N$NNNNNNNNNN
+message:Stand on the switch to dispense a cube.
+name:Multiple Redundancies

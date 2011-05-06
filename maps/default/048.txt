@@ -1,0 +1,68 @@
+music:yorkiimusic.mp3
+message:I am pleased that you successfully completed the last test. Please stay there while you are lowered into the congratulations chamber.
+message1:You were informed to stay in place, but you did not.  Please stay in place while the punishment boulder moves into punishment position.
+name:by Clayton Hobbs
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN######NNNNNNNNNNNNN
+NNN     $             #NNNNNNNNNNNNN
+NON  @  $             #NNNNNNNNNNNNN
+Na#aaaaaN             NNNNNNNNNNNNNN
+Nb#bbbbbN             NNNNNNNNNNNNNN
+Nc#cccccN             NNNNNNNNNNNNNN
+NdNdddddN             NNNNNNNNNNNNNN
+NeNeeeeeN%%%%%%%%%%%%%NNNNNNNNNNNNNN
+NfffffffNfffffffffffffNNNNNNNNNNNNNN
+NNNgggggN1111111111111NNNNNNNNNNNNNN
+NNNQQQQQg             NNNNNNNNNNNNNN
+NNNNNNNNN             NNNNNNNNNNNNNN
+NNNNNNNNN             NNNNNNNNNNNNNN
+NNNNNNNNN             #NNNNNNNNNNNNN
+NNNNNNNNN             #NNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN######NNNNNNNNNNNNN
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+NNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNN
+NNNN             <NN
+NNNN NNNNNNNNNNNNNNN
+NNNN              NN
+NNNNNNNNNNNNNNNNN NN
+NNNN              NN
+NNNN NNNNNNNNNNNNNNN
+NNNN              NN
+NNNNNNNNNNNNNNNNN NN
+NNNN              NN
+NNNN ENNDNNCNNBNNANN
+1NiN h            NN
+INHNFNNNNNNNNNNNN NN
+NNNN              NN
+NNNN NNNNNNNNNNNNNNN
+NNNN              NN
+NNNNNNNNNNNNNNNNN NN
+NNNN              NN
+NNNN NNNNNNNNNNNNNNN
+NNNN            & NN
+NNNNNNNNNNNNNNNNNGNN

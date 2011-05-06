@@ -1,0 +1,18 @@
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN#########
+NNNNNNNNNNNNNNNNNNNNNNONNNNNNNNNNNNNN#+  &  +#
+NNNNNNNNNNNNNNNNNNNNNN NNNNNNNNNNNNNN#+NGNHN+#
+NNNNNNNNNNNNNNNNNNNNNN=NNNNNNNNNNNNNN#+     +#
+NNNNNNNNNNNNNNNN     g h     NNNNNNNN#+#####+#
+NNNNNNNNNNNNNNNN NNNNNNNNNNN NNNNNNNN#+  &  +#
+NNNNNNNNNNNNN  j i    N    i j  NNNNN#+NINJN+#
+NNNNNNNNNNNNN NNNNN NNNNN NNNNN NNNNN#+     +#
+NNNNNNNNNNN     N     N     N     NNN#+#####+#NNNN
+N     NNNNNkkNmmNkkNmmNkkNmmNkkNmmNNN#+  &  +#NN&N
+N     NNNNN                       NNN#+NKNMN+#NN=NN
+N     NNNNN                       N   +  @  +1    N
+N  Q                                 N+NNNNN+NN$N N
+NNNNNNNNNN#  #  #  #  #  #  #  #  #NNN"NNNNN"NNN$ N
+NNNNNNNNNN#  #  #  #  #  #  #  #  #NNNNNNNNNNNNNN#N
+NNNNNNNNNN#XX#XX#XX#XX#XX#XX#XX#XX#NNNNNNNNNN
+message1:This is in case you lose a box above, you can shoot a new one into the right slot with portals.
+name:by Joe Larson

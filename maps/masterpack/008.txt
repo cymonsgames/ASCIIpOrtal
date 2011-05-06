@@ -1,0 +1,23 @@
+music:default1
+name:Portile14
+message:Aiming and shooting while falling is a good skill to have.
+#####N###NN###NNNN
+# # #N# #NN#X#NNNN
+# # #N# #NN# #NNNN
+# # #N# #NN# #NNNN
+# # #N# #NN# #NNNN
+# # ### #NN# #NNNN
+# # $ $ #### #NNNN
+#   ### #    #NNNN
+# # #N#   #  #NNNN
+# # #N#  ### #NNNN
+# # #N# ##N# #####
+# # #N# #NN# $   #
+# # #N# #NN# $ Q #
+# # #N# #NN# #####
+# # #N# #NN# #NNNN
+# # #N# #NN# #NNNN
+# # #N# #NN# #NNNN
+# # #N# #NN# #NNNN
+#@# #N#X#NN# #NNNN
+#####N###NN###NNNN

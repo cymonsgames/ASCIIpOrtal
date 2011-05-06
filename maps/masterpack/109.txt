@@ -1,0 +1,17 @@
+music:default1
+name:Deja vu
+NNNNNNNNNNNNNNNNNNNNNNN
+NNNN ONNNO NNN ONNNNNNN
+NNNN==NNN==NNN==NNNNNNN
+####  ###  ###  ######N
+#                     N
+#                     N
+#                     N
+# @                   N
+####  ###  ###  ###   N
+NNN#  #N#  #N#  #N#   N
+NNN#  #N#  #N#  #N#   N
+NNN#  #N#  #N#  #N#   N
+NNN#""#N#""#N#""#N# Q N
+NNN####N####N####N####N
+message:Don't we know this...somehow?

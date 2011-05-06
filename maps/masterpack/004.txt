@@ -1,0 +1,25 @@
+music:default
+name:Advanced Fling
+message:Fancy a fling?
+NNNNNNNNNNNNNN#NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNN#333     2   +                5        b     N
+NNNNNNNNNNNN#        2   +                5        b     N
+NNNNNNNNNNNN#        NNNN+NNN             5        b  Q  N
+NNNNNNNNNNNNN        NNNN+NNN          NNNNNNNNNBNNNNNNNNN
+########NNNNN        NNNN+NNN          N
+#      a    1        NNNN+NNN          N
+#      a    1        NNNN+NNN          N
+#  @   a    1        NNNN+NNN          N
+#####A##NNNNNN#NNNNNNNNNN+NNN          N
+NNNNNNNNNNNNNNNNNNNNNNNNN+NNN     #####N
+NNNNNNNNNNNNNNNNNNNNNNNNN+NNN       N  N
+NNNNNNNNNNNNNNNNNNNNNNNNN+NNN       N  N
+NNNNNNNNNNNNNNNNNNNNNNNNN+NNN       N  N
+NNNNNNNNNNNNNNNNNNNNNNNNN+NNN       N  N
+NNNNNNNNNNNNNNNNNNNNNNNNN+ 4        N  N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNN#####NNNNNN
+message1:Downward momentum can be translated through portals. Stand on the white block, point straight up, fire, then point straight down and fire again.
+message3:Now aim at the white wall and fire. If you do it right you should fly.
+message2:Weeeeeee!
+message4:If at first you don't succeed... Stand on the edge, aim diagonally down, shoot the floor. Then fall off the edge, aim straight down and shoot before you land.
+message5:Very, very good.

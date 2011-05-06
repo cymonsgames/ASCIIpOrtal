@@ -1,0 +1,31 @@
+music:default
+name:Its raining me...boulders.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N$NNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNONNNON                         <N
+N@NN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NNN=NN=NNNNNNNNNNNNNNNNNNNNNNNNN
+N N#ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggN
+N N#                                                                               aN
+N N#                                                                                N
+N N#                                                                                N
+N N#                                                                                N
+N N#                                                                                N
+N N#                                                                                N
+N N#                                                                                N
+N N#                                                                                N
+N N#                                                                                N
+N N#                                                                                #
+N N#                                                                                N
+N N# #A# ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###    N
+N N#+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###    N
+N N#                                                                                N
+N1N#                                                                                #
+N N#                                                                                N
+N N# ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###    N
+N N#                                                                                NNNN###NN
+N N#                                                                                   a    N
+N                                                                                 &    a   QN
+N### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### #G###N NNNNN
+N### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### #NNNNN N
+N"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""NNN N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"N
+message1:The mapper is a sick man.

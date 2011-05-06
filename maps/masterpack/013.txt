@@ -1,0 +1,15 @@
+music:default2
+music:default
+name:Portile20
+message:Sometimes you're going to wonder if you did it right. If you get to the exit, you did.
+NNNN########
+NNNN#      #
+NNNN#      #
+NNNN#      #
+NNNN#      #######
+NNNN#  $$$ #   $ #
+NNNN#    NNN   $ #
+#####          $ #
+#        NNN   $ #
+#   @    NNN Q $X#
+#########NNN######

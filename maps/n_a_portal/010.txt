@@ -1,0 +1,46 @@
+music:default
+name:This must be a joke...
+NNNNNNNNNNNNNNNNNNNNNN###NNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNN# #NNNNNNNNNNNNNNNNNNNNNNNNN
+N###################### #########################N
+NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOON
+N                                                N
+N                                                N
+N                     1@1                        N
+N                     111                        N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                    Q           N
+N                                   NNN          N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                                                N
+N                     ###                        N
+N"""""""""""""""""""""#N#""""""""""""""""""""""""N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+message1:You better be joking...

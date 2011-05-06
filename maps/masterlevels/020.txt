@@ -1,0 +1,19 @@
+name: Trap door
+message: ...there's something up there.
+#######
+#     #
+#     #####
+#    "$ mO#
+#    "$ $$#
+#    "$ $ ###
+#    "$@$   #
+#    "$m$   #
+#    "$ $   #
+#    "$ $   #
+#    "$ $   #
+#&          #
+####### ###M#
+NNNNNNN  bQNN
+NNNNNNNNCNNNN
+N>c        "N
+NNNNNNNNNNBNN

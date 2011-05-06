@@ -1,0 +1,22 @@
+ N#     ###           ##        ##         
+ ####   #N           ##        ####        
+ ## ##  ##          ##       N# ###        
+ ##  ## ##         ##       ##   ##N      
+ ##   ####        ##       N########       
+ N#    ###       ##       ##     ###     
+###     #N      ##       ##       ###
+
+                zz
+              zzzzzz                                          
+             zz  zzzzy                                        
+#######    zz      zzzy  #######    ########        ##       ##      
+##   N##  zz          yy ##   N##      ##          ####      ##      
+##    ##  zz         yy  ##    ##      ##        N# ###      ##      
+######N  zz          yy  #######       ##       ##   ##N     ##      
+##      zzz         yy   ##  ##        ##      N########     ##      
+##      zzz        yyy   ##   ##       ##     ##     ###     ##      
+##      zz        yy     ##    ##      ##    ##       ###    ########
+         zzyyyy  yy
+          zzzyyyyy
+              yy
+message:This mapset is Not available

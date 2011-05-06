@@ -1,0 +1,42 @@
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN#########NNN
+NNQ                                %        #NNN
+NNNNN$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$        #NNN
+N                                           #NNN
+N ####################+######################NNN
+N NNNNNNNNNN>N   N  ON+NO  N   N<NNNNNNNNNNNNNNN
+N NNNNNNN   =     =N= + =N=     =   NNNNNNNNNNNN
+N NNNNNN    j     i j + i j     i    NNNNNNNNNNN
+N NNNNNN      N N     +     N N      NNNNNNNNNNN
+N NNNNNN      N NNN+NN+NN+NNN N      NNNNNNNNNNN
+N NNNNNN      N    +  +  +    N      NNNNNNNNNNN
+N NNNNNN  N   N    +NN+NN+    N   N  NNNNNNNNNNN
+N NNNNNN  N+N+N+N+NNN + NNN+N+N+N+N  NNNNNNNNNNN
+N NNNNNN    N N+ +    +    + +N N    NNNNNNNNNNN
+N NNNNNNC   N N+NN+NNN+NNN+NN+N N   BNNNNNNNNNNN
+N NNNNNN    N N+  +   +   +  +N N    NNNNNNNNNNN
+N NNNNNN    N N+  +   +   +  +N N    NNNNNNNNNNN
+N NNNNNN  NNN N+N+NNNN+NNNN+N+N NNN  NNNNNNNNNNN
+N NNNNNN  N    + +    +    + +    N  NNNNNNNNNNN
+N NNNNNN  N+NN+NN+NNNN+NNNN+NN+NN+N  NNNNNNNNNNN
+N NNNNNNNNN+  +  +    +    +  +  +NNNNNNNNNNNNNN
+N NNNNN    +  +  +    +    +  +  +    NNNNNNNNNN
+N NNNNN+NNN+NNN+NN+NNN+NNN+NN+NNN+NNN+NNNNNNNNNN
+N NNNNN+   +   +  +   +   +  +   +   +NNNNNNNNNN
+N NNNNN+   +   +  +   +   +  +   +   +NNNNNNNNNN
+N NNNNN+   +   +  + +NNN+ +  +   +   +NNNNNNNNNN
+N     %+%%%+%%%+%%+%+%@%+%+%%+%%%+%%%+NNNNNNNNNN
+N#NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+name:devils tower by Nicholas McGuire
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+bc
+IJ

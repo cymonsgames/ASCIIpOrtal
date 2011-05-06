@@ -1,0 +1,22 @@
+music:ascii_threat3.mp3
+name:by Clayton Hobbs
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN            #NNNNNNNNNNNNN &       b      #NN
+NNN          NN#            NNNNNN &          NNNNNNNNNNNNNNNK       b      NNN
+NNN  @       NN#           QNNNNNNNHN         NNNNNNNNNNNNNNNN       b      NNN
+NNN+NNNNaaaaaNN#     NNNNNNNNNNNNNNNNN       ANNNNNNNNNNNNNNNNNNNNNNNNNCN$  NNN
+NNN+NNNN     NNN     NNNNNNNNNNNNNN           NNNNNNNNNN################$N  NNN
+NNN+NNNN     NNN     NNNNNNNNNNNNNN           NN##NNNN###               #N  NNN
+NNN+NNNN     NNN     NNNNNNNNN                    c                     #N  NNN
+NNN+NNNN     NNN     NNNNNNNN                     c                     #N  NNN
+NNN+NNNN     NNN    kNNNNNNN    ##############NN  NNNN###               #N  NNN
+NNN+         NNN   jkNNNNNN    NNNNNNNNNNNNNNNNN$$NNNNNN##              #N  NNN
+NNN+         NNN  ijk         NNN########NNNNNNN  NNNNNNN##   &         #N  NNN
+NNN+  NN#####NNN hij         NNNN        %   NNN  NNNNNNNN####J##$##B####N  NNN
+NNN+  NNNNNNNNNN+   +NNNNNNNNN#N         %   NNN  NNNNNNNNNNNNNN$NNNNNNNNN  NNN
+NNN+            +   +NNNNNNNNN           %             NNNNNNNN$NNNNNNNNNN  NNN
+NNN+            +   +NO      N &         %              NNNNNN$NNNNNNNNNNN  NNN
+NNNNNNNNNNNNNNNNNNNNNN=NNNNNNNNI         %   NNN##NNN    NNNN$NNNNNNNNNNNN  NNN
+NNNNNNNNNNNNNNNNNNNNNN                   %  NNNNNNNNNN                      NNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN######### % NNNNNNNNNNNN                     NNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN##NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN##NNN

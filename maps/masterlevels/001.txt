@@ -1,0 +1,17 @@
+#+++++++++++++++++++++++a    
+#                       a    
+#                       a    
+#                       a   Q
+###A#############   #########
+NNNNNNNNNNNNNNNN#+  #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN#   #
+NNNNNNNNNNNNNNNN# @ #
+name:Climber
+music:default4

@@ -1,0 +1,17 @@
+name:The batting cage
+music:default
+message:Welcome to the batting cage. Three strikes and your out.
+message1:Dont anger the boulders. If you invade their turf, they will chase you in the next level.
+
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNN#NNNNNN#NNNNNNNNNN############################NN
+#@    N&N                    %%                                   NN
+#     NcN                    %%                                   NN
+#      =                  %%%%%                                   NN
+#                                                                 NN
+#                                                                 NN
+#                    1                                             NNNNNNNNNNNNNNNNNNNNNNNNNNN
+##C##               ###                                                NNNNNNNNNNNNNNNNNNNNNNN
+NNNNN               NNN                                                NNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNXXXXXXXXXXXXNNN           N##N     &O       O      O&     N##N        %       QNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN##NN##NN##NN##NN##NN##NN##NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN

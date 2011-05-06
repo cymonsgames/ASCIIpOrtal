@@ -1,0 +1,38 @@
+music:default
+name:Piece of cake
+NN$NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N @                                                                            N
+N                                                                              N
+N                                                                              N
+N                                                                              N
+N                                                                              N
+N                                                                              N
+N                                              "                               N
+N                                             "                                N
+N                                             ""                               N
+N                                            """"                              N
+N                                            "##"                              N
+N                                             ##                               N
+N                                             ##                               N
+N                                             ##                               N
+N                                            ####                              N
+N                                      ######N##N#                             NNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N                                  ####NNNNNNNNNNN#                            $      1                    N
+N                              ####################                            $      1                    N
+N                              #OOOOOOOOO##########                            $      1                    N
+N                              ##########OOOOOOOOO#                            $      1                    N
+N                              #OOOOOOOOOO#########                            $      1                   QN
+N                             N############OOOOOOO#N                           N+NNNNNNNNNNNNNNNNNNNNNNNNNNN
+N                         NNNNN#OOOOOOOOOOOO######NNNN                         N+N
+N                          NNNN##############NNNNNNNN                          N+N
+N                             NNNNNNNNNNNNNNNNNNNN                              +N
+N                                                                             +NNN
+N                                                                              N
+N                                                                             +N
+N                                                                              N
+N                                                                             +N
+N                                                                              N
+N                                                                             +N
+N                                                                              #
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN########################N
+message1:It was a lie.

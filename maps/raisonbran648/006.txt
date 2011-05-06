@@ -1,0 +1,14 @@
+name:Simplicity
+music:default
+
+
+
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+#                                           @#N
+#  &                                         #N
+# &&                                      &  #N
+N%##########ABC###############################NNNNNNN
+                                             NN     Q
+                                             aa     N
+                                             bb    cN
+#############################################NNNNNNNN

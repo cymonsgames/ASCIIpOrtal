@@ -1,0 +1,12 @@
+name: Stationarity
+NNNNNNNNNNNNNNN
+NQQ         QQN
+NQ           QN
+N             N
+#             #
+#       K(""""#
+#       NNN#NNN
+#       #&$ kQN
+#       ### NNN
+#      @      N
+########NNNNNNN

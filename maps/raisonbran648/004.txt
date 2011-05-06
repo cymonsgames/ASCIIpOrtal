@@ -1,0 +1,28 @@
+name:No More friends
+music:default
+message:You now have no more friends. The boulders and the cubes told me they really loved you, that is until you murdered them in a fire.
+
+
+
+NNN>a                                                                                            a<NNN
+NNNN==============================================================================================NNNN
+NNNN                                                                                              NNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNaNNNNNaNNNNNNNNaNNNNNNNNNaNNNNNNaNNNNNNNNNNaNNNNNNNNN
+NNNN        &                                                                                     NNNN
+NNNN  @    &&                                                                                     NNNN
+NNNN      &&&                                                                                     NNNN
+NNNNNNNNNNNNNANNNNNNNNaNNNNNNNNNNNNNNaNNNNaNNNNNNaNNNNNNNNNaNNNNNNNNNNaNNNNNNNaNNNNaNNNNNNNaNNNNNNNNNN
+NN                                                                                                  NN
+NN                                                                                                  NN
+NN                                                                                                  NN
+NN                                                                                                  NN
+NN                                                                                                  NN
+#####B######b######b########b#####b####b########b######b#########b######b######b#####b#######B########
+                                                                                                     N
+                                                                                                     N#########NNNNNNNNNNNNNNNNNNNN
+                                                                                                     N#       %%  QNNNNNNNNNNNNNNNN
+c#############################################C#####################################################cN$$$$$$###NNNNNNNNNNNNNNNNNNNN
+                                                                                                     $         #
+                                                                                                     $         #
+                                                                                                     $         #
+################################################################################################################

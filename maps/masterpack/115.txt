@@ -1,0 +1,32 @@
+music:default
+name:Already?
+NNNNNNNNNNNNNNNNNNNNNNN###NNNNNNNNNN###NNNNNNNNNNNNN
+N                            $                     N
+N                            $                     N
+N                            $                     N
+N NNNNNNNNNNNNN  NN      NN  NNNNNNN$$$NNNNN       N
+N@NNNNNNNNNNNNN  NN$$    NN22NNNNNNN$$$NNNNNNN     N
+N NN             N$$$    NN  NN             NN     N
+N NN             $$ NN"""NN  $$              #N    N
+N1NNNNNNNNNNNNN  $$  NN""NN  $$              #N    N
+N NNNNNNNN###NN  NN   NN"NN  $$              #N    N
+N NN             NN    NNN#  NN              NN    N
+N NN             NN     NN#  NN             NN     N
+N NNNN$$$N###NN  NN     NN#  NNNNNNN###NNNNNNN     N
+N NNN$$$NNNNNNN  NN      NN$$NNNNNNNNNNNNNNN       N
+N                                                  NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N                                                  NNNNNNNNNNNNNNNNNNNNNNNNNNNNN         <N
+N                                                  NNNNNNNNNNNNNNNNNNNNNNNNNN###=NNNNNNNNNN
+N###                                                                                   #
+N N                                                                                    #
+N N                                                                         Q          #
+N N                                             ###                       NNNNNN ###NNNNNNNNNNNNNN
+N"N""""""""""""""""""""""""""""""""""""""""""""""N"""""""""""""""""""""""""""""""""""""""""""""""N
+N"N""""""""""""""""""""""""""""""""""""""""""""""N"""""""""""""""""""""""""""""""""""""""""""""""N
+N"N""""""""""""""""""""""""""""""""""""""""""""""N"""""""""""""""""""""""""""""""""""""""""""""""N
+N"N""""""""""""""""""""""""""""""""""""""""""""""N"""""""""""""""""""""""""""""""""""""""""""""""N
+N"N""""""""""""""""""""""""""""""""""""""""""""""N""""""""""""""""""""""""NNNNNNNNNNNNNNNNNNNNNNNN
+N"N""""""""""""""""""""""""""""""""""""""""""""""N""""""""""""""""""""""""N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+message1:aw...
+message2:did you have fun?

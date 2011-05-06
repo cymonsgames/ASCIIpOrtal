@@ -1,0 +1,50 @@
+name: The Observatory
+message: You have been very tense. You should relax for a while. I have prepared this safe chamber for you. No need to thank me.
+NNNNNNNNNNNNNNNNNNNNN#NNNNNNNNNNNNNNNNN
+#         i"                          Ngjhl
+N         i"                          NJILM
+N         i"                          N
+N                                     N
+N                                     #
+NNNNN$NNKNNNNNNNNNNNN NNNNNNNNNNNNNNN$N
+NNNNNN$NNNNNNNNNNNNN" NNNNNNNNNNNNNN$NN
+NNNNNNN$NNNNNNNNNNNNN$NNNNNNNNNNNNN$NNN
+NNNNNNNN$NNNNNNNNNNNN$NNNNNNNNNNNN$NNNN
+NNNNNNNNN$NNNNNNNNNNN$NNNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNNNNNNN$NNNNNNNNNN$NNNNNN
+NNNNNNNNNNN$NNNNNNNNN$NNNNNNNNN$NNNNNNN
+NNNNNNNNNNNN$NNNNNNNN$NNNNNNNN$NNNNNNNN
+NNNNNNNNNNNNN$NNNNNNN$NNNNNNN$NNNNNNNNN
+NNNNNNNNNNNNNN$NNNNNN$NNNNNN$NNNNNNNNNN
+NNNNNNNNNNNNNNN$NNNNN$NNNNN$NNNNNNNNNNN
+NNNNNNNNNNNNNNNN$NNNN$NNNN$NNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN$NNN$NNN$NNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNN$NN$NN$NNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNN$N$N$NNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNN   NNNNNNNNNNNNNNNN
+#XXXX$NNNNNNNNNNNN       NNNNNNNNNNNNNN
+#    $NNNNNNNNNNNN       NNNNNNNNNNNNNN
+#    $$$$$$$$$$$$    @    $#NNNNNNNNNNN
+#    $NQ 3     2k  $$$$$1 $#NNNNNNNNNNN
+#    $NNNNNNNNNN$J$$$$$$$H$NNNNNNNNNNNN
+#    $NNNNNNNNN$$$$$$$$$$$$$NNNNNNNNNNN
+#    $NNNNNNNN$$$$$$$$$$$$$$$NNNNNNNNNN
+#    $NNNNNNN$$$$$$NN$NN$$$$$$NNNNNNNNN
+#    $NNNNNN$$$$$$NNN$NNN$$$$$$NNNNNNNN
+#    $NNNNN$$$$$$NNNN$NNNN$$$$$NNNNNNNN
+#    $NNNN$$$$$$NNNNN$NNNNN$$$$NNNNNNNN
+#    $NNN$$$$$$NNNNNN$NNNNNN$$>#NNNNNNN
+#    $NN$$$$$$NNNNNNN$NNNNNNN$>#NNNNNNN
+#    $N$$$$$$NNNNNNNN$NNNNNNNNKNNNNNNNN
+#    $$$$$$$NNNNNNNNN$NNNNNNNNNNNNNNNNN
+#    $$$$$$NNNNNNNNNN$NNNNNNNNNNNNNNNNN
+#    $$$$$NNNNNNNNNNN$NNNNNNNNNNNNNNNNN
+#    $$$$NNNNNNNNNNNN$NNNNNNNNN###NNNNN
+#    $$$NNNNNNNNNNNNN$NNNNNNNNN#<#NNNNN
+#    $$NNNNNNNNNNNNN#$##########=#NNNNN
+# &  $NNNNNNNNNNNNNN#    &       ###NNN
+######NNNNNNNNNNNNNN##(((###l### m"#NNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN"NN#H###NNN
+message1: I have provided this screen on which you may view the outside world, to remind you how scary it is and how much safer you are staying here.
+message2: You don't want to go out there. There are mean boulders out there, they will chase you down and squash you.
+message5: Don't say I didn't warn you...

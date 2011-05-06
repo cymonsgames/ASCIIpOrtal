@@ -1,0 +1,106 @@
+name:Summer Squash (bass)
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNN O O O O O O NNN
+NNNNNNNNNNNN N N N N N N NNN
+NNNNNNNNNNN O           O NN
+NNNNNNNNNNN N N N N N N N NN
+NNNNNNNNN O              O N
+NNNNNNNNN NN N N N N N N N NNNNN
+NNNNNNNN                     NNN
+NNNNNNNN NN N N NN NN N N NN NNNNNNNN
+N                                   NNNNNNNN
+N                                   NNNNNNNN
+N       h    h    h    h    h    "  NNNNNNNN
+N      f f  f f  f f  f f  f f  """ NNNNNNNN
+N       f    f    f    f    f    "  NNNNNNNN
+N                                   NNNNNNNN
+#$$                                $$NNNNNNNN
+#O$ NNNN NNNN NNNN NNNN NNNN NNNN  $ NNNNNNNN
+#$$                                $$NNNNNNNN
+N                                   NNNNNNNN
+N  "    h    h    h    h    h       NNNNNNNN
+N """  f f  f f  f f  f f  f f      NNNNNNNN
+N  "    f    f    f    f    f       NNNNNNNN
+N                                   NNNNNNNN
+N%%%%%%   %%   %%   %%   %%   %%%%%NNNNNNNNN
+NNN$$$$   $$   $$   $$   $$   $$$$NNNNNNNNNN
+NNN$$$$$ $$$$ $$$$ $$$$ $$$$ $$$NNNNNNNNNNNN
+NNN$$$$$ $$$$ $$$$ $$$$ $    $$$NNNNNNNNNNNN
+NNN$$$$$ $$$$ $$$$ $$$$ $ $A aa$NNNNNNNNNNNN
+NNN$$$$$ $$$$ $$$$ $$$$ $  $m$a$NNNNNNNNNNNN
+NNN$$$$$ $$$$ $$$$ $$$$ $$ $ $$$NNNNNNNNNNNN
+NNN$$$$$ $$$$ $$$$ $$$$    $ $$$NNNN
+NNN$$$$$ $$$$ $$$$ $    $$$$ $$$NNNN
+NNN$$$$$ $$$$ $$$$ $ $B bb$$ $$$NNNN
+NNN$$$$$ $$$$ $$$$ $  $m$b$$ $$$NNNN
+NNN$$$$$ $$$$ $$$$ $$ $ $$$$ $$$4+NN
+NNN$$$$$ $$$$ $$$$    $ $$$$ $$$ +NNNNNNNN
+NNN$$$$$ $$$$ $    $$$$ $$$$ $$$ +     @ N
+NNN$$$$$ $$$$ $ $C cc$$ $$$$ $$$ +NNNNNNNN
+NNN$$$$$ $$$$ $  $m$c$$ $$$$ $$$ +NN
+NNN$$$$$ $$$$ $$ $ $$$$ $$$$ $$$ +NN
+NNN$$$$$ $$$$    $ $$$$ $$$$ $$$ +NN
+NNN$$$$$ $    $$$$ $$$$ $$$$ $$$ +NN
+NNN$$$$$ $ $D dd$$ $$$$ $$$$ $$$ +NN
+NNN$$$$$ $  $m$d$$ $$$$ $$$$ $$$ +NN
+NNN$$$$$ $$ $ $$$$ $$$$ $$$$ $$$ +NN
+NNN$$$$$    $ $$$$ $$$$ $$$$ $$$ +NN
+NNN      $$$$ $$$$ $$$$ $$$$ $$$ +NN
+NNN $$$E ee$$ $$$$ $$$$ $$$$ $$$ +NNNNNNNNNNNNNNN
+NNNm$$$$m$e$$ $$$$ $$$$ $$$$ $$$5+   NNNNNNNNNNNN
+NN$i$$$$i$$$$i$$$$i$$$$i$$$$i$$$$$NN  NNNNNNNNNNN
+NN                              NN$NN  NNNNNNNNNN
+NN                              NNN$NN  NNNNNNNNN
+NN                              NNNN$NN  NNNNNNNN
+NN                              NNNNN$NN  NNNNNNN
+NN                              NNNNNN$NN  NNNNNN
+NN                              NNNNNNN$NN  NNNNN
+NN                              NNNNNNNN$NN  NNNN
+NN                              NNNNNNNNN$NN  NNN 
+NN                              NNNNNNNNNN$NN  NN 
+NN                              NNNNNNNNNNN$NN NN
+NN                              NNNNNNNNNNNN$N NNNNN
+NN                              NNNN# $ 2      g&1 %
+NN                              NNNNN NNN+NNNNNNNNFN
+NN                              NNNNNGNNN+NNNNNNN
+NN                              m        +      N
+NN                              m        +      N
+NN                             6m 3      +      N
+NNN NNNN NNNN NNNN NNNN NNNN NNNNNNNNNNNNNNNNNNN
+NNN+NNNN+NNNN+NNNN+NNNN+NNNN+NNNNNNNNNNNNNNNNNNN
+NNN7NNNN7NNNN7NNNN7NNNN7NNNN7N
+NNN NNNN NNNN NNNN NNNN NNNN N
+NNN NNNN NNNN NNNN NNNN NNNN N
+NNNjNNNNjNNNNjNNNNjNNNNjNNNNjN
+NNNQNNNNQNNNNQNNNNQNNNNQNNNNQN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+
+
+
+
+
+
+
+
+
+
+
+NNNNNNNNNNNNNNNNNNNNNNN&NNN
+NNNNNNNNNNNNNNNNNNNNNNNfNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N >                    & NNNNOf                         N
+N NNNNNNNNNNNNNNNNNNNNNH NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN N
+Nl              NNNNNNNNNNNNN                           N
+NNNNNNNNNNNNNNN NNNNNNNNNNNNN NNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNN7kNNNNNONNNNINNNNNNNNNNNNN                           N
+NNNKLNNNNNi              NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN N
+NNNNNNNNNNNNNNNNNNNNNNNN7NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNMN
+NNNNNNNNNNNNNNNNNNNNNNNNJNNN
+message:This is the binary addition chamber. Here 1 + 1 equals 10.
+message1:Funny how the portal gives you an upside-down view.
+message2:The boulders represent bits. Of rock.
+message3:This is the output area. The door opens when the computation is finished. 
+message4:Whee!
+message5:63 is my favourite number.
+message6:It seems stuck.. 
+message7:Oh wait! It worked after all!

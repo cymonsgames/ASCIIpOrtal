@@ -1,0 +1,25 @@
+name: The Pit
+NNNNNNNNNNNNNNNNNNNN
+N      $      ######
+#      $           #
+#"     #           #
+#@   ###           #
+######             #
+NNNNN#             #
+NNNNN#             #
+NNNNN#             #
+NNNNN#             #
+NNNNN#             #
+NNNNN#$$$$$$$$$#   #
+NNNNN#$NNNNNNN$#   #
+NNNNN#         #   #
+NNNNN#         #   #
+NNNNN#         #####
+NNNNN##"""""""##NNNN
+NNNNN$$$$$$$$$$NNNNN
+#  1 $         NNNNN
+#    $         NNNNN
+NNNN $         NNNNN
+NQ   $         NNNNN
+NNNNNN#########NNNNN
+message1: Very slick.

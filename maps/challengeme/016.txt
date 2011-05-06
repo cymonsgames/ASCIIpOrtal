@@ -1,0 +1,13 @@
+music:yorkiimusic.mp3
+######NNNNNNNNNNNNNNNNN######
+#                           #
+#                           #
+# @                         #
+######3       Q        ######
+NNNNNNNN      N      NNNNNNNN
+NNNNNNNNNN1   N   2NNNNNNNNNN
+NNNNNNNNNNNN  N  NNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+message1:Not enough.
+message2:Too much.
+message3:You've got to use a fling.

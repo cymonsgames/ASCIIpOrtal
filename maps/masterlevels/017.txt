@@ -1,0 +1,27 @@
+name:Great! Another frikkin' donkey kong level?!
+music:default
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNN                                 a<N
+NNN NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N#Q @a1                            NNNN
+NANXNNNNNNNNNNNNNNNN=NNNNNNNNNNNNN NNNN
+NNNN              2                   N
+NNNN NNNNNNNNNNNNN=NNNNNNNNNNNNNNNNXX N
+N                                  NN N
+N XXNNNNNNNNNNNNNNNN=NNNNNNNNNNNNN NN N
+N                 3                   N
+NNNN NNNNNNNNNNNNN=NNNNNNNNNNNNNNNNNNNN
+N                                  NNNN
+N XXNNNNNNNNNNNNNNNN=NNNNNNNNNNNNN NNNN
+N NN                                  N
+N NN NNNNNNNNNNNNN=NNNNNNNNNNNNNNNNXX N
+N                                  NN N
+NNNNNNNNNNNNNNNNNNNN=NNNNNNNNNNNNN NN N
+NN                                 4  N
+NN NNNNNNNNNNNNNNN=NNNNNNNNNNNNNNNN$NNN
+N"                                    N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN#NNN
+message1:You better get a move on..
+message2:...though you might want to pace yourself a bit...
+message3:Patience is a virtue..
+message4:Patience is slightly less of a virtue, as of now...

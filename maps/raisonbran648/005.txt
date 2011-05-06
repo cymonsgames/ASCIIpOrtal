@@ -1,0 +1,50 @@
+name:Clean up
+music:default
+message:Whoa whoa whao, You left this huge mess, and now you are going to pick it up.
+message1:Don't try to hide any boulders in the walls.
+
+
+
+NNN                                                                                                NNN
+NNNN==============================================================================================NNNN
+NNNN                                                                                              NNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN NNNNN NNNNNNNN NNNNNNNNN NNNNNN NNNNNNNNNN NNNNNNNNN
+NNNN                                                                                              NNNN
+NNNN       &&                                                                                     NNNN
+NNNN      &&&&                                                                                    NNNN
+NNNNNNNNNNNNNANNNNNNNN NNNNNNNNNNNNNN NNNN NNNNNN NNNNNNNNN NNNNNNNNNN NNNNNNN NNNN NNNNNNN NNNNNNNNNN
+NN                                                                                                  NN
+NN                                                                                                  NN
+NN                                                                                                  NN
+NN                                                                                                  NN
+NNOOO OOOO  OOOOOOO OOOOOOOO  OOOOOO OOOOOOO OOOO OOOOOO  OOOOOOOO OOOO OOOO OOOOOOOOOO OOOO OOOO  ONN
+#####B###### ###### ######## ##### #### ######## ###### ######### ###### ###### ##### #######B########
+                                                                                                     N
+                                                                                                     N#########NNNNNNNNNNNNNNNNNNNN
+                                                                                                     N#       %%  @#NNNNNNNNNNNNNNN
+ #############################################C##################################################### N$ $$$$###NNNNNNNNNNNNNNNNNNNN
+                                                                                                     $         #
+OOOOOOOOOOOOOOOOOOOOOOOO  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  OOOOOOOOOOOOOOOOOOOOO  $111111111#
+QOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO$         #
+########################################aaaaaaaaaaaaaaa###############################################AAAAAAAAA#
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN               NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN

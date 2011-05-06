@@ -1,0 +1,25 @@
+music:default3
+message:I just realized something about where these test chambers are going. Ah well, we'll burn that bridge when we get there.
+name:Portile19
+NNNNNNNNNNN####N#####
+NNNNNNNNNNN#  #N#   #
+NNNNN####NN#$##N# @ #
+NNNNN#  #NN# #### ###
+NNNNN##$#NN# $  $ ###
+NNNNNN# #NN# $  $ #NN
+N###NN# #### #### #NN
+N###NN# $  $ #### #NN
+N# #NN# $  $ #NN# #NN
+N# #### #### #NN# #NN
+N# $  $ #### #NN# #NN
+N# $  $ #NN# #NN# #NN
+N# #### #NN# #NN# #NN
+N# #NN# #NN# #NN# #NN
+N# #NN# #NN# #NN# #NN
+N# #NN# #NN# #NN# ###
+N# #### #### ####   #
+N# #  $ $  $ $  $   #
+## ##################
+#     #
+#   Q #
+#######

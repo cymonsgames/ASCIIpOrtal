@@ -1,0 +1,40 @@
+music:default3
+NN&NNN
+NN=NNN
+NNhNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNN
+NNjNNNNN@NNNNNNNNNNNNNNNNNNNNNNN
+NNjNNNNNjNNNNNNNNNNNNNNNNNNNNNNN
+#jjjjjjjjjjjjjjjjj NNN       NNN
+#jjjjjjjjjjjjjjjNNANNN  OOO  NN
+#jjjjjjjjjjjjjjjjj NNNNOOOOONN
+#jjjjjjjjjjjjjjjNNBNNNNNOOONNN
+#jjjjjjjjjjjjjjjNNNNNNNNN=NNNN
+#jjjjjjjjjjjjjjjjj NNNNNN  &"N
+#jjjjjjjjjjjjjjjNNCNNNNN   JNN
+#jjjjjjjjjjjjjjjjj NNNN     NNN
+#jjjjjjjjjjjjjjjNNDNNN       NNN
+#jjjjjjjjjjjjjjjNNNNNN       NNNN
+#jjjjjjjjjjjjjj%NNNNNNNNNNNNNNNNN
+#jjjjjjjjjjjjjjjabcdjjjjjN
+#jjjjjjjjjjjjjjjabcdjjQjjN
+####HN$N$N$N$N$NNNNNNNNNNN
+NNNNN$N$N$N$N$N$NNNNNNNNNN
+message:That was too easy. Let's add a time limit. You can restart if you press the escape key.
+name:Multiple Redundancies 2

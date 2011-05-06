@@ -1,0 +1,13 @@
+music:default
+name:Portile20
+NNNN########
+NNNN#      #
+NNNN#      #
+NNNN#      #
+NNNN#      #######
+NNNN#  $$$ #   $ #
+NNNN#    NNN   $ #
+#####          $ #
+#        NNN   $ #
+#   @    NNN Q $X#
+#########NNN######

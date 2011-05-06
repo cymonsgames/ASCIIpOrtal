@@ -1,0 +1,27 @@
+music:default3
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN<N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN N
+NNNN##############NNNNNNNNNN=NNNNNNNN
+NNNN#            #                  N
+NNNN#          @ #                  N
+NNNN#+############     N NNN N N    N
+NNNN#+#N&NNNNNNNNN     N i N h N    N
+NNNN#+##=#########     NHN NNN N    N
+NNNN#+           #         NN  N    N
+NNNN#+NNN) NNNN  #  N NNN NNN IN    N
+NNNN#+           #  N j N k N       N
+NNNN#+NNNNNN NN  #  NKN NNN N       N
+NNNN#+           #      NN  N       N
+NNNN#+NNNNNNNN   # NNN NNN JN       N
+NNNN#+           # m N l N          N
+NNNN#+#+########jNLN NNN N          N
+NNNN#+#+    N"       NN  N          N
+NNNN###+    NNAN NNNNNN MN          N
+NNNNNNN+       #                    N
+N     a+       #                    N
+N     a+       #                    N
+N  Q  a+       #                    N
+NNNNNNNNNNNNNNNNNNNNNN""""""""""""""N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+name:Counting Machine by Sparky
+message:This fascinating machine seems incomplete. You won't be able to leave if you don't fix it.

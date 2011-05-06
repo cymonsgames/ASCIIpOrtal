@@ -1,0 +1,14 @@
+name:Portile7
+message:I'm not trying to kill you. The boulders are.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNN <         
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN#=#NNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN# #NNN
+#######NNNNNNNNNNNNNNNNNNNNN# #NNN
+#11111#NNNNNNNNNNNNNNNNNNNNN# #NNN
+#11111####################### ##########
+# @  11%                           a   #
+####   %                           a Q #
+NNN####%  ######################A#######
+NNNNNN#####
+message1:Here's a hint. When you cross the field shoot a portal straight up, step up, and shoot a portal quickly on the ground in front of you. Then use your portal select to shoot move that portal to the ceiling, step forward a few steps, and move the portal back to the floor in front of you before you get hit by another boulder. Keep moving forward until you win.

@@ -1,0 +1,104 @@
+music:default
+message:Time for your cake.
+message1:That's odd, where is the cake?
+message2:I found the cake.  It's below you.
+message3:Cake!
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N@N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N N
+N%N
+#%##############
+#             1#
+#       1111111#
+#       ##### 1#
+#        #2$  1#
+##########$#####
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNNNNNNN$NNNNN
+NNNNN         NN
+NNNNN    333Q NN
+NNNNN   ##### NN
+NNNNN    # #  NN
+NNNNNNNNNNNNNNNN
+name:Cake!

@@ -1,0 +1,11 @@
+music:ascii_threat3.mp3
+message:You're going to need the cubes, but can you get them without giving yourself trouble too?
+NNNN########################NNNN
+NNNN#                      #NNNN
+N   i                      i   N
+N Q i                      i Q N
+NNNN#$                    $#NNNN
+NNNN#           @          #NNNN
+NNNNN#$$$$$$I$$$$$$$I$$$$$##NNNN
+NNNNN# O O  &   O   & O O #NNNNN
+NNNNN######################NNNNN

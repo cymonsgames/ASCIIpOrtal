@@ -1,0 +1,23 @@
+ASCIIpOrtal by Joe Larson
+
+Inspired by Increpare's Portile game
+http://www.increpare.com/2008/11/portile/
+
+And Super Serif Bros
+http://foon.co.uk/farcade/ssb/
+
+And Valve's Portal.
+
+Sound Design by Steve Fenton.
+
+Level Design / Beta Testers
+Joe Larson
+Nicholas McGuire
+Mads Lund
+arminwagner
+Sparky
+i300
+
+Oh, you think your good?
+From the main menu choose 'Change Map Set' and type:
+MASTERLEVELS

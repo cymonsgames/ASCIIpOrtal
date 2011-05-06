@@ -1,0 +1,21 @@
+music:default
+name:Rogue's Gallery
+message:Avoid touching the red beams!
+message1:Spikes are also no good for you.
+message2:The blue fields are harmless to you.
+message3:And generally speaking you want to avoid touching the boulders...
+message4:but boulders (and boxes) can't pass through the blue fields.
+message5:You can walk up steps.
+message6:Or stack boulders to make steps.
+message7:Boulders can push boxes and neither mind spikes so much.
+message8:But nobody like red fields.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNO NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N##############################=#########NNNNNNNNNNNNNNNNNNNNNNNNNNNN                 a "NNNNNNNNNNNNNNNNNN
+N         111111     222222%3            NNNNNNNNNNNNNNNNNNNNNNNNNNNN  O    O   &   O a "NNNNNNNNNNNNNNNNNN
+N         111111     222222%3            NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNXXXXNNNNNNNNNNNNNNNNNNNNNNNNNN
+N         111111     222222%3            %4                  NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N         111111     222222%3            %4                        7                 8   NNNNNNNNNNNN     N
+N         111111     222222%3            %4            N           7                 8   NNNNNNNNNNNN     N
+N         111111     222222%3            %4           NNN         NN                 8         9          N
+N  @      111111     222222%3            %4         5NNNNN 6 &    NN                 8         9       Q  N
+N####"""""######XXXXX####################NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNNNN

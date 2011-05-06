@@ -1,0 +1,16 @@
+music:default1
+message:You can use X or Z to choose which portal to fire.
+NNNNNNNNN#N
+NNNNNNNNN N
+NNNNNNNNN N
+########N NNNNNNNNN
+#  $    $ $h"     #
+#  &    $ $h"     #
+######11N NNNNNNN N
+#       N N     N N
+#       N N     N N
+#       N N   NNN NNNNN
+#       %     N   %   N
+# @     %     N   % Q N
+####H######NNNNNNNNNNNN
+message1:When momentum is involved sometimes default is the wrong choice.

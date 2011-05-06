@@ -1,0 +1,25 @@
+music:default1
+message:Why go to the mountain? Let it come to you.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNN                        N
+NNNNNN+NNNNNNNNNNNNNNNNNNNNNN+N
+NNNNNN+NNNNNNNNNNNNNNNNNNNNNN+N
+NNNNNN+NNNNNNNNN###NNNNNNNNNN+N
+NNNNNN+NNNNNNNN##O##NNNNNNNNN+N
+NNNNNN+NNNNNN###OOO###NNNNNNN+N
+NNNNNN+NNNNNN#OOOOOOO#NNNNNNN+N
+######+#NNNNN#OOOOOOO#NNNNNNN+NNNNN
+#     +#NNNNN#ccccccc#NNNNNNN+1   N
+#     +#NNNNN         NNNNNNNNN+CNN
+# @   +#NNNNN+N+N+N+N+NNNNNNNNN+N
+########NNNN           NNNNNNNN+N
+NNNNNNNNNNNN+N+N+N+N+N+NNNNNNNN+N
+NNNNNNNNNNN             NNNNNNN+N
+NNNNNNNNNNN+N+N+N+N+N+N+NNNNNNN+N
+N########                  NNNN+NN
+N#                             + N
+N#  Q                          + N
+N########                  NNNNNNN
+NNNNNNNNNXXXXXXXXXXXXXXXXXXNNN
+NNNNNNNNN##################NNN
+message1:Boulders are perfectly safe to walk on. Provided they're holding still.

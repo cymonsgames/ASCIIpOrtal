@@ -1,0 +1,13 @@
+music:default3
+#                                                     #NNNNNNNNNN
+#                                                     #N#       #
+##A##                                             aaaa#N#       #
+#   bbb                                           a   #N#   Q   #
+#     bbb                                         ##B##N#       #
+#       bbb                                     ccc   #N#       #
+##C##     bbb                                 ccc     #N#       #
+#   ddd     bbb                             ccc       #N#       #
+#     ddd1    bbb                         ccc     ##D##N#       #
+#       ddd     bbb          @          ccc     eee             #
+##E####################################################N#########
+message1:You know, all this walking isn't necessary. You have a portal gun.

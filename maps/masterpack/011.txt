@@ -1,0 +1,18 @@
+music:default1
+message:After that one this should be easy.
+###
+#O#
+#O#
+#O#
+#O#
+#a#
+# #NNNNNNNNNNNNNNNNNNNNNNNNNNN
+# #NN#######NNNNNNNNN#       N
+# #NN#   @ #NNNNNNNNNN       N
+# #NN# #####NNNNNNNNNN     Q N
+# #### ###########NNNN       N
+#                    b       N
+####A#########  ##NBNN#######N
+NNNNNNNNNNNNN#  #NNN
+NNNNNNNNNNNNN#  #NNN
+NNNNNNNNNNNNN#XX#NNN

@@ -1,0 +1,73 @@
+name: The Tower
+NNNNNN#########
+NNNNNN#  %$%5 #
+NNNNNN#  %$%5 #
+NNNNNNN  %$%5 N
+NNNNNNN   $Q5aN
+NNNNNNNH##$##KN
+NNNNNNN$  $  $N
+NNNNNN#   kO &#
+NNNNNN#$NAhKK$#
+NNNNN+%4     j#
+NNNNN+NhhhJhhhN
+NNNNN+NNNNNNNNN
+NNNNN+#       #
+NNNNN+#       #
+NNNNN+# ))G(( #
+NNNNN+#       #
+NNNNN+#       #
+NNNNN+g   &   #
+NNNNNN######  ##
+NNNNNNNNNNN#)  ##
+NNNNNNNNNNNN#)  ##
+NNNNNNNNNNNNN#)3 ##
+NNNNNNNNNNNNNN#)  ##
+NNNNNNNNNNNNNNN#)  ##
+NNNNNN###########)  #
+NNNN  #       #     #
+NNN   #       #     #
+NN    #       #     #
+N     l             #
+N    (#NNNNNNNNNNNNNN
+N   (##       #
+N  (#N#       #
+N2(####       #
+N     #       #
+N     #       #
+N&            #
+N######+++++++#
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#1678978#
+NNNNNN#%%%"%%%#
+NNNNNN#   @   #
+NNNNNNNNNNLNNNN
+message1: Try again...
+message2: Mind your head.
+message3: Going up the down escalator? At your age?
+message4: I hope you enjoyed your climb - and I hope you will enjoy doing it all over again after you mess up here.
+message5: Harrumph. I must be more evil in future.
+message6: Try again...
+message7: Try again...
+message8: Try again...
+message9: Try again...

@@ -1,0 +1,19 @@
+name:Portile17
+message:You're doing very well. I almost think you might survive this.
+NNNNNNNNNN
+#        N
+#        N
+#        NNNNNNNNNNNN
+#   $$$  NN#        #
+# $$$    NN#        #
+# $Q     NN#        #N##########
+# $$$$   NN#   $$$  #N#        #
+#        NN#$$$$    #N#        #
+#                   #N#        #
+############$$$$$   #N#   $$$  #
+NNNNNNNNNNN#        ###$$$$    #
+NNNNNNNNNNN#                   #
+NNNNNNNNNNN############$$$$$   #
+NNNNNNNNNNNNNNNNNNNNNN#        #
+NNNNNNNNNNNNNNNNNNNNNN# @      #
+NNNNNNNNNNNNNNNNNNNNNN##########

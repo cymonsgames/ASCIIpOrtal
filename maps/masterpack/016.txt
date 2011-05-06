@@ -1,0 +1,25 @@
+music:default2
+name:Portile6
+message:Use portals to look ahead.
+message1:You can move while falling.
+###############
+#1            #
+#1            #
+##  ####   $###
+N#  #NN#""""#
+N#  #NN#    #
+N#  #NN#    #NNN#######N
+N#  #NN#    #NNN#  Q  #N
+N#  ####    #####     #N
+N#                    #N
+N#  ####    ###########N
+N#XX#NN#    #
+N####NN#    #
+NNNNNNN#    #
+NNNNNNN#    #
+NNNNNNN#    #
+#####NN#    #
+#   #NN#    #
+#   ####    #
+# @         #
+#############

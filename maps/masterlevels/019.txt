@@ -1,0 +1,22 @@
+music:default
+name:Tick Tock
+message:You don't have to run fast, but you have to run.
+#############
+# 111111111<#
+# $$$$$$$$$$#
+#          @#
+#$$$$$a$$$$=#
+#$$$$$Q2222 #
+#$$222l $$$2#
+#3i $2$M#222#
+# $K$2#$#mmm#
+#A$222$$#222#
+#$$kkk$$#222#
+#$#222$$#22$#
+#$#22$$$2 $$#
+#$2 $$$$%L$$#
+#$%I$$$$$$$$#
+#############
+message1:What do you think you're doing?  This won't get you out any faster!
+message2:Now you're doomed.
+message3:Sneaky!  You just didn't want to be patient, did you?

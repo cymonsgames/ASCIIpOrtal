@@ -1,0 +1,63 @@
+name: The Tower
+NNNNNN#########
+NNNNNN#  %$% 4#
+NNNNNN#  %$%  #
+NNNNNNN  %$%  N
+NNNNNNN   $Q aN
+NNNNNNNH##$##KN
+NNNNNNN$  $  $N
+NNNNNN#   kO &#
+NNNNNN#$NAhKK$#
+NNNNN+%3     j#
+NNNNN+NhhhJhhhN
+NNNNN+NNNNNNNNN
+NNNNN+#       #
+NNNNN+#       #
+NNNNN+# ))G(( #
+NNNNN+#       #
+NNNNN+#       #
+NNNNN+g   &   #
+NNNNNN######  ##
+NNNNNNNNNNN#)  ##
+NNNNNNNNNNNN#)  ##
+NNNNNNNNNNNNN#)  ##
+NNNNNNNNNNNNNN#)  ##
+NNNNNNNNNNNNNNN#)  ##
+NNNNNN###########)  #
+NNNN  #       #     #
+NNN   #       #     #
+NN    #       #     #
+N                   #
+N    (#NNNNNNNNNNNNNN
+N   (##       #
+N  (#N#       #
+N2(####       #
+N     #       #
+N     #       #
+N             #
+N######+++++++#
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#       #
+NNNNNN#1111111#
+NNNNNN#%%%"%%%#
+NNNNNN#   @   #
+NNNNNNNNNNNNNNN
+message1: Try again...
+message2: Watch your head.
+message3: I hope you enjoyed your climb - and I hope you will enjoy doing it all over again after you mess up here.

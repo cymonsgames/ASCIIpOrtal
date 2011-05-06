@@ -1,0 +1,25 @@
+name: The Bucket
+N###############N
+N       Q       N
+N               N
+N       @       N
+N$$$$$$$g$$$$$$$N
+#       O       #
+#               #
+#               #
+#               #
+#               #
+#               #
+#&             &#
+N               N
+N   (       )   N
+N   N)     (N   N
+N   NN)   (NN   N
+N   NNN) (NNN   N
+N    NN   NN    N
+N     NGGGN     N
+N      NNN      N
+N       N       N
+N               N
+N               N
+N###############N

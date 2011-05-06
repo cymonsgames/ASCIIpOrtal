@@ -1,0 +1,22 @@
+name:Portile23
+NNNNNNNNNNNNNNNNNNNN
+NO        NNNNNNNNNN
+NNNNNNNN#=########NN
+NNNNNNNN#        #NN
+NNNNNNNN######## #NN
+N###NNNNNNNNNNN# #NN
+N# ############# #NN
+N# $           $ #NN
+N# ############# #####
+N# #NNNNNNNNNNN# $   #
+N# #NNNNNNNNNNN# $ Q #
+N# #NNNNNNNNNNN# #####
+N# #NNNNNNNNNNN# #NN
+N# #NNNNNNNNN### ###
+N# #NNNNNNNNN#     #
+N# #NNNNNNNNN### ###
+## ##NNNNNNNNNN# #NN
+#   #NNNNNNNNNN# #NN
+#   #NNNNNNNNNN# #NN
+# @ #NNNNNNNNNN#"#NN
+#####NNNNNNNNNN###NN

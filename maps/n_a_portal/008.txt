@@ -1,0 +1,20 @@
+music:default1
+name:Bluescreen
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N                                      N
+N                                      N
+N                                      N
+N          NNNNNN#NN NNN     NNN       N
+N          N   N   N NNN NNN NNN       N
+N          N @ $   N NNN NNN NNN       N
+N          N   N   #     NNN           N
+N          NN#NNN$NN NNN     NNN       N
+N          N   N   #     NNN           N
+N          #   $   N NNN     NNN       N
+N          NQ  N   N NNN NNN NNN       N
+N          NNNNN###N NNN NNN NNN       N
+N                        NNN           N
+N                                      N
+N                                      N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+message:Not Linux or OS X.

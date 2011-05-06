@@ -1,0 +1,75 @@
+name:Tower of Metroidvania
+message1:Don't be hasty.
+message2:Prepare to return here frequently.
+message3:I'm glad you came back.
+message4:Prepare now, or work harder later.
+message5:You can shoot through the red fields.
+N                      aOaaaa                       N
+N     aOa              aaaaOa             aOa       N
+N     aaa   aOa           aaa       aOa   aaa       N
+N           aaa      fedcb bcdef    aaaOa           N
+N                    fedcb bcdef      aaa           N
+N       aaa        + fedcbAbcdef +             aaa  N
+NX"X"X"aaOaaaaaaaaa+aaaaaaaaaaaaa+aaaaaaaaaaaaaaOaaaN
+N###### aaa       a+  a  aOa  a  +aX#a"eOf     aaa  N
+N                 a+  a  aaa  a  +aX#aaaaaaaaa a    N
+N   &             a+             +aX#          a    N
+NEaaaa            aaaaajihlkjiaaa+aX#     aaaaFa    N
+N    bbb            aOa     hha" +eX#               N
+N      bbb          aaa    ll aX +eX#               N
+N        bbb2         a   kk  a" +eX#               N
+Na  &3     bbb        a  jj   aX +eX#               N
+NaEaaacccccccccc        ii    a" +eee              1N
+NOa    XXX     cccccceahi     aaaaaa###########ffff+N
+Naa    ###         eeeall     aOa             a"X"X+N
+N                eee  a kk    aaa             aaaaa+N
+N       &  4   eee    a  jj   a                    +N
+Ndddddd$$$dddeee      a   ii  a      aBa           +N
+N          eee        a    hh                      +N
+N        eee          a     hlaaaaaaaaaaaaaaaaaaaaafN
+NEaEaaaeee            e     kka           a"X"X"X"X"N
+Naaaaaaaaaaaaaaaaaaaaaa    jj aaaaaaaaaaaaa#######aaN
+N"X"X"X"X"X"Xa  O   OXa   ii  a                     #
+N############aaaaaa##aa  hh   a                     #
+N                     5 ll    a                 &   #
+N$$$$$$$$$$$$aaaaaabbaakl     a             aaaaaaaaN
+Ncccccccccccca    a   ajj     a           ccc       N
+Nb           a    "   a ii    a         ccc         N
+Nb           a   "a   a  hh   add     ccc           N
+NaaaCaaaaa   a  " a   a   ll  a     ccc             N
+NOa      a   a "  a   a    kk     ccc               N
+N=aaaaaaaa   a"   a   a     kjaaaaaaaaaaaaaaaaaaaaccN
+N        a   "    a   a     iiaXX          $        #
+Naaaaaaa a   a    a   c    hh aX#          $        #
+N"       a###a    a###a   ll  aX#          $        #
+Naaaaaaaaaaaaaaaaaaaaaa  kk   aX#          $        #
+N                       jj    aa#          aaaaDaaaaN
+N                      ii       aaaaaaaaa  aaaaaaaaaN
+N"               @    hh                           "N
+NaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaN
+NX"X"X"X"X"X"X"X"X"X"X"X)QQQ(X"X"X"X"X"X"X"X"X"X"X"XN
+NNNNNNNNNNNNNNNNNNNNNNNNN"""NNNNNNNNNNNNNNNNNNNNNNNNN
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+NNNNNNNNNNNNNNNa<<<<<<a"N
+NNN&NN&NN&NN&NN&======NNN
+NNNaNNaNNaNNaNNallllllNNN
+NN"             <<<<<<a"N
+NNaLaaKaaJaaIaaHaaaaaaNNN
+NN""""""""""""""""""""NNN

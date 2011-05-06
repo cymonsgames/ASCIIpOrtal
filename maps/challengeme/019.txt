@@ -1,0 +1,51 @@
+music:yorkiimusic.mp3
+message:To proceed, move to the door on the left.  Do not stand next to the door on the right.
+message1:I told you not to stand here!
+message2:Thank you.  Please proceed to the exit.
+message3:Please ignore the boulders above your head.
+message4:Stop!  What are you doing? This isn't... No! You shouldn't... This is not a part of the... Why are you doing this?
+message5:Don't push that, that's the--er--instant death button!
+message6:...Good job discovering the flaw in this test chamber. You win.
+message7:Sucker.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNN####NN#########NN########NNN
+NNNNNNNNNNN#    444#NN#6666666#NN#      #NNN
+NNNNNNNNNNN#       #N##       ##N#      #NNN
+NNNNNNNNNNN#       ### i     k ###      #NNN
+NNNNNNNNNNN#        h2 i  @  k 1j       #N<N
+NNNNNNNNNNN#    """###############      #N N
+NNNNNNNNNNN#       NNNNNNNNNNNNNN#      #N=N
+NNNNNNNNNNN#       NNNNNNNNNNNNNN"         N
+NNNNNNNNNNN#####   NNNNNNNNNNNNNN"aaaaaa#NgN
+NNNNNNNNOOOOOONN   NN############"      #NgNNNNNNNNNNNNNNNNNNN
+NNNNNNNNaaaaaaNN   NN#           5      #NgNNNNNNNNNNN     NNN
+NNN   l       3    NN#&     ###  5      #NgNNNNNNNNNNN     NNN
+NNN   l       3    NN### ####N####      %m  7        m  Q  NNN
+NNN Q l       3    #NNN# #NNNNNNN#      #NNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNAN######NNNNLNNNNNNNN########NNNNNNNNNNNNNNNNNNNNN
+name:by Clayton Hobbs
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+N
+1Nk
+KNJ
+NNN
+2Ni
+INH
+NNN
+mN7
+GNM

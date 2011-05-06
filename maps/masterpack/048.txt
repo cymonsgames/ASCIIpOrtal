@@ -1,0 +1,32 @@
+music:default3
+name:Fling! by Clayton Hobbs
+message:The levels so far giving you a good run for your money? Well these next ones will really challenge you.
+message1:Use the fling heavily.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNN                                    N
+NNNNNNNNNNNNNNNNNNNNN+))))))))))))))))))))               N
+NNNNNNNNNNNNNNNNNNNNN+NNNNNNNNNNNNNNNNNNN#               N
+NNN                  +                 NN#               N
+NNN                  +                 NN#               N
+NNN                 $+                 NN#               N
+NNN             $   $+                 NN#               N
+NN#             $    $    $            #N#               N
+NN#       $    $     $    $            #N#               N
+NN#       $    $     $     $    $      #N#              QN
+NN#      $     $     $     $    $      #N#        NNNNNNNN
+NN#@     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$11111$11111$11111$11111$11111$11111#NNXXXXXXXXNNNNNNNN
+NN######################################NNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN

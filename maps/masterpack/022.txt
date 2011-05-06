@@ -1,0 +1,14 @@
+music:default3
+message:Catch 'em if you can.
+NNNNNNN&N
+NNNNNNN=N
+NNNNNNN+NNNNNNNNNNNNN
+NNNNNNN+NNNNNNNNN   N
+#     1+1       a Q N
+#      +      NANNNNN
+#      +      N
+#@     +      N
+#######+NNNNNNN
+NNNNNNN NNNNNNN
+NNNNNNN"NNNNNNN
+message1:The trick is to push the boxes off the ladder as they fall and stack them up to reach the exit.

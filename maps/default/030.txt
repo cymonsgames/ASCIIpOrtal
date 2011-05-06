@@ -1,0 +1,16 @@
+music:ascii_threat2.mp3
+message:This all seems familiar.
+NNNNNN#NNNNN
+NNNNNN   a&N
+NNNNNN ((((N
+NNNNNN NNNNNNNNNNNN
+N# $ $ $      "i #NNNNNNNNNNNNNNNNNNNN
+N# & $ $      "i #NNNNNNNNNNNNNNNNNNhN
+NNNN N NNNNNNNNN NNNNNNNNNNNNNNNNNNNIN
+NN   N N       N NNNNNN
+NN   N N       N NNNNNN
+NN   N N     NNN NNNNNN
+NN           N   %   NN
+N# @         #   % Q NN
+NNNNNA#NNNH#HNNNNNNNNNN
+name:by i300

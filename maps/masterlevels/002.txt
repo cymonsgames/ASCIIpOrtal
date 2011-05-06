@@ -1,0 +1,31 @@
+music:default
+name:Fling! by Clayton Hobbs
+message:Use the fling heavily.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNN                                    N
+NNNNNNNNNNNNNNNNNNNNN+))))))))))))))))))))               N
+NNNNNNNNNNNNNNNNNNNNN+NNNNNNNNNNNNNNNNNNN#               N
+NNN                  +                 NN#               N
+NNN                  +                 NN#               N
+NNN                 $+                 NN#               N
+NNN             $   $+                 NN#               N
+NN#             $    $    $            #N#               N
+NN#       $    $     $    $            #N#               N
+NN#       $    $     $     $    $      #N#              QN
+NN#      $     $     $     $    $      #N#        NNNNNNNN
+NN#@     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NN        NNNNNNNN
+NN#$     $     $     $     $     $     #NNXXXXXXXXNNNNNNNN
+NN######################################NNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN

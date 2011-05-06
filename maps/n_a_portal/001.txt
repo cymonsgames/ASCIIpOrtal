@@ -1,0 +1,21 @@
+message:Now enter the N/A portal mappack.
+message1:Do you play ASCII p0rtal the first time?
+message2:If so, play the normal mapset first.
+message3:or at least read the Instructions.
+name:Proloque
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N  a           b                  c        NNN
+N  a           b                  c        NNN
+N  a           b                  c        NNN
+N@1a          2b                 3c       QNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N>               NNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNN NNN
+N                NNN
+N NANNNNNNNNNNNNNNNN
+N                NNN
+NNNNNNNNNNNNNNBN NNN
+N                NNN
+N"NCNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNN

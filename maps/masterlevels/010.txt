@@ -1,0 +1,100 @@
+name:The Abyss.
+music:default
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN17NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N###NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN#NNNNNNNMGNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NN@ NN                                    N#                           + + + + +                             X#N
+NN  NN                                    NN      NN                   + + + + + +NNNNNNNNNNNNNNNNNNNNNN      NN
+NN  NN                                    NN      NN                   + + + + + +                   N<N      NN
+NN  NN                                    NN      NN                   +                             N=N      NN
+NN  NN                                    NN      NN                   +                             NaN      NN
+NN  NN                                    NN      NN                   +                               N      NN
+NN  NN                                    NN      NN"""""""""((((((((((A)))))))))))))))))))))))))))))))N      NN
+NN  NN                                    #N      NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN  NN
+N   NN                                    #N      NN                                                          NN
+N   NN                                    NN      NN                    +      +      +      +      +      NNNNN
+N   NN                                    NN      NN                    +      +      +      +      +         NN
+N  XNN                                    NN#NNNN NN                    +      +      +      +      +         NN
+N  NNN                                    NN#NNNN NN                    +      +      +      +      +         NN
+N  NNN                                    NN      NN                    +      +      +      +      +         NN
+N  NNN                                    NN X    NN                    +      +      +      +      +         NN
+N  NNN                                    NN X   XNN                    +      +      +      +      +         NN
+N  NNN                                    NN      NN                    +      +      +      +      +         NN
+N  NNN                                    NN      NN                    +      +      +      +      +         NN
+N  NNN                                    NNX     NN   XX              XX2222222222222222222222222222222222222NN
+N  NNN                                    NN      NN    XX            XX                                      NN
+N  NNN                                    NN      NN     XX          XX                                       NN
+N  NNN                                    NN      NN      XX        XX                                        NN
+N  NNN                                    NN      NN       XX      XX                                         NN
+N  NNN                                    NN      NN        XX    XX                                          NN
+N  NNN                                    NN      NN         XX  XX                                           NN
+N XNNN                                    NN      NN           11                                             NN
+N   NN                                    NN NNNNNNN                                                          NN
+N   NN                                    NN NNNN#NN                                                          NN
+N   NN                                    NN      NN                                                          NN
+NX  NN                                    NN      NNQ                                                         NN
+NN  NN                                    NNX    XNNQ8                                                        NN
+NN  NN                                    NN      NNmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmNN
+NN  NN                                    NN      NN""""""""""""""""""""""""""""""""""""""""""""""""""""""""""NN
+NN  NN""""""""""""""""""""""""""7777777777NN      NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NN  NN                                    NN      NN
+NNX3NN                                    NN      NN
+NN  NN                                    NN      NN
+NN  NN                                    NN      NN
+NN  NN                                    NN      NN
+NN  NN                                    NN      NN
+NN XNN                                    NNNNNNN NN
+NN  NN                                    NN#NNNN NN
+NN  NN                          ggggggggggNN      NN
+NN  NN6                         gQQQQQQQQQNN      NN
+NN  N$6                         ggggggggggNNX    XNN
+N   $$                       4            #N      NN
+N   $$                       4            #N      NN
+N  XN$5                                   NN      NN
+N   NN5                                   NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN NNNNNNN
+N X NN                                    NN #####NN
+N   NN                                    NN XXXXXNN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N  XNN                                    NN      NN
+N   NN                                    NNX     NN
+N   NN                                    NN      NN
+N X NN                                    NN      NN
+N   NN                                    NN      NN
+NX  NN                                    NN      NN
+N   NN                                    NN      NN
+N X NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N X NN                                    NN      NN
+N   NN                                    NN      NN
+N  XNN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N X NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    NN      NN
+N   NN                                    $N      NN
+NX XNN                                    $$      NN
+N   NN                                    N$      NN
+N   NN                                    NN      NN
+N###N"""""""""""""""""""""""""""""""""""""NN######NN
+message1:Nice job!
+message2:Bye Bye!
+message3:Fire at Four Thirty!
+message4:Hmm.. this isn't going to end well for you.
+message5:That's the ticket!
+message6:I bet you think you're fancy.
+message7:But really you're just dead.
+message8:Visit the Broken Bubble BBS! telnet://mdj.ath.cx

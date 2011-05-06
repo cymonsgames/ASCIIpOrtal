@@ -1,0 +1,42 @@
+music:default2
+name:Tower of Doom by Nicholas McGuire
+message:Hold down the arrow key to run.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNONONONNNNNNNNNNNNN
+NNNNNNNNNNN#=#=#=#NNNNNNNNNNNN
+NNNNNNNNNNN#     #NNNNNNNNNNNN
+NNNNNNNNNN##     ##NNNNNNNNNNN
+NNNNNNNNNN#OOOOOOO#NNNNNNNNNNN
+NNNNNNNNNN#OOOOOOO#NNNNNNNNNNN
+NNNNNNNNNN#+##+##+#NNNNNNNNNNN
+NNNNNNNNNN#       #NNNNNNNNNNN
+NNNNNNNNNN##+###+##NNNNNNNNNNN
+NNNNNNNNNN#aaaaaaa#NNNNNNNNNNN
+NNNNNNNNNN#+##+##+#NNNNNNNNNNN
+NNNNNNNNNN#       #NNNNNNNNNNN
+NNNNNNNNNN##+###+##NNNNNNNNNNN
+###########       ############
+#@                           #
+#)))))))))A###++############ #
+#                            #
+####### ############## ###B###
+#                            #
+#b#############b############b#
+#                            #
+####### ####C######### #######
+#                            #
+#c#############c############c#
+#                            #
+#D##### ############### ######
+#                            #
+#d#############d############d#
+#                            #
+####### ############### ######
+#                            #
+#e############e#############E#
+#                            #
+####### ############# ########
+#Q                          Q#
+##+#+#+#+#+#+#+#+#+#+#+#+#+###
+#""""""""""""""""""""""""""""#
+##############################

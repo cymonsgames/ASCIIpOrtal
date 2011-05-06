@@ -1,0 +1,18 @@
+name:Portile21
+###########
+#111111   #
+#111111   #
+#111111   #
+#         #
+#         #
+#         #
+# @ ###   #
+#####N### #
+NNNNNNNN#"#
+NNNNNNNN#"#NNNN#####
+NNNNNNNN# #NNNN#   #
+NNNNNNNN# #NNNN#   #
+NNNNNNNN# ######   #
+NNNNNNNN#        Q #
+NNNNNNNN############
+message1:Here's a hint. Stand where you started, aim up diagonally and shoot a portal directly over the hole. Stand on the platform and point straight down. Fire a portal, then fire another when you fall through - and get out of the way.

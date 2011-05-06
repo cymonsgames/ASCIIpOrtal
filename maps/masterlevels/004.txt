@@ -1,0 +1,31 @@
+message:First, push the box and reverse the flow of the bouders.
+message1:The first switch only works right about half the time. You may have to clear it and try again.
+message2:It's only out of mercy that I let you clear out your mistakes in the chamber below.
+message3:Did you forget anything?
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+#                   NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+#                    NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N                     NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N                      NNNNN     c     NNNNNNNNNNNNN
+N                      NNNNN     c     NNNNNNNNNNNNN
+N                 bbb  NNNNN 2   c  Q  NNNNNNNNNNNNN
+NNNCNCNCNNNNNNNNNNN+NNNNNNKNNNN+NNNNNNNNNNNNN######N
+#                  +NNN&NNNNNNN+                   N
+#                  +NNN=NNNNNNN+                &&&N
+N                  + %       % +               &&&&N
+N                  +NNNNN  NNNN+              &&&&&N
+N                  + 1%    &%  +             &&&&&&N
+N                  +NNNIkkkHNNN+      @     &&&&&&&N
+NNNANANNN+NNNNNNNNNNNNNNN"""NNNNNNNNNNNNNN+N#######N
+NNNNN>NNN+             NNNNNNN            +NNN     N
+NNNN<=NNN+             NNNNNNN            +NNN     N
+NNN<=hNNN+             NNNNNNN            +NNN     N
+NN>=h NNN+             +a   a+            +NNN<<<<<N
+N>=h  NNN+             +a   a+            +NNN=====N
+N=h   NNN+             +a   a+            +NNNiiiiiN
+Nh       +             +NNBNN+            +        N
+NNNNNNN  +             +     +     3      +  NNNNNNN
+N        +             +     +            +        N
+N"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+name:by Joe Larson

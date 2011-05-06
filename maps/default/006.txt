@@ -1,0 +1,23 @@
+music:default
+name:Portile2
+message:Sorry, this one's broken.
+NNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNN
+NNNNNNNNN##########N
+NNNNNNNNN#        #N
+NNNNNNNNN#        #N
+NNNNNNNNN#      Q #N
+NNNNNNNNN#   +#####N
+NNNNNNNNN#   +#NNNNN
+NNNNNNNNN#    #NNNNN
+NNNNNNNNN#    #NNNNN
+NNNNNNNNN#   +#NNNNN
+NNNNNNNNN#    #NNNNN
+NN########   +#NNNNN
+NN#          +#NNNNN
+NN#           #NNNNN
+NN#          +#NNNNN
+NN#  @       +#NNNNN
+NN#############NNNNN
+NNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNN

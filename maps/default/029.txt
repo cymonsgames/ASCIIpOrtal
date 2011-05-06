@@ -1,0 +1,15 @@
+music:ascii_threat2.mp3
+name:Portile11
+message:Think fast!
+NNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNN <    N
+#####NNN###########=#####N
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #NNN#            $ #
+#   #####            $ #
+#     @             Q$ #
+#"######################
