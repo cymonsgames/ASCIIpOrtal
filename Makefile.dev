@@ -18,4 +18,4 @@ asciiportal-dev: $(OBJECTS)
 	$(CXX) $^ $(LINKFLAGS) -o $@
 
 clean:
-	rm asciiportal-dev
+	rm -f asciiportal-dev
