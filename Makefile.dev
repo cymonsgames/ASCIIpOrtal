@@ -1,8 +1,11 @@
 include Makefile.common
 
+# If uncommented, every map will be available.
+GODMODE = -DGODMODE
+
 CXX = g++
 
-CXXFLAGS = -O2 -I /usr/include/xcurses `sdl-config --cflags` -U__NOSDL__ -U__NOSOUND__ -U__DINGOO__ -U__GP2X__ -DAP_VERSION=\"$(AP_VERSION)-dev\"
+CXXFLAGS = -O2 -I /usr/include/xcurses `sdl-config --cflags` -U__NOSDL__ -U__NOSOUND__ -U__DINGOO__ -U__GP2X__ -DAP_VERSION=\"$(AP_VERSION)-dev\" $(GODMODE)
 
 LINKFLAGS = `sdl-config --libs` -L/usr/lib -l SDL_mixer -l pdcurses 
 

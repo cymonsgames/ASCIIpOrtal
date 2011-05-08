@@ -81,6 +81,7 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
   rawmaps.clear();
   
   // load maxlevel for the current mappack
+#ifndef GODMODE
   maxlevel = 0;
   string maxlevelfilename;
 #ifdef WIN32
@@ -94,6 +95,7 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
     maxlevelfile >> maxlevel;
     maxlevelfile.close();
   }
+#endif //GODMODE
     
   // load level files
   while (1) {
@@ -129,7 +131,15 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
       rawmaps_maxwidth.push_back(maxwidth);
       mapfile.close();
       map.clear();
-    } else return --level; // to return 0 if no map was found
+    }
+    else { // no more maps
+      level--; // to return 0 if no map was found (I guess)
+#ifdef GODMODE
+      maxlevel = level;
+      cerr << "Godmode activated! maxlevel set to " << maxlevel << endl;
+#endif
+      return level; 
+    }
   }
 }
 

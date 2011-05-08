@@ -244,40 +244,52 @@ int main_menu (string mappack) {
 #ifndef __NOSOUND__
   load_ambience ("media", "menumusic.ogg");
 #endif
+
+  bool inscreen_ok = false;
+  // will fall back to 'default' if not found
+  string inscreen_location = mappack;
+  // display the in-screen background, message, and load music
+  do {
+    if (inscreen_location == "default")
+      inscreen_ok = true;
+
 #ifdef WIN32
-  name = "maps\\" + mappack + "\\inscreen.txt";
+    name = "maps\\" + inscreen_location + "\\inscreen.txt";
 #else
-  name = userpath + mappack + "/inscreen.txt";
+    name = userpath + inscreen_location + "/inscreen.txt";
 #endif
 
-  ifstream mapfile(name.c_str());
+    ifstream mapfile(name.c_str());
 
 #ifndef WIN32
-  if (!mapfile.is_open()) {
-    name = basepath + "maps/" + mappack + "/inscreen.txt";
-    mapfile.open(name.c_str());
-  }
+    if (!mapfile.is_open()) {
+      name = basepath + "maps/" + inscreen_location + "/inscreen.txt";
+      mapfile.open(name.c_str());
+    }
 #endif
 
-  if (mapfile.is_open()) {
-    vector<string> map;
-    while (! mapfile.eof() ) {
-      getline (mapfile, line);
-      if ((signed)line.length() > maxwidth) maxwidth = (signed)line.length();
-      if (line.find("music") == 0) {
+    if (mapfile.is_open()) {
+      vector<string> map;
+      while (! mapfile.eof() ) {
+	getline (mapfile, line);
+	if ((signed)line.length() > maxwidth) maxwidth = (signed)line.length();
+	if (line.find("music") == 0) {
 #ifndef __NOSOUND__
-        load_ambience (mappack, line.substr (6, line.size() - 6));
+	  load_ambience (inscreen_location, line.substr (6, line.size() - 6));
 #endif
+	}
+	if (line.find("message") == 0)
+	  pager.add_scrolling(line.substr (8, line.size() - 8));
+	else inscreen.push_back(line);
       }
-      if (line.find("message") == 0)
-        pager.add_scrolling(line.substr (8, line.size() - 8));
-      else inscreen.push_back(line);
+      mapfile.close();
+      inscreen_ok = true;
     }
-    mapfile.close();
-  }
-  else { // fall back to default inscreen
-    return main_menu("default");
-  }
+
+    // fall back to default inscreen
+    inscreen_location = "default";
+    
+  } while (!inscreen_ok);
 
   XY s, d, upperleft;
 

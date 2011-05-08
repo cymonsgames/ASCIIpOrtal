@@ -14,8 +14,6 @@ DISTNAME = $(ASCIIPORTAL)-$(AP_VERSION)
 CXXFLAGS = -O2 -DAP_VERSION=\"$(AP_VERSION)\"
 LINKFLAGS = 
 
-MAPPACKS = default challengeme evil masterlevels raisonbran648
-
 # Files to include in releases
 FILES_INCLUDE_DIST = maps/ media/ README CHANGELOG pdcicon.bmp map_making_tips.txt
 
@@ -34,4 +32,4 @@ wrong-way-common:
 
 # remove save.dat files
 saveclean:
-	cd maps && find $(MAPPACKS) -name save.dat -delete
+	cd maps && find . -name save.dat -delete

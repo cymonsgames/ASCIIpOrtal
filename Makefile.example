@@ -8,7 +8,6 @@
 #  - DISTNAME: base name for the generated tarball
 #  - CXXFLAGS: options passed to the c++ compiler
 #  - LINKFLAGS: options passed to the linker
-#  - MAPPACKS: list of mappacks
 #  - FILES_INCLUDE_DIST: files to include in the release tarball
 #  - OBJECTS_NOSOUND: the bare list of .o objects needed to build
 #  - OBJECTS: same thing with sound support

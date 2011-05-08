@@ -23,6 +23,7 @@
 // and SDL mixer.
 
 #include <string>
+#include <iostream>
 #include <curses.h>
 #include "asciiportal.h"
 
@@ -89,6 +90,8 @@ int sound_init () {
   string mediapath = basepath + "media/";
 #endif
 
+  cerr << mediapath << endl;
+
   //Initialize SDL_mixer
   if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 1024 ) == -1 ) return false;
 
@@ -107,16 +110,18 @@ int sound_init () {
 
 int default_ambience (int selection) {
   string name;
+#ifdef WIN32
+  string mediapath = basepath + "media\\";
+#else
+  string mediapath = basepath + "media/";
+#endif
 
   if ((selection < 0) || (selection > num_music_files)) selection = 0;
   if (current_music == music_files[selection]) return 2;
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
-#ifdef WIN32
-    name = basepath + "media\\" + music_files[selection];
-#else
-    name = basepath + "media/" + music_files[selection];
-#endif
+  name = mediapath + music_files[selection];
+  cerr << "Loading default ambience file " << name << endl;
   ambience = Mix_LoadMUS(name.c_str ());
   if (ambience == NULL) return 0;
   current_music = music_files[selection];
@@ -129,15 +134,27 @@ int load_ambience (string mappack, string filename) {
   if (filename == current_music) return 2;
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
+  // Sometimes we're called with "media" as mappack... need to fix that
+  if (mappack == "media") {
 #ifdef WIN32
-  name = userpath + mappack + "\\" + filename;
+    name = basepath + "media\\" + filename;
 #else
-  name = userpath + mappack + "/" + filename;
-  // handles custom maps in user directory and default maps
-  ambience = Mix_LoadMUS(name.c_str ());
-  if (ambience == NULL)
-    name = basepath + mappack + "/" + filename;
+    name = basepath + "media/" + filename;
+  }
 #endif
+  else {
+#ifdef WIN32
+    name = userpath + "maps\\" + mappack + "\\" + filename;
+#else
+    name = userpath + mappack + "/" + filename;
+    // handles both custom maps in user directory and default maps
+    cerr << "[1] Loading ambience file " << name << endl;
+    ambience = Mix_LoadMUS(name.c_str ());
+    if (ambience == NULL)
+      name = basepath + "maps/" + mappack + "/" + filename;
+#endif
+  }
+  cerr << "[2] Loading ambience file " << name << endl;
   ambience = Mix_LoadMUS(name.c_str ());
   if (ambience == NULL) {
     default_ambience(0);
