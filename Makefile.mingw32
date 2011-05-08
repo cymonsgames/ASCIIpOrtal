@@ -94,7 +94,8 @@ $(EXE_NAME): $(OBJECTS)
 # We must include SDL DLLs; we could have linked everything statically, but that would
 # require actually cross-compiling every one of them. It is a lot simpler to bundle
 # upstream DLLs.
-$(TARBALL): $(EXE_NAME) $(SDL_DLL) $(SDL_MIXER_DLL)
+#$(TARBALL): $(EXE_NAME) $(SDL_DLL) $(SDL_MIXER_DLL)
+$(TARBALL): $(EXE_NAME) $(SDL_DLL) SDL_mixer.dll
 	mkdir $(DISTNAME)
 	cp -r $(FILES_INCLUDE_DIST) $(DISTNAME)
 	zip -r $@ $(DISTNAME) # zip is bad, but anyway...
@@ -112,7 +113,8 @@ $(TARBALL): $(EXE_NAME) $(SDL_DLL) $(SDL_MIXER_DLL)
 clean:
 	# This does some basic cleaning, see 'Makefile'
 	$(MAKE) clean
-	rm -f $(SDL_DLL) $(SDL_MIXER_DLL) README-SDL.txt README-SDL_mixer.txt
+	# There is no use cleaning it
+	#rm -f $(SDL_DLL) $(SDL_MIXER_DLL) README-SDL.txt README-SDL_mixer.txt
 
 # Clean the generated executable
 execlean:
