@@ -33,6 +33,6 @@ void restms(int);
 
 int pollevent ();
 
-int pauserun (int);
+void pauserun (int);
 
 #endif // AP_INPUT_H_INCLUDED

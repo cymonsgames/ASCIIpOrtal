@@ -33,7 +33,7 @@ void help_menu ();
 
 int main_menu (std::string);
 
-int pause_menu (int);
+int pause_menu ();
 
 int select_level (int, int);
 

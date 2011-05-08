@@ -25,6 +25,9 @@
 #ifndef AP_DRAW_H_INCLUDED
 #define AP_DRAW_H_INCLUDED
 
+#include <curses.h>
+#include "ap_object.h"
+
 int color_pair(int);
 
 void fillscreen (int);
@@ -39,17 +42,15 @@ void stopmessages ();
 
 void scrollmessage ();
 
-int findobj(XY);
-
 int screenchar(int);
 
-void map_screen (int, XY, XY, int, std::vector<std::vector<int> >&, int);
+void map_screen (std::vector<std::vector<chtype> >&);
 
-void draw_screen_angle (int player, int angle);
+void draw_screen_angle (int angle);
 
-void draw_rotate (int, int);
+void draw_rotate (int);
 
-void draw_screen (int);
+void draw_screen ();
 
 void graphics_init (int, int, int, int, std::string);
 

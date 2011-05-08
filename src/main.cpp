@@ -167,5 +167,5 @@ int main(int args, char* argv[]) {
 
   graphics_deinit();
   cout << "Thank you for playing ASCIIpOrtal\n";
-  return 0;
+  _exit(0);
 }

@@ -45,7 +45,6 @@ using namespace std;
 #include "ap_input.h"
 #include "menu.h"
 
-extern vector <object> objs;
 extern statstype levelstats;
 extern int level;
 extern int maxlevel;
@@ -512,6 +511,6 @@ int pollevent () {
   return hasevent;
 }
 
-int pauserun (int d) {
+void pauserun (int d) {
   delay = d;
 }

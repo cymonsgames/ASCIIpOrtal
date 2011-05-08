@@ -25,23 +25,25 @@
 #ifndef AP_PLAY_H_INCLUDED
 #define AP_PLAY_H_INCLUDED
 
+#include "ap_object.h"
+
 int setup_level (int, std::string);
 
 int hitswall(int, int);
 
-int hitsobj(int, int, int);
+objiter hitsobj(objiter, int, int);
 
-int still_alive (int);
+int still_alive ();
 
-void fireportal (int, int);
+void fireportal (int);
 
 int sc (int x);
 
-int move_object (int);
+int move_object (objiter);
 
 int physics ();
 
-int move_player (int);
+int move_player ();
 
 int play (std::string);
 

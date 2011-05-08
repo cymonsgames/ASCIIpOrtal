@@ -48,13 +48,6 @@ class XY { // very simple class for keeping XY cooridnate pairs.
   int x; int y;
 };
 
-class object {
-  public:
-  XY coord;
-  int type, tick;
-  XY d;
-};
-
 class statstype {
   public:
   int numportals;

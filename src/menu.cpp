@@ -40,11 +40,10 @@
 #include "ap_draw.h"
 #include "ap_input.h"
 
-#define PAUSE 200
+// #define PAUSE 200 // Achtung: conflicts with enum GameObjs in asciiportal.h. Not used anymore anyhow.
 
 using namespace std;
-extern vector <object> objs;
-extern int CharData[MAXColors][5];
+extern const int CharData[MAXColors][5];
 
 int chartoscreen(char o) {
   for (int c = 0; c < MAXObjects; c++)
@@ -170,15 +169,15 @@ int menu (vector <string>& items, int selection) {
   w += 5;
 
   while (1) {
-    fillsquare(LINES - 2 - items.size() * 2, 1 + s.x, items.size() * 2 + 1, w);
+    fillsquare(LINES - 2 - items.size() * 2, 1, items.size() * 2 + 1, w);
     for (int i = 0; i < (signed)items.size(); i++) {
       if (i != selection) attrset (color_pair(MENUDIM));
       else attrset (color_pair(MENUSELECT));
       mvprintw (LINES - 2 * (items.size() - i) - 1, 1, " %d) %s ", i + 1, items[i].c_str());
     }
     refresh ();
-    restms(1); // don't know why the menu doesn't want to show up without this. Ah well.
-    do {input = getinput();} while (input == ERR);
+//    restms(1); // don't know why the menu doesn't want to show up without this. Ah well.
+    do { restms(10); input = getinput(); } while (input == ERR);
     if ((input >= '1') && (input < '1' + (signed)items.size())) selection = input - '1';
     flushinput();
     switch (input) {
@@ -316,7 +315,7 @@ int main_menu (string mappack) {
   return opt;
 }
 
-int pause_menu (int player) {
+int pause_menu () {
   vector<string> options;
   int yy;
 
@@ -327,7 +326,7 @@ int pause_menu (int player) {
   options.push_back("QUIT");
 
   for (yy = 0; yy < LINES; yy++)
-    mvchgat (yy, 0, -1, A_BOLD, CharData[PAUSE][2] + 8 * CharData[PAUSE][3], NULL);
+    mvchgat (yy, 0, -1, A_BOLD, 8 * CharData[PAUSE][2] + CharData[PAUSE][3], NULL);
   return menu(options, 0);
 }
 
@@ -486,7 +485,7 @@ void roll_credits (string mappack) {
 
 string select_mapset () {
   string mapset;
-  int inchar = 0;
+//  int inchar = 0;
 
   pauserun(1);
   attrset(color_pair(HELPMENU));

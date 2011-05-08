@@ -22,12 +22,13 @@
 // The source links with SDL, PDCurses compiled for SDL rendering (PDCSDL)
 // and SDL mixer.
 
+#include <iostream>
 #include <cstdlib>
 #include <string>
 #include <vector>
 #include <cmath>
 #include <ctime>
-#include <limits>
+#include <climits>
 using namespace std;
 #include "asciiportal.h"
 #ifndef __NOSDL__
@@ -42,9 +43,9 @@ using namespace std;
 #include "ap_play.h"
 #include "ap_draw.h"
 
-int CharData [MAXColors][5] = // File, Screen, Forground, background, A_BOLD
-{{' ', ' ',COLOR_WHITE, COLOR_BLACK, 0}, // NONE
- {'Q', 'E',COLOR_WHITE, COLOR_GREEN, 1}, // GOAL
+extern const int CharData [MAXColors][5] = // File, Screen, Forground, background, A_BOLD
+{{' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // NONE
+ {'Q', 'E', COLOR_WHITE, COLOR_GREEN, 1}, // GOAL
  {'+', 254, COLOR_BLACK, COLOR_YELLOW, 0}, // LADDER
  {'#', 219, COLOR_WHITE, COLOR_BLACK, 0}, // NORMAL
  {'N', 219, COLOR_BLACK, COLOR_WHITE, 1}, // NONSTICK
@@ -61,8 +62,8 @@ int CharData [MAXColors][5] = // File, Screen, Forground, background, A_BOLD
  {'y', 9, COLOR_BLUE, COLOR_BLACK, 1}, // PORTAL1
  {'z', 9, COLOR_YELLOW, COLOR_BLACK, 1}, // PORTAL2
  {'A', 220, COLOR_BLACK, COLOR_RED, 1}, // SWITCH
- {0, 220, COLOR_BLACK, COLOR_GREEN, 1}, // SWITCHON
- {'a', 249, COLOR_BLACK, COLOR_BLUE, 0}, // DOOR
+ {0, 220 | A_PROTECT, COLOR_BLACK, COLOR_GREEN, 1}, // SWITCHON
+ {'a', 30, COLOR_BLACK, COLOR_BLUE, 0}, // DOOR
  {0, 254, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR3,
  {0, 249, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR2
  {0, 250, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR1,
@@ -72,7 +73,7 @@ int CharData [MAXColors][5] = // File, Screen, Forground, background, A_BOLD
  {'1', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // TEXTTRIGGER
  {0, 15, COLOR_YELLOW, COLOR_BLACK, 0}, // FLASH
  {0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MAXObj
- {0, 0, COLOR_BLACK, COLOR_GREEN, 0}, // PAUSE
+ {0, 0, COLOR_GREEN, COLOR_BLACK, 0}, // PAUSE
  {0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MENUDIM
  {0, 0, COLOR_YELLOW, COLOR_BLACK, 1}, // MENUSELECT
  {0, 0, COLOR_YELLOW, COLOR_BLUE, 1}, // HELPMENU
@@ -80,7 +81,8 @@ int CharData [MAXColors][5] = // File, Screen, Forground, background, A_BOLD
 };
 
 extern vector<vector<int> > map;
-extern vector <object> objs;
+extern ObjectManager objm;
+extern object aimobject;
 extern string lvlname;
 extern int ticks;
 
@@ -91,38 +93,39 @@ string scrolling;
 int statustick;
 int scrolltick;
 
-int color_pair(int obj) {
-  int fore = CharData[obj][2];
-  int back = CharData[obj][3];
-  return (COLOR_PAIR ((8 * fore) + back) | (A_BOLD * CharData[obj][4]));
+int color_pair(int objtype) {
+  int fore = CharData[objtype][2];
+  int back = CharData[objtype][3];
+  return (COLOR_PAIR ((8 * fore) + back) | (A_BOLD * CharData[objtype][4]));
 }
 
-int obj_color_pair (int obj) {
-  int fore = CharData[objs[obj].type][2];
-  int back = CharData[objs[obj].type][3];
-  int b = CharData[objs[obj].type][4];
+int obj_color_pair (objiter obj) {
+  int fore = CharData[obj->type][2];
+  int back = CharData[obj->type][3];
+  int b = CharData[obj->type][4];
 
-  if (objs.size()) {
-    if (objs[obj].type == DOOR) {
-      if (objs[obj].d.x == 4) {
-        fore = objs[obj].d.y % 6 + 1;
-        if (fore >= COLOR_GREEN) fore++;
-      } else {
-        fore = CharData[DOOR1][2];
-        back = CharData[DOOR1][3];
-      }
-    }
-    if (objs[obj].type == FLASH) {
-      fore = objs[obj].d.y;
-    }
-    if (objs[obj].type == SWITCH) {
-      back = objs[obj].d.y % 6 + 1;
-      if (back >= COLOR_GREEN) back++;
+  if (obj->type == DOOR) {
+    if (obj->d.x == 4) {
+      fore = obj->d.y % 6 + 1;
+      if (fore >= COLOR_GREEN) fore++;
+      if (obj->d.y == 12) fore = COLOR_GREEN;
+      if (fore == COLOR_BLUE) b = 1;
+    } else {
+      fore = CharData[DOOR1][2];
+      back = CharData[DOOR1][3];
     }
   }
+  if (obj->type == FLASH) {
+    fore = obj->d.y;
+  }
+  if (obj->type == SWITCH || obj->type == SWITCHON) {
+    back = obj->d.y % 6 + 1;
+    if (back >= COLOR_GREEN) back++;
+    if (obj->d.y == 12) back = COLOR_GREEN;
+  }
   if (map.size()) {
-    if ((objs[obj].type == PLAYER) || (objs[obj].type == BOULDER) || (objs[obj].type == FLASH)) {
-      int mapblock = map[objs[obj].coord.y][objs[obj].coord.x];
+    if ((obj->type == PLAYER) || (obj->type == BOULDER) || (obj->type == FLASH)) {
+      int mapblock = map[obj->coord.y][obj->coord.x];
       if ((mapblock != NONE) && (mapblock != NORMAL)) {
         back = CharData[mapblock][2];
         b = 0;
@@ -210,287 +213,305 @@ void scrollmessage () {
   scrolltick ++;
 }
 
-int findobj(XY coord) { // returns object number of hit object or num favoring portals
-  int val = 0;
-
-  for (unsigned int c = 1; c < objs.size(); c++) {
-    if ((objs[c].coord.x == coord.x) && (objs[c].coord.y == coord.y)) {
-      if (objs[c].type == TEXTTRIGGER) continue;
-      if (objs[c].type == DOOR) {
-        if ((objs[c].d.x > 0) && (!val)) val = c;
-      } else if (objs[c].type != NONE) val = c;
-      if ((objs[c].type == PORTAL1) || (objs[c].type == PORTAL2))
-        return val;
+inline objiter object_at (XY coord) {
+  objiter retval = objm.NULLOBJ;
+  objset *s = &(objm.objmap[coord.y][coord.x]);
+  for (objset::iterator it = s->begin(); it != s->end(); it++) {
+    switch ((*it)->type) {
+      case NONE:
+      case TEXTTRIGGER:
+        break;
+      case DOOR:
+        if ((*it)->d.x > 0 && retval == objm.NULLOBJ)
+          retval = *it;
+        break;
+      case PORTAL1:
+      case PORTAL2:
+        if (retval == objm.NULLOBJ)
+          retval = *it;
+        break;
+      default:
+        retval = *it;
+        break;
     }
   }
-  return val;
+  return retval;
 }
 
 int screenchar(int o) {
   return (CharData[o][1] | color_pair(o) | A_ALTCHARSET);
 }
 
-int obj_screenchar(int obj) {
+int obj_screenchar(objiter obj) {
   int objtype;
 
-  objtype = objs[obj].type;
+  objtype = obj->type;
   if (objtype == DOOR) {
-    switch (objs[obj].d.x) {
+    switch (obj->d.x) {
       case 3: objtype = DOOR3; break;
       case 2: objtype = DOOR2; break;
       case 1: objtype = DOOR1; break;
       case 0: objtype = NONE; break;
     }
+    if(objtype == DOOR && obj->d.y >= 6)
+      return (4 | obj_color_pair(obj) | A_ALTCHARSET);
   }
+  if (objtype == SWITCHON && obj->d.y >= 6) objtype = SWITCH;
+  else if (objtype == SWITCH && obj->d.y >= 6) objtype = SWITCHON;
   return (CharData[objtype][1] | obj_color_pair(obj) | A_ALTCHARSET);
 }
 
-void map_screen (int player, XY center, XY offset, int angle, vector<vector<int> >& screenmap, int r) {
-  while (angle > 360) angle -= 360;
-  while (angle < 0) angle += 360;
+// Math library round() is slow for some reason, at least on my system.
+// This version is good enough for us.
+inline int qround (double x) {
+  return (x < 0) ? (x - 0.5) : (x + 0.5);
+}
 
-  double sin_rot, cos_rot;
-  XY upperleft, screen, temp, neo, c;
-  XY porXY[2]; // gotta remember portal information.
-  int portals[2], porvisible[2];
+// Fast atan2 for the special case where (x,y) is an integer-valued unit vector.
+// Output is in degrees, not radians (duh).
+inline int qatan2 (int y, int x) {
+  return (x + y + 1) ? (x ? 0 : 90) : (x ? 180 : 270);
+}
 
-  for (c.y = 0; c.y < (signed)screenmap.size(); c.y++)  // clear the old.
-    screenmap[c.y].clear();
-  screenmap.clear();
+// greatest integer strictly less than the rational number a/b
+inline int div_lt (int a, int b) {
+  if (b > 0)
+    return ((a > 0) ? (a - 1) : (a - b)) / b;
+  else
+    return ((a < 0) ? (a + 1) : (a - b)) / b;
+}
 
-  if (r++ == 2) return;
+// least integer strictly greater than the rational number a/b
+inline int div_gt (int a, int b) {
+  if (b > 0)
+    return ((a < 0) ? (a + 1) : (a + b)) / b;
+  else
+    return ((a > 0) ? (a - 1) : (a + b)) / b;
+}
 
-  upperleft.x = (int)objs[player].coord.x - (COLS / 2);
-  upperleft.y = (int)objs[player].coord.y - (LINES / 2);
-
-  sin_rot = sin((double)angle * M_PI / 180.0);
-  cos_rot = cos((double)angle * M_PI / 180.0);
-
-  portals[0] = portals[1] = 0;
-  porvisible[0] = porvisible[1] = 0;
-  for (int p = 1; p < (signed)objs.size(); p++) {  // find the portals
-    if (objs[p].type == PORTAL1) portals[0] = p;
-    if (objs[p].type == PORTAL2) portals[1] = p;
+// gets the dimensions of the space behind (type = 1) or in front of (type = 0) a portal
+// s = screen (type = 1) or map (type = 0) coords of portal
+// d = direction vector of portal
+inline void portal_space (XY& s, XY& d, int type, int& zmax, int& wmin, int& wmax) {
+  int xmax = type ? (COLS - 1)  : (map[0].size() - 1);
+  int ymax = type ? (LINES - 1) : (map.size() - 1);
+  int dir  = type ? 1 : -1;
+  switch (qatan2 (dir * d.y, dir * d.x)) {
+    case 0:
+      zmax = s.x;
+      wmin = s.y - ymax;
+      wmax = s.y;
+      break;
+    case 90:
+      zmax = s.y;
+      wmin = -s.x;
+      wmax = xmax - s.x;
+      break;
+    case 180:
+      zmax = xmax - s.x;
+      wmin = -s.y;
+      wmax = ymax - s.y;
+      break;
+    case 270:
+      zmax = ymax - s.y;
+      wmin = s.x - xmax;
+      wmax = s.x;
+      break;
   }
+}
 
-  for (screen.y = 0; screen.y < LINES; screen.y++) {
-    vector<int> screenline(COLS, screenchar(NONSTICK));
-    for (screen.x = 0; screen.x < COLS; screen.x++) {
-      temp.x = upperleft.x + screen.x - center.x;
-      temp.y = upperleft.y + screen.y - center.y;
-      neo.x = round((double)temp.x * cos_rot - (double)temp.y * sin_rot);
-      neo.y = round((double)temp.x * sin_rot + (double)temp.y * cos_rot);
-      neo.x += offset.x; neo.y += offset.y;
-      if ((neo.x < (signed)map[0].size()) && (neo.x >= 0) && (neo.y < (signed)map.size()) && (neo.y >= 0)) {
-        int c_obj = findobj(neo);
-        if (objs[c_obj].type == PORTAL1) {
-          porXY[0].x = screen.x; porXY[0].y = screen.y;
-        }
-        if (objs[c_obj].type == PORTAL2) {
-          porXY[1].x = screen.x; porXY[1].y = screen.y;
-        }
-        int useobj = 0;
-        if (c_obj) {
-          useobj = 1;
-          if (objs[c_obj].type == PORTAL1) porvisible[0] = 1;
-          else if (objs[c_obj].type == PORTAL2) { porvisible[1] = 1; useobj = 2; }
-          if ((objs[c_obj].type == PORTAL1) || (objs[c_obj].type == PORTAL2)) {
-            // Hide portals facing away from player
-            if ((screen.x > COLS / 2) && (objs[c_obj].d.x > 0)) {
-              porvisible[useobj - 1] = 0;
-              useobj = 0;
-            }
-            if ((screen.x < COLS / 2) && (objs[c_obj].d.x < 0)) {
-              porvisible[useobj - 1] = 0;
-              useobj = 0;
-            }
-            if ((screen.y > LINES/ 2) && (objs[c_obj].d.y > 0)) {
-              porvisible[useobj - 1] = 0;
-              useobj = 0;
-            }
-            if ((screen.y < LINES/ 2) && (objs[c_obj].d.y < 0))  {
-              porvisible[useobj - 1] = 0;
-              useobj = 0;
-            }
-          }
-        }
-        if (useobj) {
-          screenline[screen.x] = obj_screenchar(c_obj);
-        } else screenline[screen.x] = screenchar(map[neo.y][neo.x]);
+void map_screen (vector<vector<chtype> >& screenmap) {
+  XY upperleft, screenc;
+  screenmap.clear();
+  upperleft.x = objm.player->coord.x - (COLS/2);
+  upperleft.y = objm.player->coord.y - (LINES/2);
+  for (screenc.y = 0; screenc.y < LINES; screenc.y++) {
+    vector<chtype> screenline(COLS, screenchar(NONSTICK));
+    XY mapc;
+    mapc.y = upperleft.y + screenc.y;
+    if (mapc.y >= 0 && mapc.y < map.size()) {
+      int sxa = (upperleft.x < 0) ? -upperleft.x : 0;
+      int sxb = ((upperleft.x + COLS) > map[0].size()) ? (map[0].size() - upperleft.x) : COLS;
+      for (screenc.x = sxa; screenc.x < sxb; screenc.x++) {
+        mapc.x = upperleft.x + screenc.x;
+        objiter c_obj = object_at (mapc);
+        screenline[screenc.x] = (c_obj == objm.NULLOBJ) ? screenchar(map[mapc.y][mapc.x]) : obj_screenchar(c_obj);
       }
     }
     screenmap.push_back(screenline);
   }
 
-  if (portals[0] && portals[1]) { // look into portals
-    for (int p = 0; p < 2; p++) {
-      int check = objs[hitsobj(portals[p], objs[portals[p]].coord.y, objs[portals[p]].coord.x)].type;
-      if ((check != PORTAL1) && (check != PORTAL2)) { // fill portal with any object in the portals
-        if (porvisible[0])
-          screenmap[porXY[0].y][porXY[0].x] = screenchar(check);
-        if (porvisible[1])
-          screenmap[porXY[1].y][porXY[1].x] = screenchar(check);
-      }
-      if (porvisible[p]) {
-        vector<vector<int> > portalmap;
-        int porangle = 180 - round((atan2(objs[portals[p]].d.y,objs[portals[p]].d.x)
-          - atan2(objs[portals[(p+1)%2]].d.y,objs[portals[(p+1)%2]].d.x)) * 180.0 / M_PI);
-        map_screen (player, objs[portals[p]].coord, objs[portals[(p+1)%2]].coord, angle + porangle, portalmap, r);
-        if (portalmap.size()) {
-          double theta = (angle * M_PI / 180) + atan2(objs[portals[p]].d.y, objs[portals[p]].d.x);
-          double m = 1.0 / tan(theta);
-          if (m == numeric_limits<float>::infinity()) m = 8165889364191922.00; // to avoid infinite slope
-          float mxb = m * (double)porXY[p].x - porXY[p].y;
-          int greater = 0;
-          if ((angle > 90) && (angle < 270)) {
-            if (mxb < (m * (double)((COLS/2) + objs[portals[p]].d.x) - (LINES / 2) - objs[portals[p]].d.y))
-              greater = 1;
-          } else {
-            if (mxb > (m * (double)((COLS/2) + objs[portals[p]].d.x) - (LINES / 2) - objs[portals[p]].d.y))
-              greater = 1;
+  XY sight = { objm.player->coord.x + aimobject.d.x, objm.player->coord.y + aimobject.d.y };
+  if (object_at (sight) == objm.NULLOBJ) {
+    screenc.x = (COLS/2)  + aimobject.d.x;
+    screenc.y = (LINES/2) + aimobject.d.y;
+    if (screenmap[screenc.y][screenc.x] == screenchar(NONE))
+      screenmap[screenc.y][screenc.x] = 250 | color_pair(aimobject.type) | A_ALTCHARSET;
+    else
+      screenmap[screenc.y][screenc.x] = (screenmap[screenc.y][screenc.x] & ~A_COLOR) | color_pair(aimobject.type);
+  }
+
+  if (objm.portals[0] == objm.NULLOBJ || objm.portals[1] == objm.NULLOBJ)
+    return;
+
+  // look into portals
+  for (int i = 0; i < 2; i++) {
+    objiter u = objm.portals[i];
+    objiter v = objm.portals[i^1];
+    XY us = { u->coord.x - upperleft.x, u->coord.y - upperleft.y };
+    if (us.x < 0 || us.x >= COLS || us.y < 0 || us.y >= LINES)
+      continue;
+
+    // fill portal u with any object in portal v
+    objiter check = hitsobj(v, v->coord.y, v->coord.x);
+    if (check != v)
+      screenmap[us.y][us.x] = screenchar(check->type);
+
+    XY ud = u->d;
+    int a = ((COLS/2) - us.x) * -ud.y + ((LINES/2) - us.y) * ud.x;
+    int b = ((COLS/2) - us.x) *  ud.x + ((LINES/2) - us.y) * ud.y;
+
+    while (b > 0 || ((COLS/2) == us.x && (LINES/2) == us.y)) {
+      int zmax, wmin, wmax, vzmax, vwmin, vwmax;
+      portal_space (us, ud, 1, zmax, wmin, wmax);
+      portal_space (v->coord, v->d, 0, vzmax, vwmin, vwmax);
+      for (int z = 1; z <= zmax; z++) {
+        int w1 = b ? (-2 + div_gt ((a - 2) * z, b)) : wmin;
+        int w2 = b ? ( 2 + div_lt ((a + 2) * z, b)) : wmax;
+        if (w1 < wmin) w1 = wmin;
+        if (w2 > wmax) w2 = wmax;
+        XY screenc = { us.x - z * ud.x + w1 * ud.y, us.y - z * ud.y - w1 * ud.x };
+        XY mapc = { v->coord.x + z * v->d.x - w1 * v->d.y, v->coord.y + z * v->d.y + w1 * v->d.x };
+        for (int w = w1; w <= w2; w++) {
+          if (z<=vzmax && w>=vwmin && w<=vwmax) {
+            objiter c_obj = object_at (mapc);
+            screenmap[screenc.y][screenc.x] = (c_obj == objm.NULLOBJ) ? screenchar(map[mapc.y][mapc.x]) : obj_screenchar(c_obj);
           }
-          for (screen.y = 0; screen.y < (signed)portalmap.size(); screen.y++)
-            for (screen.x = 0; screen.x < (signed)portalmap[0].size(); screen.x++) {
-              if (greater) {
-                if ((m * (double)screen.x) - screen.y <= mxb)
-                  portalmap[screen.y][screen.x] = MAXWall;
-              } else {
-                if ((m * (double)screen.x) - screen.y >= mxb)
-                  portalmap[screen.y][screen.x] = MAXWall;
-              }
-            }
-          // cut out edges of wedges with linear algebra!
-          double m1, m2, mxb1, mxb2, denom;
-
-          if ((objs[player].coord.x != objs[portals[p]].coord.x)
-            || (objs[player].coord.y != objs[portals[p]].coord.y)) {
-
-            denom = objs[player].coord.x - (objs[portals[p]].coord.x + 2 * abs(objs[portals[p]].d.y));
-            if (abs(denom) < 0.0001) m1 = 8165889364191922.00;
-            else m1 = (objs[player].coord.y - (objs[portals[p]].coord.y - 2 * abs(objs[portals[p]].d.x))) / denom;
-            denom = objs[player].coord.x - (objs[portals[p]].coord.x - 2 * abs(objs[portals[p]].d.y));
-            if (abs(denom) < 0.0001) m2 = 8165889364191922.00;
-            else m2 = (objs[player].coord.y - (objs[portals[p]].coord.y + 2 * abs(objs[portals[p]].d.x))) / denom;
-
-            if (abs(m1 - m2) < 0.0001) continue;
-
-            int greater1, greater2;
-            mxb1 = m1 * (double)(COLS / 2) - LINES / 2;
-            mxb2 = m2 * (double)(COLS / 2) - LINES / 2;
-
-            if (mxb1 > (m1 * porXY[p].x - porXY[p].y)) greater1 = 1;
-            else greater1 = 0;
-            if (mxb2 > (m2 * porXY[p].x - porXY[p].y)) greater2 = 1;
-            else greater2 = 0;
-
-            for (screen.y = 0; screen.y < (signed)portalmap.size(); screen.y++)
-              for (screen.x = 0; screen.x < (signed)portalmap[0].size(); screen.x++) {
-                if (greater1 && greater2) {
-                  if ((mxb1 <= m1 * (double)screen.x - screen.y)
-                    || (mxb2 <= m2 * (double)screen.x - screen.y))
-                    portalmap[screen.y][screen.x] = MAXWall;
-                }
-                if (greater1 && !greater2) {
-                  if ((mxb1 <= m1 * (double)screen.x - screen.y)
-                    || (mxb2 >= m2 * (double)screen.x - screen.y))
-                    portalmap[screen.y][screen.x] = MAXWall;
-                }
-                if (!greater1 && greater2) {
-                  if ((mxb1 >= m1 * (double)screen.x - screen.y)
-                    || (mxb2 <= m2 * (double)screen.x - screen.y))
-                    portalmap[screen.y][screen.x] = MAXWall;
-                }
-                if (!greater1 && !greater2) {
-                  if ((mxb1 >= m1 * (double)screen.x - screen.y)
-                    || (mxb2 >= m2 * (double)screen.x - screen.y))
-                    portalmap[screen.y][screen.x] = MAXWall;
-                }
-              }
-          }
-
-          for (screen.y = 0; screen.y < (signed)portalmap.size(); screen.y++)
-            for (screen.x = 0; screen.x < (signed)portalmap[0].size(); screen.x++) {
-              if (porvisible[0] && (screen.y == porXY[0].y) && (screen.x == porXY[0].x)) continue;
-              if (porvisible[1] && (screen.y == porXY[1].y) && (screen.x == porXY[1].x)) continue;
-              if (portalmap[screen.y][screen.x] == MAXWall) continue;
-              screenmap[screen.y][screen.x] = portalmap[screen.y][screen.x];
-              if (cheatview || animateportal) {
-                int edge = 0;
-                if ((cheatview == 1) || (animateportal == 2)) edge = 1;
-                if ((screen.y > 0) && (portalmap[screen.y - 1][screen.x] == MAXWall)) edge = 1;
-                if ((screen.y < LINES - 1) && (portalmap[screen.y + 1][screen.x] == MAXWall)) edge = 1;
-                if ((screen.x > 0) && (portalmap[screen.y][screen.x - 1] == MAXWall)) edge = 1;
-                if ((screen.x < COLS - 1) && (portalmap[screen.y][screen.x + 1] == MAXWall)) edge = 1;
-                if (edge) {
-                  if (screenmap[screen.y][screen.x] == screenchar(NONE))
-                    screenmap[screen.y][screen.x] = screenchar(NONSTICK) & 0x00ff | color_pair(PORTAL1 + p) | A_ALTCHARSET;
-                  else screenmap[screen.y][screen.x] = screenmap[screen.y][screen.x] & 0x00ff | color_pair(PORTAL1 + p) | A_ALTCHARSET;
-                }
-              }
-            }
-
-          for (c.y = 0; c.y < (signed)portalmap.size(); c.y++)  // clear the old.
-            portalmap[c.y].clear();
-          portalmap.clear();
+          else
+            screenmap[screenc.y][screenc.x] = screenchar(NONSTICK);
+          if (cheatview == 1 || animateportal == 2)
+            screenmap[screenc.y][screenc.x] = (screenmap[screenc.y][screenc.x] & ~A_COLOR) | color_pair(PORTAL1 + i);
+          screenc.x += ud.y;
+          screenc.y -= ud.x;
+          mapc.x -= v->d.y;
+          mapc.y += v->d.x;
         }
       }
+
+#define COLORIZE(w,z) { \
+  XY screenc = { us.x - (z) * ud.x + (w) * ud.y, us.y - (z) * ud.y - (w) * ud.x }; \
+  if (screenmap[screenc.y][screenc.x] == screenchar(NONE)) screenmap[screenc.y][screenc.x] = screenchar(NONSTICK); \
+  screenmap[screenc.y][screenc.x] = (screenmap[screenc.y][screenc.x] & ~A_COLOR) | color_pair(PORTAL1 + i); \
+}
+
+      if (cheatview == 2 || animateportal == 1) {
+        if (b) {
+          if (abs(2-a) <= b) {
+            for (int z = 1; z <= zmax; z++) {
+              int w = -2 + div_gt ((a - 2) * z, b);
+              if (w >= wmin && w <= wmax) COLORIZE(w,z);
+            }
+          }
+          else {
+            for (int w = wmin; w <= wmax; w++) {
+              int z = (a > 2) ? div_lt (b * (w + 2), a - 2) : div_gt (b * (w + 2), a - 2);
+              if (z >= 1 && z <= zmax) COLORIZE(w,z);
+            }
+          }
+          if (abs(2+a) <= b) {
+            for (int z = 1; z <= zmax; z++) {
+              int w = 2 + div_lt ((a + 2) * z, b);
+              if (w >= wmin && w <= wmax) COLORIZE(w,z);
+            }
+          }
+          else {
+            for (int w = wmin; w <= wmax; w++) {
+              int z = (a < -2) ? div_lt (b * (w - 2), a + 2) : div_gt (b * (w - 2), a + 2);
+              if (z >= 1 && z <= zmax) COLORIZE(w,z);
+            }
+          }
+          if (-1 >= wmin) COLORIZE(-1,0);
+          if ( 1 <= wmax) COLORIZE( 1,0);
+        }
+        else {
+          for (int w = wmin; w <= wmax; w++)
+            if (w) COLORIZE(w,0);
+        }
+      }
+
+      int z = (u->coord.x - v->coord.x) *  v->d.x + (u->coord.y - v->coord.y) * v->d.y;
+      int w = (u->coord.x - v->coord.x) * -v->d.y + (u->coord.y - v->coord.y) * v->d.x;
+      if (z > zmax || w < wmin || w > wmax)
+        break;
+      if ((b*(w+2)-(a-2)*z) <= 0 || (b*(w-2)-(a+2)*z) >= 0)
+        break;
+
+      us.x -= z*ud.x - w*ud.y;
+      us.y -= z*ud.y + w*ud.x;
+      if (check != v)
+        screenmap[us.y][us.x] = screenchar(check->type);
+
+      XY temp = { -ud.x * v->d.x - ud.y * v->d.y, 
+                   ud.x * v->d.y - ud.y * v->d.x };
+      ud.x = temp.x * u->d.x - temp.y * u->d.y;
+      ud.y = temp.x * u->d.y + temp.y * u->d.x;
+
+      a = ((COLS/2) - us.x) * -ud.y + ((LINES/2) - us.y) * ud.x;
+      b = ((COLS/2) - us.x) *  ud.x + ((LINES/2) - us.y) * ud.y;
     }
   }
 }
 
-void draw_screen_angle (int player, int angle) {
-  vector<vector<int> > screenmap;
-  XY screen;
-
-  fillscreen (' ');
-
-  map_screen (player, objs[player].coord, objs[player].coord, angle, screenmap, 0);
-  for (screen.y = 0; screen.y < (signed)screenmap.size(); screen.y++)
-    for (screen.x = 0; screen.x < (signed)screenmap[0].size(); screen.x++) {
-      move(screen.y, screen.x);
-      int mapchar = screenmap[screen.y][screen.x];
-      addch(mapchar);
+void draw_screen_angle (int angle, vector<vector<chtype> >& screenmap) {
+  if (angle) {
+    vector<chtype> blankline(COLS, screenchar(NONSTICK));
+    vector<vector<chtype> > angledmap(LINES, blankline);
+    double c = cos (angle * (M_PI / 180));
+    double s = sin (angle * (M_PI / 180));
+    int oy = LINES/2;
+    int ox = COLS/2;
+    for (int y = -oy; y < (LINES - oy); y++) {
+      for (int x = -ox; x < (COLS - ox); x++) {
+        int nx = qround (c*x - s*y) + ox;
+        int ny = qround (s*x + c*y) + oy;
+        if (nx >= 0 && nx < COLS && ny >= 0 && ny < LINES)
+          angledmap[y+oy][x+ox] = screenmap[ny][nx];
+      }
     }
-
-  // drawing aiming sight
-  XY sight;
-  sight.x = objs[player].coord.x + objs[0].d.x;
-  sight.y = objs[player].coord.y + objs[0].d.y;
-  if (!findobj(sight)) {
-    screen.x = (COLS / 2) + objs[0].d.x;
-    screen.y = (LINES / 2)+ objs[0].d.y;
-    move (screen.y, screen.x);
-    attrset(color_pair(objs[0].type));
-    if (screenmap[screen.y][screen.x] == screenchar(NONE))
-      addch (250 | A_ALTCHARSET);
-    else {
-      int targetblock = screenmap[screen.y][screen.x] & 0x00ff;
-      addch (targetblock | A_ALTCHARSET);
-    }
+    for (int y = 0; y < LINES; y++)
+      mvaddchnstr(y, 0, &angledmap[y][0], COLS);
   }
-  mvaddch (LINES / 2, COLS / 2, obj_screenchar(player));
+  else {
+    for (int y = 0; y < LINES; y++)
+      mvaddchnstr(y, 0, &screenmap[y][0], COLS);
+    scrollmessage();
+  }
+
   if (animateportal) animateportal--;
   attrset(color_pair(NONE));
-  if (statustick > ticks) mvprintw(LINES - 1, 0, "%s", statusmsg.c_str());
-  if (lvlname.size() && (ticks < 200)) {
+  if (statustick > ticks)
+    mvprintw(LINES - 1, 0, "%s", statusmsg.c_str());
+  if (lvlname.size() && (ticks < 200))
     mvprintw(LINES - 1, COLS - lvlname.size(), "%s", lvlname.c_str());
-  }
-  scrollmessage();
   refresh();
 }
 
-void draw_screen (int player) {
-  draw_screen_angle (player, 0);
+void draw_screen () {
+  vector<vector<chtype> > screenmap;
+  map_screen (screenmap);
+  draw_screen_angle (0, screenmap);
 }
 
-void draw_rotate (int player, int num) { // num is the number of 90 degree rotations necessary;
+void draw_rotate (int num) { // num is the number of 90 degree rotations necessary;
   int step = 3;
   if (num > 2 || ((num == 2) && (rand() % 2)))
     step = -3;
 
+  vector<vector<chtype> > screenmap;
+  map_screen (screenmap);
   for (int angle = step + 90 * (4 - num); (angle > 0) && (angle < 360); angle += step) {
-    draw_screen_angle (player, angle);
-    napms(10);
+    draw_screen_angle (angle, screenmap);
+    napms(5);
   }
 }
 
@@ -504,6 +525,7 @@ void graphics_init (int def, int fullscreen, int height, int width, string font)
 #else
   if (!def) {
     SDL_Init( SDL_INIT_EVERYTHING );
+    if (fullscreen) width = height = 0; // use current resolution
     pdc_screen = SDL_SetVideoMode(width, height, 32, SDL_SWSURFACE | (SDL_FULLSCREEN * fullscreen));
   }
 #endif
@@ -531,6 +553,6 @@ void graphics_init (int def, int fullscreen, int height, int width, string font)
 void graphics_deinit () {
   endwin ();
 #ifndef __NOSDL__
-  SDL_Quit();
+//  SDL_Quit();
 #endif
 }
