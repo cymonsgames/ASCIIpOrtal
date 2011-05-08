@@ -140,8 +140,8 @@ int load_ambience (string mappack, string filename) {
     name = basepath + "media\\" + filename;
 #else
     name = basepath + "media/" + filename;
-  }
 #endif
+  }
   else {
 #ifdef WIN32
     name = userpath + "maps\\" + mappack + "\\" + filename;
