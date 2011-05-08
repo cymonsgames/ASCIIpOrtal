@@ -25,8 +25,38 @@
 #ifndef AP_DRAW_H_INCLUDED
 #define AP_DRAW_H_INCLUDED
 
+#include <utility>
+#include <list>
+#include <vector>
 #include <curses.h>
 #include "ap_object.h"
+
+using namespace std;
+
+typedef list< pair<string, int> > pairlist;
+
+// Used to display both status messages, level name and scrolling messages
+class Pager {
+ private:
+  // <message to scroll, tick>
+  list< pair<string, int> > messages;
+  // minimum space between two messages
+  int scrolling_space;
+
+  string status;
+  int status_tick;
+  string levelname;
+ public:
+  Pager();
+  // Scrolling messages handling
+  void add_scrolling(string);
+  void scroll_messages();
+  // Status message handling
+  void set_status(string);
+  void set_levelname(string);
+  void print_status();
+  void clear();
+};
 
 int color_pair(int);
 
@@ -34,13 +64,9 @@ void fillscreen (int);
 
 int displaystats (statstype, int);
 
-void startscrollmessage (std::string);
-
 void statusmessage (std::string);
 
 void stopmessages ();
-
-void scrollmessage ();
 
 int screenchar(int);
 
@@ -52,7 +78,8 @@ void draw_rotate (int);
 
 void draw_screen ();
 
-void graphics_init (int, int, int, int, std::string);
+// fullscreen, height, width
+void graphics_init (bool, int, int);
 
 void graphics_deinit ();
 

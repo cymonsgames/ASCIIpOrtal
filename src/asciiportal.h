@@ -24,10 +24,25 @@
 
 #ifndef ASCIIPORTAL_H_INCLUDED
 #define ASCIIPORTAL_H_INCLUDED
+
+// This also gets defined by the Makefile at compile time
+#ifndef AP_VERSION
+#define AP_VERSION "1.3-alpha"
+#endif
+
+// Note that the Makefile handles this
+#ifndef __NOSDL__
 //#define __NOSDL__
+#endif
+#ifndef __NOSOUND__
 //#define __NOSOUND__
-//#define __dingoo__
+#endif
+#ifndef __DINGOO__
+//#define __DINGOO__
+#endif
+#ifndef __GP2X__
 //#define __GP2X__
+#endif
 
 unsigned long long int get_microseconds();
 

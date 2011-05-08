@@ -34,7 +34,7 @@
 using namespace std;
 #include "asciiportal.h"
 #ifndef __NOSDL__
-#include "sdl1/pdcsdl.h"
+#include "pdcsdl.h"
 #include "SDL/SDL.h"
 #endif
 #ifndef __NOSOUND__
@@ -127,7 +127,10 @@ static struct
 
 int processevent () { // Convert keys down to PDC key commands. Introduces priority if multiple keys are pressed.
 #ifdef __NOSDL__
-  return getch();
+  //TODO: fix the nasty delay with standard curses
+  int tmp = getch();
+  flushinput();
+  return tmp;
 #else
   int key = oldkey;
 
@@ -197,7 +200,7 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
 
         switch( event.key.keysym.sym ) {
         // handle specalized checking here that will override the default info:
-#ifdef __dingoo__
+#ifdef __DINGOO__
           case SDLK_UP: key = KEY_UP; break;
           case SDLK_DOWN: key = KEY_DOWN; break;
           case SDLK_LEFT: key = KEY_LEFT; break;
@@ -230,6 +233,7 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
     case 'Z':
     case '+':
     case '-':
+    //case 27: // ESC key
      oldkey = -1;
   }
   if (delay) oldkey = -1;
@@ -247,7 +251,9 @@ int getinput() {
 }
 
 void flushinput () {
+#ifndef __NOSDL__
   oldkey = -1;
+#endif
   flushinp();
 }
 
@@ -507,10 +513,16 @@ void restms(int mils) { // a sort of busy wait to catch keyboard input
 }
 
 int pollevent () {
+#ifdef __NOSDL__
+  return !(getch() == ERR);
+#else
   if (!hasevent) hasevent = SDL_PollEvent( &event );
-  return hasevent;
+ return hasevent;
+#endif
 }
 
 void pauserun (int d) {
+#ifndef __NOSDL__
   delay = d;
+#endif
 }

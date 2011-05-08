@@ -34,6 +34,10 @@
 using namespace std;
 #include "ap_sound.h"
 
+// from main.cpp
+extern string basepath;
+extern string userpath;
+
 const int num_music_files = 5;
 string music_files[num_music_files] = {
   "ascii.ogg",
@@ -79,24 +83,22 @@ Mix_Music* ambience;
 
 int sound_init () {
   string name;
+#ifdef WIN32
+  string mediapath = basepath + "media\\";
+#else
+  string mediapath = basepath + "media/";
+#endif
 
-  if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 1024 ) == -1 ) return false; //Initialize SDL_mixer
+  //Initialize SDL_mixer
+  if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 1024 ) == -1 ) return false;
 
   for (int c = 0; c < MAXSound; c++) {
-#ifdef WIN32
-    name = "media\\" + sound_files[c];
-#else
-    name = "media/" + sound_files[c];
-#endif
+    name = mediapath + sound_files[c];
     soundEffects[c] = Mix_LoadWAV(name.c_str());
     name.clear();
   }
 
-#ifdef WIN32
-  name = "media\\" + music_files[0];
-#else
-  name = "media/" + music_files[0];
-#endif
+  name = mediapath + music_files[0];
   ambience = Mix_LoadMUS(name.c_str ());
   name.clear();
   if (ambience == NULL) return 0;
@@ -111,9 +113,9 @@ int default_ambience (int selection) {
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
 #ifdef WIN32
-    name = "media\\" + music_files[selection];
+    name = basepath + "media\\" + music_files[selection];
 #else
-    name = "media/" + music_files[selection];
+    name = basepath + "media/" + music_files[selection];
 #endif
   ambience = Mix_LoadMUS(name.c_str ());
   if (ambience == NULL) return 0;
@@ -128,9 +130,13 @@ int load_ambience (string mappack, string filename) {
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
 #ifdef WIN32
-    name = mappack + "\\" + filename;
+  name = userpath + mappack + "\\" + filename;
 #else
-    name = mappack + "/" + filename;
+  name = userpath + mappack + "/" + filename;
+  // handles custom maps in user directory and default maps
+  ambience = Mix_LoadMUS(name.c_str ());
+  if (ambience == NULL)
+    name = basepath + mappack + "/" + filename;
 #endif
   ambience = Mix_LoadMUS(name.c_str ());
   if (ambience == NULL) {

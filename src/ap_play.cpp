@@ -65,6 +65,7 @@ extern int animateportal;
 // from draw.cpp
 extern const int CharData[MAXObjects][5];
 extern int cheatview;
+extern Pager game_pager;
 
 #include <sys/time.h>
 
@@ -87,7 +88,7 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
   map.clear();
   objm.objs.clear();
   lvlname.clear();
-  stopmessages ();
+  game_pager.clear();
 
   if (level > (signed)rawmaps.size()) {
     mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
@@ -132,13 +133,14 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
       if ((rawmaps[lvl][yy][7] >= '1') && (rawmaps[lvl][yy][7] <= '9')) {
         texttrigger[rawmaps[lvl][yy][7] - '1'] = rawmaps[lvl][yy].substr (9, (signed)rawmaps[lvl][yy].size() - 9);
       } else {
-        startscrollmessage(rawmaps[lvl][yy].substr (8, (signed)rawmaps[lvl][yy].size() - 8));
+        game_pager.add_scrolling(rawmaps[lvl][yy].substr (8, (signed)rawmaps[lvl][yy].size() - 8));
 #ifndef __NOSOUND__
         play_sound(VOICE + rand() % 10);
 #endif
       }
     } else if (rawmaps[lvl][yy].find("name") == 0) {
       lvlname = rawmaps[lvl][yy].substr (5, (signed)rawmaps[lvl][yy].size() - 5);
+      game_pager.set_levelname(lvlname);
     } else {
       vector<int> mapline(rawmaps_maxwidth[lvl] + 2, NONSTICK);
 
@@ -201,6 +203,7 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
     mvprintw (LINES / 2 , (COLS - 24) / 2,"Level contains no objects", lvl + 1);
     mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
     refresh ();
+    nodelay(stdscr,0);
     int input = getch();
     do {
 #ifdef PDCURSES
@@ -218,6 +221,7 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
     mvprintw(LINES / 2, (COLS - 50) / 2,"Level contains more or less than one player object");
     mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
     refresh ();
+    nodelay(stdscr,0);
     int input = getch();
     do {
 #ifdef PDCURSES
@@ -231,6 +235,34 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
     return 0;
   }
   return 1;
+}
+
+// handles in-game menu
+int pause_menu() {
+  int pause = display_pause_menu();
+  switch (pause) {
+  case 0 : case -1 : break; // Resume
+  case 1 : // Restart
+    objm.player->type = NONE;
+    objm.player = objm.NULLOBJ;
+    break;
+  case 2 : { // Select level
+    int newlvl = select_level (maxlevel, level);
+    if (newlvl == -1) // Back to the menu (ESC key or something similar)
+      pause_menu();
+    else if (newlvl != level) { // Change level
+      level = newlvl;
+      objm.player->type = NONE;
+      objm.player = objm.NULLOBJ;
+      ticks = 0;
+      levelstats.clear();
+      levelstats.numdeaths --; // Correct since death is the tool for this one.
+    }
+    break;
+  }
+  case 3 : help_menu (); break; // Help
+  default : return -1; break; // Quit
+  }
 }
 
 int hitswall(int yy, int xx) {
@@ -430,7 +462,7 @@ int will_hit (objiter c) {
     if (objtype == TEXTTRIGGER) {
       if (c->type == PLAYER) {
         if (texttrigger[c_obj->d.y].size()) {
-          startscrollmessage(texttrigger[c_obj->d.y]);
+          game_pager.add_scrolling(texttrigger[c_obj->d.y]);
 #ifndef __NOSOUND__
           play_sound(VOICE + rand() % 10);
 #endif
@@ -885,41 +917,17 @@ int move_player () {
     case 27 : // ASCII for escape
     case KEY_F(1) :
     case 'P' :
-    case 'p' : {
-      int pause = pause_menu();
-      switch (pause) {
-        case 0 : break; // Resume
-        case 1 :
-          objm.player->type = NONE;
-          objm.player = objm.NULLOBJ;
-          break; // Restart
-        case 2 : {
-          int newlvl = select_level (maxlevel, level); // Select Level
-          if (newlvl != level) {
-            level = newlvl;
-            objm.player->type = NONE;
-            objm.player = objm.NULLOBJ;
-            ticks = 0;
-            levelstats.clear();
-            levelstats.numdeaths --; // Correct since death is the tool for this one.
-          }
-          break;
-        }
-        case 3 : help_menu (); break;
-        default : return -1; break; // Quit
-      }
-    }
-    break;
+    case 'p' : if (pause_menu () == -1) return -1; break;
     case KEY_F(2) :
       cheatview = (cheatview + 1) % 3;
       switch (cheatview) {
-        case 0: statusmessage ("No Portal Edges view mode."); break;
-        case 1: statusmessage ("Portal Fill view mode"); break;
-        case 2: statusmessage ("Portal Edges view mode."); break;
+        case 0: game_pager.set_status("No Portal Edges view mode."); break;
+        case 1: game_pager.set_status("Portal Fill view mode"); break;
+        case 2: game_pager.set_status("Portal Edges view mode."); break;
       }
       break;
     case KEY_F(3) :
-      statusmessage ("Default speed restored");
+      game_pager.set_status("Default speed restored");
       gamespeed = defaultspeed;
       break;
     case '+' :
@@ -931,23 +939,29 @@ int move_player () {
       if (gamespeed >= maxspeed) gamespeed = maxspeed - 1;
       else if (gamespeed < 1) gamespeed = 1;
       else switch (gamespeed) {
-        case 1 : statusmessage ("Very slow speed"); break;
-        case 2 : statusmessage ("Slow speed"); break;
-        case 3 : statusmessage ("Normal speed"); break;
-        case 4 : statusmessage ("Fast speed"); break;
-        case 5 : statusmessage ("Very fast speed"); break;
+        case 1 : game_pager.set_status("Very slow speed"); break;
+        case 2 : game_pager.set_status("Slow speed"); break;
+        case 3 : game_pager.set_status("Normal speed"); break;
+        case 4 : game_pager.set_status("Fast speed"); break;
+        case 5 : game_pager.set_status("Very fast speed"); break;
       }
       break;
     case KEY_F(10) :
-      statusmessage ("Roguelike-ish speed mode");
+      game_pager.set_status("Roguelike-ish speed mode");
       gamespeed = 0;
       break;
 #ifndef __NOSOUND__
     case 'M' :
-    case 'm' : toggle_ambience (); break;
+    case 'm' : game_pager.set_status("Toggling music");
+    toggle_ambience (); break;
 #endif
+    case 'R' :
+    case 'r' :
+      objm.player->type = NONE;
+      objm.player = objm.NULLOBJ;
+      break;
 #ifdef PDCURSES
-    case KEY_RESIZE: resize_term(0,0); break;
+    case KEY_RESIZE : resize_term(0,0); break;
 #endif
     case 'd' :
     case 'D' :
@@ -1019,26 +1033,35 @@ int play (string mappack) {
 
   level = 0;
 
-  int play = 0;
+  int playing = 0;
   do {
     switch (main_menu (mappack)) {
       case 0: // Play
-        play = 1; break;
+        playing = 1; break;
       case 1: // Select Level
-        level = select_level (maxlevel, maxlevel); play = 1;
+        level = select_level (maxlevel, maxlevel);
+        if (level != -1)
+          playing = 1;
+        else
+	  level = 0;
         break;
       case 2: { // Change Map Set
-        string newmap = select_mapset ();
-        if (!loadmaps (newmap)) {
-          mvprintw (LINES / 2 + 3, (COLS - 16) / 2, "Invalid Map Pack"); refresh ();
-          restms (250);
-          loadmaps (mappack);
-        } else {
-          mvprintw (LINES / 2 + 3, (COLS - 15) / 2, "Map Pack Loaded"); refresh ();
-          restms (250);
-
-          mappack = newmap;
-        }
+        string newmappack = select_mappack ();
+	if (newmappack.size() != 0) {
+	  attrset(color_pair(HELPMENU));
+	  fillsquare(LINES / 2 - 3, (COLS - 26) / 2, 7, 26);
+	  if (!loadmaps (newmappack)) {
+	    mvprintw (LINES / 2, (COLS - 16) / 2, "Invalid Map Pack"); refresh ();
+	    restms (150);
+	    getch();
+	    loadmaps (mappack);
+	  } else {
+	    mvprintw (LINES / 2, (COLS - 15) / 2, "Map Pack Loaded!"); refresh ();
+	    restms (150);
+	    getch();
+	    mappack = newmappack;
+	  }
+	}
         break;
       }
       case 3: // Instructions
@@ -1048,7 +1071,7 @@ int play (string mappack) {
       default: // QUIT
         return -1;
     }
-  } while (!play);
+  } while (!playing);
 #ifndef __NOSOUND__
   default_ambience (0);
   start_ambience ();
@@ -1132,7 +1155,7 @@ int play (string mappack) {
       levelstats.numportals = 0;
       fillscreen(screenchar(XFIELD)); refresh();
       restms(100);
-      fillscreen(CharData[XFIELD][1] | color_pair(XFIELD) | A_ALTCHARSET); refresh();
+      fillscreen(CharData[XFIELD][1] | color_pair(XFIELD) | WA_ALTCHARSET); refresh();
       restms(150);
       while ((level < (signed)rawmaps.size()) && !setup_level(level, mappack)) level ++;
       flushinput();

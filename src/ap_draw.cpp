@@ -33,7 +33,7 @@ using namespace std;
 #include "asciiportal.h"
 #ifndef __NOSDL__
 #include "SDL/SDL.h"
-#include "sdl1/pdcsdl.h"
+#include "pdcsdl.h"
 #endif
 #include <curses.h>
 #ifndef __NOSOUND__
@@ -43,7 +43,8 @@ using namespace std;
 #include "ap_play.h"
 #include "ap_draw.h"
 
-extern const int CharData [MAXColors][5] = // File, Screen, Forground, background, A_BOLD
+#ifndef __NOSDL__
+extern const int CharData [MAXColors][5] = // File, Screen, Forground, background, WA_BOLD
 {{' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // NONE
  {'Q', 'E', COLOR_WHITE, COLOR_GREEN, 1}, // GOAL
  {'+', 254, COLOR_BLACK, COLOR_YELLOW, 0}, // LADDER
@@ -62,7 +63,7 @@ extern const int CharData [MAXColors][5] = // File, Screen, Forground, backgroun
  {'y', 9, COLOR_BLUE, COLOR_BLACK, 1}, // PORTAL1
  {'z', 9, COLOR_YELLOW, COLOR_BLACK, 1}, // PORTAL2
  {'A', 220, COLOR_BLACK, COLOR_RED, 1}, // SWITCH
- {0, 220 | A_PROTECT, COLOR_BLACK, COLOR_GREEN, 1}, // SWITCHON
+ {0, 220 | WA_PROTECT, COLOR_BLACK, COLOR_GREEN, 1}, // SWITCHON
  {'a', 30, COLOR_BLACK, COLOR_BLUE, 0}, // DOOR
  {0, 254, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR3,
  {0, 249, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR2
@@ -79,24 +80,131 @@ extern const int CharData [MAXColors][5] = // File, Screen, Forground, backgroun
  {0, 0, COLOR_YELLOW, COLOR_BLUE, 1}, // HELPMENU
  {0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
 };
+#else
+extern const int CharData [MAXColors][5] = // File, Screen, Forground, background, WA_BOLD
+{{' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // NONE
+ {'Q', 'E', COLOR_WHITE, COLOR_GREEN, 1}, // GOAL
+ {'+', '+', COLOR_BLACK, COLOR_YELLOW, 0}, // LADDER
+ {'#', ' ', COLOR_WHITE, COLOR_CYAN, 0}, // NORMAL
+ {'N', ' ', COLOR_BLACK, COLOR_WHITE, 1}, // NONSTICK
+ {'(', '(', COLOR_BLACK, COLOR_WHITE, 0}, // LTREAD
+ {')', ')', COLOR_BLACK, COLOR_WHITE, 0}, // RTREAD
+ {'$', 177, COLOR_BLACK, COLOR_WHITE, 0}, // FFIELD,
+ {'%', 177, COLOR_CYAN, COLOR_BLACK, 0}, // PFIELD
+ {'"', 177, COLOR_RED, COLOR_BLACK, 1}, // XFIELD
+ {'X', 'X', COLOR_RED, COLOR_BLACK, 0}, // SPIKE
+ {0, 0, COLOR_WHITE, COLOR_WHITE, 0}, // MAXWall,
+ {'=', '=', COLOR_BLUE, COLOR_BLACK, 1}, // DUPLICATOR,
+ {0, 'o', COLOR_BLUE, COLOR_BLACK, 1}, // SHOT1
+ {0, 'o', COLOR_YELLOW, COLOR_BLACK, 1}, // SHOT2
+ {'y', 'o', COLOR_BLUE, COLOR_BLACK, 1}, // PORTAL1
+ {'z', 'o', COLOR_YELLOW, COLOR_BLACK, 1}, // PORTAL2
+ {'A', 220, COLOR_BLACK, COLOR_RED, 1}, // SWITCH
+ {0, 220 | WA_PROTECT, COLOR_BLACK, COLOR_GREEN, 1}, // SWITCHON
+ {'a', 30, COLOR_BLACK, COLOR_BLUE, 0}, // DOOR
+ {0, 254, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR3,
+ {0, 249, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR2
+ {0, 250, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR1,
+ {'&', 'M', COLOR_RED, COLOR_CYAN, 0}, // BOX
+ {'O', 'o', COLOR_MAGENTA, COLOR_BLACK, 1}, // BOULDER
+ {'@', '@', COLOR_GREEN, COLOR_BLACK, 1}, // PLAYER
+ {'1', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // TEXTTRIGGER
+ {0, 15, COLOR_YELLOW, COLOR_BLACK, 0}, // FLASH
+ {0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MAXObj
+ {0, 0, COLOR_BLACK, COLOR_GREEN, 0}, // PAUSE
+ {0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MENUDIM
+ {0, 0, COLOR_YELLOW, COLOR_BLACK, 1}, // MENUSELECT
+ {0, 0, COLOR_YELLOW, COLOR_BLUE, 1}, // HELPMENU
+ {0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
+};
+#endif
 
 extern vector<vector<int> > map;
 extern ObjectManager objm;
 extern object aimobject;
 extern string lvlname;
 extern int ticks;
+Pager game_pager;
 
 int cheatview = 2;
 int animateportal = 0;
-string statusmsg;
-string scrolling;
-int statustick;
-int scrolltick;
+
+Pager::Pager() {
+  scrolling_space = 8;
+  status.clear();
+  messages.clear();
+  levelname.clear();
+  status_tick = 0;
+}
+
+void Pager::add_scrolling(string message) {
+  // We add a trailing space in case the screen isn't cleared between
+  // each scroll_messages()
+  pair <string, int> mess(message + " ", 0);
+
+  // shift the previous messages to let enough space for this one
+  int shift = 0;
+  for (pairlist::iterator i = messages.begin(); i != messages.end(); i++) {
+    int size = i->first.size(); // nasty unsigned int...
+
+    i->second += shift;
+    if (i->second - size < scrolling_space) {
+      shift = scrolling_space - i->second + size;
+      i->second += shift;
+    }
+  }
+  messages.push_front(mess);
+}
+
+void Pager::scroll_messages() {
+  for (pairlist::iterator i = messages.begin(); i != messages.end(); i++) {
+    int tick = i->second;
+    if (tick < COLS + i->first.size() - 2) {
+      // display message (i->first)
+      int start = COLS - tick;
+      int substart = 0;
+      int subend = i->first.size();
+
+      if (start < 0) substart = tick - COLS;
+      if (tick < i->first.size()) subend = tick;
+      if (subend > COLS) subend = COLS;
+      attrset(color_pair(NONE) | WA_BOLD);
+      mvprintw(0, (start < 0) ? 0 : start, "%s", i->first.substr(substart, subend).c_str());
+      i->second++;
+    }
+    else //delete element at position i and following
+      i = messages.erase(i, messages.end());
+  } // for
+} // scroll_messages
+
+void Pager::set_status(string status_msg) {
+  status = status_msg;
+  status_tick = ticks + 30;
+}
+
+void Pager::set_levelname(string lvlname) {
+  levelname = lvlname;
+}
+
+void Pager::print_status() {
+  attrset(color_pair(NONE));
+  if (status.size() && status_tick > ticks)
+    mvprintw(LINES - 1, 0, "%s", status.c_str());
+ 
+  if (levelname.size() && ticks < 200)
+    mvprintw(LINES - 1, COLS - levelname.size(), "%s", levelname.c_str());
+}
+
+void Pager::clear() {
+  messages.clear();
+  status.clear();
+  levelname.clear();
+}
 
 int color_pair(int objtype) {
   int fore = CharData[objtype][2];
   int back = CharData[objtype][3];
-  return (COLOR_PAIR ((8 * fore) + back) | (A_BOLD * CharData[objtype][4]));
+  return (COLOR_PAIR ((8 * fore) + back) | (WA_BOLD * CharData[objtype][4]));
 }
 
 int obj_color_pair (objiter obj) {
@@ -136,7 +244,7 @@ int obj_color_pair (objiter obj) {
       }
     }
   }
-  return (COLOR_PAIR ((8 * fore) + back) | (A_BOLD * b));
+  return (COLOR_PAIR ((8 * fore) + back) | (WA_BOLD * b));
 }
 
 void fillscreen (int ch) {
@@ -170,8 +278,8 @@ int displaystats (statstype stats, int level) {
 
   refresh ();
   napms (500);
-  while (!(getch() == ERR));
   nodelay(stdscr,0);
+  //while (!(getch() == ERR));
   switch (getch()) {
     case 'R' : case 'r':
       nodelay(stdscr,1);
@@ -180,37 +288,6 @@ int displaystats (statstype stats, int level) {
       nodelay(stdscr,1);
       return 1;
   }
-}
-
-void statusmessage (string msg) {
-  statustick = ticks + 30;
-  statusmsg = msg;
-}
-
-void startscrollmessage (string msg) {
-  scrolltick = 0;
-  scrolling = msg;
-}
-
-void stopmessages () {
-  scrolling.clear();
-  statusmsg.clear();
-}
-
-void scrollmessage () {
-
-  if (scrolling.size() && (scrolltick < COLS + (signed)scrolling.size())) {
-    int start = COLS - scrolltick;
-    int substart = 0;
-    int subend = scrolling.size();
-
-    if (start < 0) substart = scrolltick - COLS;
-    if (scrolltick < (signed)scrolling.size()) subend = scrolltick;
-    if (subend > COLS) subend = COLS;
-    attrset(color_pair(NONE) | A_BOLD);
-    mvprintw(0, (start < 0) ? 0 : start, "%s", scrolling.substr(substart, subend).c_str());
-  }
-  scrolltick ++;
 }
 
 inline objiter object_at (XY coord) {
@@ -239,7 +316,11 @@ inline objiter object_at (XY coord) {
 }
 
 int screenchar(int o) {
-  return (CharData[o][1] | color_pair(o) | A_ALTCHARSET);
+#ifndef __NOSDL__
+  return (CharData[o][1] | color_pair(o) | WA_ALTCHARSET);
+#else
+  return (CharData[o][1] | color_pair(o));
+#endif
 }
 
 int obj_screenchar(objiter obj) {
@@ -254,11 +335,19 @@ int obj_screenchar(objiter obj) {
       case 0: objtype = NONE; break;
     }
     if(objtype == DOOR && obj->d.y >= 6)
-      return (4 | obj_color_pair(obj) | A_ALTCHARSET);
+#ifndef __NOSDL__
+      return (4 | obj_color_pair(obj) | WA_ALTCHARSET);
+#else
+    return (4 | obj_color_pair(obj));
+#endif
   }
   if (objtype == SWITCHON && obj->d.y >= 6) objtype = SWITCH;
   else if (objtype == SWITCH && obj->d.y >= 6) objtype = SWITCHON;
-  return (CharData[objtype][1] | obj_color_pair(obj) | A_ALTCHARSET);
+#ifndef __NOSDL__
+  return (CharData[objtype][1] | obj_color_pair(obj) | WA_ALTCHARSET);
+#else
+  return (CharData[objtype][1] | obj_color_pair(obj));
+#endif
 }
 
 // Math library round() is slow for some reason, at least on my system.
@@ -346,7 +435,11 @@ void map_screen (vector<vector<chtype> >& screenmap) {
     screenc.x = (COLS/2)  + aimobject.d.x;
     screenc.y = (LINES/2) + aimobject.d.y;
     if (screenmap[screenc.y][screenc.x] == screenchar(NONE))
-      screenmap[screenc.y][screenc.x] = 250 | color_pair(aimobject.type) | A_ALTCHARSET;
+#ifndef __NOSDL__
+      screenmap[screenc.y][screenc.x] = 250 | color_pair(aimobject.type) | WA_ALTCHARSET;
+#else
+    screenmap[screenc.y][screenc.x] = 250 | color_pair(aimobject.type);
+#endif
     else
       screenmap[screenc.y][screenc.x] = (screenmap[screenc.y][screenc.x] & ~A_COLOR) | color_pair(aimobject.type);
   }
@@ -484,15 +577,11 @@ void draw_screen_angle (int angle, vector<vector<chtype> >& screenmap) {
   else {
     for (int y = 0; y < LINES; y++)
       mvaddchnstr(y, 0, &screenmap[y][0], COLS);
-    scrollmessage();
+    game_pager.scroll_messages();
   }
 
   if (animateportal) animateportal--;
-  attrset(color_pair(NONE));
-  if (statustick > ticks)
-    mvprintw(LINES - 1, 0, "%s", statusmsg.c_str());
-  if (lvlname.size() && (ticks < 200))
-    mvprintw(LINES - 1, COLS - lvlname.size(), "%s", lvlname.c_str());
+  game_pager.print_status();
   refresh();
 }
 
@@ -515,19 +604,17 @@ void draw_rotate (int num) { // num is the number of 90 degree rotations necessa
   }
 }
 
-void graphics_init (int def, int fullscreen, int height, int width, string font) {
+void graphics_init (bool fullscreen, int height, int width) {
 #ifndef __NOSDL__
 #ifdef __GP2X__
   pdc_screen = SDL_SetVideoMode(320, 200, 16, SDL_SWSURFACE | (SDL_FULLSCREEN * fullscreen));
 #else
-#ifdef __dingoo__
+#ifdef __DINGOO__
   pdc_screen = SDL_SetVideoMode(320, 200, 16, SDL_SWSURFACE | (SDL_FULLSCREEN * fullscreen));
 #else
-  if (!def) {
-    SDL_Init( SDL_INIT_EVERYTHING );
-    if (fullscreen) width = height = 0; // use current resolution
-    pdc_screen = SDL_SetVideoMode(width, height, 32, SDL_SWSURFACE | (SDL_FULLSCREEN * fullscreen));
-  }
+  SDL_Init( SDL_INIT_EVERYTHING );
+  if (fullscreen) width = height = 0; // use current resolution
+  pdc_screen = SDL_SetVideoMode(width, height, 32, SDL_SWSURFACE | (SDL_FULLSCREEN * fullscreen));
 #endif
 #endif
   SDL_JoystickOpen( 0 );
@@ -542,7 +629,7 @@ void graphics_init (int def, int fullscreen, int height, int width, string font)
   nodelay(stdscr,1);
   srand (time (NULL));
 #ifdef PDCURSES
-  PDC_set_title("Cymon's Games - ASCIIPortal " __DATE__);
+  PDC_set_title("Cymon's Games - ASCIIPortal " AP_VERSION);
 #endif
   start_color();
   for (int d = 0; d < COLORS; d++)

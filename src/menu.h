@@ -33,12 +33,12 @@ void help_menu ();
 
 int main_menu (std::string);
 
-int pause_menu ();
+int display_pause_menu ();
 
 int select_level (int, int);
 
 void roll_credits (std::string);
 
-std::string select_mapset ();
+std::string select_mappack ();
 
 #endif // MENU_H_INCLUDED
