@@ -30,6 +30,8 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <sys/stat.h>
+#include <sys/types.h>
 using namespace std;
 #include "asciiportal.h"
 #ifndef __NOSOUND__
@@ -44,9 +46,20 @@ vector<vector<string> > rawmaps;
 vector<unsigned int> rawmaps_maxwidth;
 extern int maxlevel;
 
+// gets the content of an environment variable
+string get_env_var( string const & key ) {
+  char * val;
+  val = getenv( key.c_str() );
+  string retval = "";
+  if (val != NULL) {
+    retval = val;
+  }
+  return retval;
+}
+
 int loadmaps (string mappack) {    // Looks for the mappack directory and loads
           // the files mappack001.txt, mappack002.txt etc and stores it in maps.
-  string line, name;
+  string line, name, basename, localdir;
   int level = 0;
 
   for (int c = 0; c < rawmaps.size(); c++) {
@@ -57,13 +70,48 @@ int loadmaps (string mappack) {    // Looks for the mappack directory and loads
   }
   rawmaps.clear();
 
+  // try to find a user-specific place to load the data from
+#ifdef WIN32
+  // not used atm, since Windows users seem to be happy with the crappy way
+  localdir = get_env_var("APPDATA");
+  if (localdir != "")
+    localdir = localdir + "\\asciiportal\\";
+#else
+  localdir = get_env_var("HOME");
+  if (localdir != "") {
+    localdir = localdir + "/.asciiportal/";
+    struct stat buffer;
+    if (stat(localdir.c_str(), &buffer) != 0) {
+      cout << "Home directory " << localdir << " not existing, creating it." << endl;
+      mkdir(localdir.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+      ofstream readme;
+      readme.open( (localdir + "readme").c_str() );
+      if (readme.is_open()) {
+        readme << "This is the user-specific data directory for asciiportal.\n\n"
+               << "It is used to store the current level for each mappack,\n"
+               << "under <mappack_name>/save.dat\n\n"
+               << "You might want to provide custom mappacks; just put your maps under\n"
+               << "a <mappack_name> subdirectory, and make sure your maps are named properly\n"
+               << "('001.txt', '002.txt', ...)\n\n"
+               << "Keep in mind that this directory is searched first; if you provide maps\n"
+               << "under a mappack name that already exists (e.g. 'maps/'), they'll get used\n"
+               << "instead of the official ones.\n"
+               << "Note that this can be used to extend the official mappacks: just start the\n"
+               << "number of your maps where the official maps number ends.\n";
+        readme.close();
+      }
+    }
+  }
+#endif
+
+
   maxlevel = 0;
   // load maxlevel
   string maxlevelfilename;
 #ifdef WIN32
-  maxlevelfilename = mappack + "\\save.dat"; // have to add conditional for linux
+  maxlevelfilename = mappack + "\\save.dat";
 #else
-  maxlevelfilename = mappack + "/save.dat"; // have to add conditional for linux
+  maxlevelfilename = localdir + mappack + "/save.dat";
 #endif
   ifstream maxlevelfile;
   maxlevelfile.open (maxlevelfilename.c_str());
@@ -71,7 +119,7 @@ int loadmaps (string mappack) {    // Looks for the mappack directory and loads
     maxlevelfile >> maxlevel;
     maxlevelfile.close();
   }
-
+    
   while (1) {
     level++;
     unsigned int maxwidth = 0;
@@ -80,9 +128,15 @@ int loadmaps (string mappack) {    // Looks for the mappack directory and loads
 #ifdef WIN32
     name = mappack + "\\" + num.str() + ".txt";
 #else
-    name = mappack + "/" + num.str() + ".txt";
+    basename = mappack + "/" + num.str() + ".txt";
+    // On Linux/MacOS, the user-specific directory is searched first for maps
+    name = localdir + basename;
 #endif
     ifstream mapfile(name.c_str());
+#ifndef WIN32
+    if (! mapfile.is_open())
+      mapfile.open(basename.c_str());
+#endif
     if (mapfile.is_open()) {
       vector<string> map;
       while (! mapfile.eof() ) {

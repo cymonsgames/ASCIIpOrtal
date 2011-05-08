@@ -30,6 +30,8 @@
 #include <vector>
 #include <ctime>
 #include <cmath>
+#include <sys/stat.h>
+#include <sys/types.h>
 using namespace std;
 #include "asciiportal.h"
 #ifndef __NOSDL__
@@ -1088,7 +1090,15 @@ int play (string mappack) {
 #ifdef WIN32
           maxlevelfilename = mappack + "\\save.dat";
 #else
-          maxlevelfilename = mappack + "/save.dat";
+          string localdir = get_env_var("HOME");
+          if (localdir != "")
+            localdir = localdir + "/.asciiportal/";
+          string mapdir = localdir + mappack;
+          struct stat buffer;
+          if (stat(mapdir.c_str(), &buffer) != 0)
+            // create the mappack directory under the user-specific directory
+            mkdir(mapdir.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+          maxlevelfilename = mapdir + "/save.dat";
 #endif
           ofstream maxlevelfile;
           maxlevelfile.open (maxlevelfilename.c_str());

@@ -64,4 +64,6 @@ class statstype {
 
 int loadmaps (std::string);
 
+std::string get_env_var(std::string const &);
+
 #endif // ASCIIPORTAL_H_INCLUDED
