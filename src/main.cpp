@@ -52,7 +52,7 @@ extern int maxlevel;
 string basepath;
 
 // base directory for save data and custom maps
-// if available, "~/.asciiportal/", else "" (current dir)
+// if available, "~/.asciiportal/", else "maps/"
 string userpath;
 
 // gets the content of an environment variable
@@ -84,7 +84,7 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
   maxlevel = 0;
   string maxlevelfilename;
 #ifdef WIN32
-  maxlevelfilename = mappack + "\\save.dat";
+  maxlevelfilename = "maps\\" + mappack + "\\save.dat";
 #else
   maxlevelfilename = userpath + mappack + "/save.dat";
 #endif
@@ -102,7 +102,7 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
     stringstream num;
     num << setw(3) << setfill( '0' ) << level;
 #ifdef WIN32
-    name = mappack + "\\" + num.str() + ".txt";
+    name = "maps\\" + mappack + "\\" + num.str() + ".txt";
 #else
     // On Linux/MacOS, the user-specific directory is searched first for custom maps
     name = userpath + mappack + "/" + num.str() + ".txt";
@@ -113,7 +113,7 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
 #ifndef WIN32
     // on unix, if read fails in user directory, fall back to basepath
     if (! mapfile.is_open()) {
-      name = basepath + mappack + "/" + num.str() + ".txt";
+      name = basepath + "maps/" + mappack + "/" + num.str() + ".txt";
       mapfile.open(name.c_str());
     }
 #endif
@@ -134,7 +134,7 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
 }
 
 int main(int args, char* argv[]) {
-  string mappack="maps";
+  string mappack="default";
   bool fullscreen = false;
   string resolution;
   istringstream res_buffer;
@@ -160,7 +160,7 @@ int main(int args, char* argv[]) {
         default :
           cout << "ASCIIpOrtal Command Line Parameters:\n\n"
           << " -?                  This help menu\n"
-          << " -m [mappackname]    Load a map pack (default: 'maps')\n"
+          << " -m [mappackname]    Load a map pack (default: 'default')\n"
 #ifndef __NOSDL__
           << " -r <width>x<height> Choose the screen resolution (eg. 600x480, the default)\n"
           << " -f                  Fullscreen mode\n"
@@ -194,7 +194,7 @@ int main(int args, char* argv[]) {
                << "a <mappack_name> subdirectory, and make sure your maps are named properly\n"
                << "('001.txt', '002.txt', ...)\n\n"
                << "Keep in mind that this directory is searched first; if you provide maps\n"
-               << "under a mappack name that already exists (e.g. 'maps/'), they'll get used\n"
+               << "under a mappack name that already exists (e.g. 'default/'), they'll get used\n"
                << "instead of the official ones.\n"
                << "Note that this can be used to extend the official mappacks: just start the\n"
                << "number of your maps where the official maps number ends.\n";
@@ -202,20 +202,22 @@ int main(int args, char* argv[]) {
       }
     }
   }
+  else // There's no home directory, fall back to current dir
+    userpath = "maps/";
 
 #endif
 
 
   if (!loadmaps (mappack)) {
     cerr << "Error - The mappack '" << mappack << "' does not exist.\n\n"
-	 << "You must place all level files in a directory named '" << mappack << "/'.\n"
+	 << "You must place all level files in a sub-directory of 'maps/' named '" << mappack << "/'.\n"
 #ifndef WIN32
 	 << "On unix systems, you may provide custom map packs in '" << userpath << "'.\n"
 #endif
-	 << "The default mappack is in the '" << basepath << "maps/' directory.\n\n";
+	 << "Bundled official map packs are in the '" << basepath << "maps/' directory.\n\n";
 
-    if (mappack != "maps") {
-      mappack = "maps";
+    if (mappack != "default") {
+      mappack = "default";
       if (!loadmaps (mappack)) {
         cerr << "Error - No map files found in default location.\n"
 	     << "Double check your installation!\n\n"
@@ -236,5 +238,5 @@ int main(int args, char* argv[]) {
 
   graphics_deinit();
   cout << "Thank you for playing ASCIIpOrtal\n";
-  exit(0);
+  _exit(0);
 }

@@ -245,7 +245,7 @@ int main_menu (string mappack) {
   load_ambience ("media", "menumusic.ogg");
 #endif
 #ifdef WIN32
-  name = mappack + "\\inscreen.txt";
+  name = "maps\\" + mappack + "\\inscreen.txt";
 #else
   name = userpath + mappack + "/inscreen.txt";
 #endif
@@ -254,7 +254,7 @@ int main_menu (string mappack) {
 
 #ifndef WIN32
   if (!mapfile.is_open()) {
-    name = basepath + mappack + "/inscreen.txt";
+    name = basepath + "maps/" + mappack + "/inscreen.txt";
     mapfile.open(name.c_str());
   }
 #endif
@@ -276,7 +276,7 @@ int main_menu (string mappack) {
     mapfile.close();
   }
   else { // fall back to default inscreen
-    return main_menu("maps");
+    return main_menu("default");
   }
 
   XY s, d, upperleft;
@@ -309,10 +309,13 @@ int main_menu (string mappack) {
 	addch(chartoscreen(inscreen[s.y][s.x]));
       }
   attrset(color_pair(NONE) | WA_BOLD);
-  mvprintw (LINES - 2, COLS - 25, "v%s (%s)", AP_VERSION, __DATE__);
+  mvprintw (LINES - 2, COLS - 28, "v%s (%s)", AP_VERSION, __DATE__);
+
+  pager.set_status(mappack);
 
   do { 
     pager.scroll_messages();
+    pager.print_status();
     refresh ();
     restms (100);
     upperleft.x += d.x;
@@ -553,7 +556,7 @@ string select_mappack () {
   mappacks = get_avail_mappacks(basepath);
 #else
   vector<string> mappacks_user = get_avail_mappacks(userpath);
-  mappacks = get_avail_mappacks(basepath);
+  mappacks = get_avail_mappacks(basepath + "maps/");
   mappacks.insert(mappacks.end(), mappacks_user.begin(), mappacks_user.end());
 #endif
 

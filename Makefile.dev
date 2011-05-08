@@ -1,0 +1,18 @@
+include Makefile.common
+
+CXX = g++
+
+CXXFLAGS = -O2 -I /usr/include/xcurses `sdl-config --cflags` -U__NOSDL__ -U__NOSOUND__ -U__DINGOO__ -U__GP2X__ -DAP_VERSION=\"$(AP_VERSION)-dev\"
+
+LINKFLAGS = `sdl-config --libs` -L/usr/lib -l SDL_mixer -l pdcurses 
+
+%.o: src/%.cpp
+	$(CXX) -c $(CXXFLAGS) $<
+
+dev: asciiportal-dev
+
+asciiportal-dev: $(OBJECTS)
+	$(CXX) $^ $(LINKFLAGS) -o $@
+
+clean:
+	rm asciiportal-dev

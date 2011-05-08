@@ -1111,11 +1111,13 @@ int play (string mappack) {
           // save maxlevel
           string maxlevelfilename;
 #ifdef WIN32
-          maxlevelfilename = mappack + "\\save.dat";
+          maxlevelfilename = "maps\\" + mappack + "\\save.dat";
 #else
           string localdir = get_env_var("HOME");
           if (localdir != "")
             localdir = localdir + "/.asciiportal/";
+	  else
+	    localdir = "maps/";
           string mapdir = localdir + mappack;
           struct stat buffer;
           if (stat(mapdir.c_str(), &buffer) != 0)

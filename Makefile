@@ -23,7 +23,7 @@ dist:
 
 # Development target: doesn't clean anything
 dev:
-	$(MAKE) -f Makefile.default $@
+	$(MAKE) -f Makefile.dev $@
 
 # Package the source
 source:
@@ -38,6 +38,7 @@ all:
 clean:
 	rm -f *.o
 	$(MAKE) -f Makefile.default clean
+	$(MAKE) -f Makefile.dev clean
 
 execlean:
 	$(MAKE) -f Makefile.default $@
