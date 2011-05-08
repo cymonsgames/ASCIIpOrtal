@@ -102,6 +102,8 @@ int main(int args, char* argv[]) {
   string mappack="maps";
   int graphicsdefault = 1;
   int fullscreen = 0;
+  string resolution;
+  istringstream res_buffer;
   int height=480;
   int width=600;
   string font="";
@@ -114,25 +116,26 @@ int main(int args, char* argv[]) {
         case 'w' : graphicsdefault = 0; fullscreen = 0; break;
         case 'r' :
           c++;
-          switch (argv[c][0]) {
-            case '6' : graphicsdefault = 0; width = 640; height = 480; break;
-            case '8' : graphicsdefault = 0; width = 800; height = 600; break;
-            case '1' : graphicsdefault = 0; width = 1024; height = 768; break;
-          }
+          graphicsdefault = 0;
+          // we need to parse the resolution, eg "1024x768"
+          resolution = argv[c];
+          res_buffer.str(resolution.substr(0, resolution.find('x')));
+          res_buffer >> width;
+	  res_buffer.clear();
+          res_buffer.str(resolution.substr(resolution.find('x')+1));
+          res_buffer >> height;
           break;
-        case 'd' : graphicsdefault = 1;
+        case 'd' : graphicsdefault = 1; break;
         case 'v' : font = argv[++c]; break;
         default :
           cout << "ASCIIpOrtal Command Line Parameters:\n\n"
-          << " -?               This help menu\n"
-          << " -m [mappackname] load a map pack\n"
+          << " -?                  This help menu\n"
+          << " -m [mappackname]    Load a map pack (default: 'maps')\n"
 #ifndef __NOSDL__
-          << " -d               80x24 character text graphics window (overrides all other options)\n"
-          << " -r 640x480       Choose 640x480 screen resolution\n"
-          << " -r 800x600       Choose 800x600 screen resolution\n"
-          << " -r 1024x768      Choose 1024x768 screen resolution\n"
-          << " -f               Fullscreen\n"
-          << " -w               Windowed mode\n"
+          << " -d                  80x24 character text graphics window (overrides all other options)\n"
+          << " -r <width>x<height> Choose the screen resolution (eg. 600x480, the default)\n"
+          << " -f                  Fullscreen mode\n"
+          << " -w                  Windowed mode (default)\n"
 #endif
           ;
           exit (0); break;
