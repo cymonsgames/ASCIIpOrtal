@@ -1,0 +1,143 @@
+# MinGW32 cross-compilation of ASCIIpOrtal for windows, on a Linux or Unix host.
+# Written by zorun <zerstorer at free dot fr>
+# This works on Archlinux, feel free to adapt for other systems.
+# Requires mingw32-gcc, mingw32-pdcurses compiled with sdl support, pdcurses (for xcurses-config), mingw32-sdl, mingw32-sdl_mixer, zip, wget, find
+
+include Makefile.common
+
+# Name of the port, this must match the Makefile's extension
+PORT = mingw32
+
+SDL_CONFIG = /usr/i486-mingw32/bin/sdl-config
+
+# Location of libpdcurses.a (cross-compiled for win32, with SDL support)
+PDCURSES_LIBDIR = /usr/i486-mingw32/lib
+
+
+### Customisable variables ###
+
+# Custom base name for release (tarball). Keeping '-$(PORT)' is generally a good option,
+# but feel free to change it.
+DISTNAME := $(DISTNAME)-win32
+
+# The -DSDL_main=main part is a *big* hack! I spent some hours stuck with a nasty bug
+# ("undefined reference to `_SDL_main'" in libSDLmain.a) and came up with this;
+# dunno why it works though.
+CXXFLAGS := $(CXXFLAGS) `xcurses-config --cflags` `$(SDL_CONFIG) --cflags` -DSDL_main=main -U__NOSDL__ -U__NOSOUND__ -U__DINGOO__ -U__GP2X__
+
+# We statically link the std lib, since it won't be available on the Windows target
+LINKFLAGS := $(LINKFLAGS) -L$(PDCURSES_LIBDIR) -lpdcurses `$(SDL_CONFIG) --libs` -lSDL_mixer -static-libgcc -static-libstdc++
+
+# Additional files to be included in release tarball.
+FILES_INCLUDE_DIST := $(FILES_INCLUDE_DIST) $(SDL_DLL) $(SDL_MIXER_DLL) README-SDL.txt README-SDL_mixer.txt
+
+
+### Required variables ###
+
+# C++ compiler. You might want to change this for cross-compilation.
+CXX = i486-mingw32-g++
+
+# Tarball name for release. You should not edit anything excepted the extension,
+# see DISTNAME above.
+TARBALL = $(DISTNAME).zip
+
+# Final executable name. Same thing, you should only edit the extension.
+EXE_NAME = $(ASCIIPORTAL).exe
+
+
+### Custom variables ###
+
+# Used to download the required dll
+SDL_VER = 1.2.14
+SDL = SDL-$(SDL_VER)-win32.zip
+SDL_MIXER_VER = 1.2.11
+SDL_MIXER = SDL_mixer-$(SDL_MIXER_VER)-win32.zip
+
+SDL_DLL = SDL.dll 
+SDL_MIXER_DLL = SDL_mixer.dll libogg-0.dll libvorbis-0.dll libvorbisfile-3.dll mikmod.dll smpeg.dll
+
+
+
+### Required targets ###
+
+# Dummy target if called directly
+wrong-way:
+	@echo
+	@echo "[*] This Makefile is not intended to be run directly."
+	@echo "[*] Instead, call the main Makefile with the proper target!"
+	@echo "[*] In most cases, a simple 'make' should work though."
+
+# Targets called by the main Makefile:
+$(PORT):
+	$(MAKE) -f Makefile.$(PORT) clean execlean
+	$(MAKE) -f Makefile.$(PORT) $(EXE_NAME)
+	$(MAKE) -f Makefile.$(PORT) clean
+
+dist:
+	$(MAKE) -f Makefile.$(PORT) clean execlean distclean saveclean
+	$(MAKE) -f Makefile.$(PORT) $(TARBALL)
+	$(MAKE) -f Makefile.$(PORT) clean execlean
+
+all:
+	$(MAKE) -f Makefile.$(PORT) dist
+
+# This is supposed to work out-of-the-box
+%.o: src/%.cpp
+	$(CXX) -c $(CXXFLAGS) $<
+
+# Replace by OBJECTS_NOSOUND if needed
+$(EXE_NAME): $(OBJECTS)
+	$(CXX) $^ $(LINKFLAGS) -o $@
+	@echo
+	@echo "[*] $(EXE_NAME) successfully built."
+
+# We must include SDL DLLs; we could have linked everything statically, but that would
+# require actually cross-compiling every one of them. It is a lot simpler to bundle
+# upstream DLLs.
+$(TARBALL): $(EXE_NAME) $(SDL_DLL) $(SDL_MIXER_DLL)
+	mkdir $(DISTNAME)
+	cp -r $(FILES_INCLUDE_DIST) $(DISTNAME)
+	zip -r $@ $(DISTNAME) # zip is bad, but anyway...
+#	tar czf $@ $(DISTNAME) # tar.gz
+#	tar cjf $@ $(DISTNAME) # tar.bz2
+#	tar cJf $@ $(DISTNAME) # tar.xz
+	rm -rf $(DISTNAME)
+	# This is only to test if the tarball was really generated
+	ls $(TARBALL)
+	@echo
+	@echo "[*] $(TARBALL) successfully generated."
+
+# This is supposed to clean anything you've added/compiled, excepted the
+# main executable
+clean:
+	# This does some basic cleaning, see 'Makefile'
+	$(MAKE) clean
+	rm -f $(SDL_DLL) $(SDL_MIXER_DLL) README-SDL.txt README-SDL_mixer.txt
+
+# Clean the generated executable
+execlean:
+	rm -f $(EXE_NAME)
+
+# Clean the generated tarball
+distclean:
+	rm -f $(TARBALL)
+
+
+### Custom targets ###
+
+$(SDL_DLL):
+	rm -rf sdltmp
+	mkdir sdltmp
+	cd sdltmp && wget http://www.libsdl.org/release/$(SDL) && unzip -o $(SDL)
+	rm sdltmp/$(SDL)
+	mv sdltmp/* .
+	rm -rf sdltmp
+
+SDL_mixer.dll:
+	rm -rf sdlmixertmp
+	mkdir sdlmixertmp
+	cd sdlmixertmp && wget http://www.libsdl.org/projects/SDL_mixer/release/$(SDL_MIXER) && unzip -o $(SDL_MIXER)
+	rm sdlmixertmp/$(SDL_MIXER)
+	mv sdlmixertmp/README.txt sdlmixertmp/README-SDL_mixer.txt
+	mv sdlmixertmp/* .
+	rm -rf sdlmixertmp

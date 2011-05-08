@@ -1,0 +1,56 @@
+                                README
+                                ======
+
+Author:  zorun <zerstorer at free dot fr>
+Date: 2011-05-03 02:37:19 CEST
+
+
+Table of Contents
+=================
+1 What is this? 
+2 ASCIIpOrtal 
+3 ASCIIpOrtal-mod 
+4 Cross-compilation of ASCIIpOrtal 
+5 I don't want to compile ASCIIpOrtal, are there builds somewhere? 
+
+
+1 What is this? 
+~~~~~~~~~~~~~~~~
+The 'Makefile' provided allows to cross-compile ASCIIpOrtal for windows on a Linux/Unix host, using mingw32. No need for an IDE, no need for windows: this is great, ain't it?
+Please note that you will need some libraries to do this, see the Makefile for informations.
+
+The patches are included for commodity only, see 3.
+
+2 ASCIIpOrtal 
+~~~~~~~~~~~~~~
+In case you don't know ASCIIpOrtal already, it is a great cross-platform and text-mode game, based on the well-known Portal.
+The author is Joe Larson, thanks to him!
+See [http://cymonsgames.com/asciiportal]
+
+3 ASCIIpOrtal-mod 
+~~~~~~~~~~~~~~~~~~
+ivanq has contributed a huge patch to the game, making it even funnier: the most visible new feature is recursive drawing of portals.
+Other changes include a better representation of objects (thus making the game more efficient/less CPU-eating), some bugfixes (especially in the menu).
+See [http://cymonsgames.com/forum/index.php?topic=7.msg2443#msg2443]
+
+I wrote some patches myself, mostly Linux-related bugfixes.
+
+All these patches are included in this tarball for commodity; this should be temporary, as I guess Joe will include them in the main code after some testing.
+
+4 Cross-compilation of ASCIIpOrtal 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+First, unzip the source of ASCIIpOrtal (version 1.2c) in the same directory as the Makefile and the patches.
+
+Then, make sure you have every required library (depending on your system, you might have a tough time doing this).
+Additionally, the mingw32 cross-compiler and paths might be different on your system (the Makefile was written for Archlinux): feel free to adapt it.
+
+You should then be able to cross-compile by running 'make'. It will first patch the source files, then try to compile them. You might want to use multiple threads with the '-j' option.
+Upon success, an "ASCIIpOrtal.exe" binary should appear.
+
+Running 'make dist' should then download the needed SDL dll and build a zipfile with everything that is needed to run the game on windows.
+
+5 I don't want to compile ASCIIpOrtal, are there builds somewhere? 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I'll try to keep up-to-date windows builds here:
+[http://zorun.tonbnc.fr/asciiportal/]
+There might also be linux builds one day.
