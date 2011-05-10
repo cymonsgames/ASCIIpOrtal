@@ -1,6 +1,8 @@
 TODO list (but others might fix or implement it):
  - check for bugs related to the structure change (moving everything in maps/) -zorun
 
+ - level 3 of n_a_portal: as the end of the file does not contain a "new line" caracter, it makes libc crash heavily while parsing in ap_play.cpp... wtf?? see also levels from raisonbran.
+
  - cleanup the code dedicated to path handling, maybe create something like 'ap_file.cpp'?
    seeing a lot of #ifdef just to change a / into \\ really bugs me... there must be an higher-level solution to do this.
    also clean up the userpath/basepath stuff, a global declaration wasn't the best solution -zorun

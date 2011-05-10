@@ -49,6 +49,7 @@ extern int maxlevel;
 
 // base directory for media, maps, ...
 // if available, use "/usr/share/asciiportal/", else "" (current dir)
+// TODO: get to use the file manager (ap_filemgr.cpp)
 string basepath;
 
 // base directory for save data and custom maps
@@ -56,6 +57,7 @@ string basepath;
 string userpath;
 
 // gets the content of an environment variable
+// TODO: move it to ap_filemgr
 string get_env_var( string const & key ) {
   char * val;
   val = getenv( key.c_str() );
@@ -64,6 +66,13 @@ string get_env_var( string const & key ) {
     retval = val;
   }
   return retval;
+}
+
+// easy debug
+void debug(string message) {
+#ifdef DEBUG_ME
+  cerr << message << endl;
+#endif
 }
 
 int loadmaps (string mappack) { // Looks for the mappack directory and loads

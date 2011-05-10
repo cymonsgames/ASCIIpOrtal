@@ -90,7 +90,7 @@ int sound_init () {
   string mediapath = basepath + "media/";
 #endif
 
-  cerr << mediapath << endl;
+  debug("sound_init: mediapath=" + mediapath);
 
   //Initialize SDL_mixer
   if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 1024 ) == -1 ) return false;
@@ -121,7 +121,7 @@ int default_ambience (int selection) {
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
   name = mediapath + music_files[selection];
-  cerr << "Loading default ambience file " << name << endl;
+  debug("Loading default ambience file " + name);
   ambience = Mix_LoadMUS(name.c_str ());
   if (ambience == NULL) return 0;
   current_music = music_files[selection];
@@ -148,13 +148,13 @@ int load_ambience (string mappack, string filename) {
 #else
     name = userpath + mappack + "/" + filename;
     // handles both custom maps in user directory and default maps
-    cerr << "[1] Loading ambience file " << name << endl;
+    debug("[1] Loading ambience file " + name);
     ambience = Mix_LoadMUS(name.c_str ());
     if (ambience == NULL)
       name = basepath + "maps/" + mappack + "/" + filename;
 #endif
   }
-  cerr << "[2] Loading ambience file " << name << endl;
+  debug("[2] Loading ambience file " + name);
   ambience = Mix_LoadMUS(name.c_str ());
   if (ambience == NULL) {
     default_ambience(0);

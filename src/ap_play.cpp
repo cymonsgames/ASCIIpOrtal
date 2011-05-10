@@ -121,11 +121,16 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
 #ifndef __NOSOUND__
     if (rawmaps[lvl][yy].find("music") == 0) {
       if (rawmaps[lvl][yy].find("default") == 6) {
+	debug("parsing: default music found");
         if ((rawmaps[lvl][yy][13] >= '1') && (rawmaps[lvl][yy][13] <= '9'))
           default_ambience(rawmaps[lvl][yy][13] - '1' + 1);
         else default_ambience(0);
       }
-      else load_ambience(mappack, rawmaps[lvl][yy].substr (6, (signed)rawmaps[lvl][yy].size() - 6));
+      else {
+	string musicfile = rawmaps[lvl][yy].substr (6, (signed)rawmaps[lvl][yy].size() - 6);
+	debug("parsing: custom music file: " + musicfile);
+	load_ambience(mappack, musicfile);
+      }
       start_ambience();
     } else
 #endif
@@ -140,6 +145,7 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
       }
     } else if (rawmaps[lvl][yy].find("name") == 0) {
       lvlname = rawmaps[lvl][yy].substr (5, (signed)rawmaps[lvl][yy].size() - 5);
+      debug("parsing: level name found: " + lvlname);
       game_pager.set_levelname(lvlname);
     } else {
       vector<int> mapline(rawmaps_maxwidth[lvl] + 2, NONSTICK);
@@ -195,6 +201,8 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
     }
   }
   map.push_back(blankline);
+
+  debug("Parsing map '" + mappack + "' done.");
 
   objm.resetmap(map[0].size(), map.size());
 

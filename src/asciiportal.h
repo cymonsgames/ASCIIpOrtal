@@ -81,4 +81,6 @@ int loadmaps (std::string);
 
 std::string get_env_var(std::string const &);
 
+void debug(std::string);
+
 #endif // ASCIIPORTAL_H_INCLUDED
