@@ -1,12 +1,10 @@
 TODO list:
  - check for bugs related to the structure change (moving everything in maps/) -zorun
 
- - *very* annoying crash when loading (parsing, in ap_play) some maps... libc itself crashes (wtf??), and it seems related to the absence of an 'end-of-file' caracter at the end of the map file. See raisonbran648/6 (but map 5 crashed even after adding an end-of-line caracter... weird) or n_a_portal/{3,5}
- 
  - 'make all' : the -j option gets discarded sometimes in the way (yeah, I own a quad core server and I want compilation to be fast :) ) -zorun
 
  - Have level files loaded as-needed instead of pre-loaded all at once. No need to tie up all that memory (albeit just a little) for levels that may not be played this session. -Joe
 
  - Get to code and use the new file manager, see src/ap_filemgr.h -zorun
 
- - Create a "mappack" structure that hold everything related to it : name, maxlevel, rawmaps, Pager, ObjectManager... would be cleaner. -zorun
+ - Create a "mappack" structure that hold everything related to it : name, maxlevel, rawmaps, Pager, ObjectManager... would be cleaner than the current bunch of global variables. -zorun

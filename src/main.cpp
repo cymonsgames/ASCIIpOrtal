@@ -88,6 +88,7 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
     rawmaps[c].clear();
   }
   rawmaps.clear();
+  rawmaps_maxwidth.clear();
   
   // load maxlevel for the current mappack
 #ifndef GODMODE
