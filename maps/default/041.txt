@@ -1,4 +1,4 @@
-music:yorkiimusic.mp3
+music:yorkiimusic.ogg
 name:Tower of Metroidvania
 message1:Don't be hasty.
 message2:Prepare to return here frequently.

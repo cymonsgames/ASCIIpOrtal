@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,9 @@
 #ifndef ASCIIPORTAL_H_INCLUDED
 #define ASCIIPORTAL_H_INCLUDED
 
-// This also gets defined by the Makefile at compile time
+// This gets defined by the Makefile at compile time
 #ifndef AP_VERSION
-#define AP_VERSION "1.3-alpha"
+#define AP_VERSION "1.3"
 #endif
 
 // Note that the Makefile handles this

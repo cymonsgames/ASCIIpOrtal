@@ -1,4 +1,4 @@
-music:ascii_threat2.mp3
+music:ascii_threat2.ogg
 message:This all seems familiar.
 NNNNNN#NNNNN
 NNNNNN   a&N

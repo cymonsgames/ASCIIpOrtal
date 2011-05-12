@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,10 +34,10 @@
 #include "SDL/SDL_mixer.h"
 using namespace std;
 #include "ap_sound.h"
+#include "ap_filemgr.h"
 
 // from main.cpp
-extern string basepath;
-extern string userpath;
+extern FileManager filemgr;
 
 const int num_music_files = 5;
 string music_files[num_music_files] = {
@@ -83,79 +83,53 @@ Mix_Chunk* soundEffects[MAXSound];
 Mix_Music* ambience;
 
 int sound_init () {
-  string name;
-#ifdef WIN32
-  string mediapath = basepath + "media\\";
-#else
-  string mediapath = basepath + "media/";
-#endif
-
-  debug("sound_init: mediapath=" + mediapath);
-
   //Initialize SDL_mixer
   if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 1024 ) == -1 ) return false;
 
-  for (int c = 0; c < MAXSound; c++) {
-    name = mediapath + sound_files[c];
-    soundEffects[c] = Mix_LoadWAV(name.c_str());
-    name.clear();
-  }
+  for (int c = 0; c < MAXSound; c++)
+    soundEffects[c] = Mix_LoadWAV( filemgr.get_media(sound_files[c]).c_str() );
 
-  name = mediapath + music_files[0];
-  ambience = Mix_LoadMUS(name.c_str ());
-  name.clear();
+  ambience = Mix_LoadMUS( filemgr.get_media(music_files[0]).c_str() );
+
   if (ambience == NULL) return 0;
   return 1;
 }
 
 int default_ambience (int selection) {
-  string name;
-#ifdef WIN32
-  string mediapath = basepath + "media\\";
-#else
-  string mediapath = basepath + "media/";
-#endif
-
   if ((selection < 0) || (selection > num_music_files)) selection = 0;
   if (current_music == music_files[selection]) return 2;
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
-  name = mediapath + music_files[selection];
-  debug("Loading default ambience file " + name);
-  ambience = Mix_LoadMUS(name.c_str ());
+  ambience = Mix_LoadMUS( filemgr.get_media(music_files[selection]).c_str() );
   if (ambience == NULL) return 0;
   current_music = music_files[selection];
   return 1;
 }
 
-int load_ambience (string mappack, string filename) {
-  string name;
-
+// Loads a media-located music file.
+int load_ambience(string filename) {
   if (filename == current_music) return 2;
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
-  // Sometimes we're called with "media" as mappack... need to fix that
-  if (mappack == "media") {
-#ifdef WIN32
-    name = basepath + "media\\" + filename;
-#else
-    name = basepath + "media/" + filename;
-#endif
+  
+  ambience = Mix_LoadMUS( filemgr.get_media(filename).c_str() );
+  if (ambience == NULL) {
+    default_ambience(0);
+    return 0;
   }
-  else {
-#ifdef WIN32
-    name = userpath + "maps\\" + mappack + "\\" + filename;
-#else
-    name = userpath + mappack + "/" + filename;
-    // handles both custom maps in user directory and default maps
-    debug("[1] Loading ambience file " + name);
-    ambience = Mix_LoadMUS(name.c_str ());
-    if (ambience == NULL)
-      name = basepath + "maps/" + mappack + "/" + filename;
-#endif
-  }
-  debug("[2] Loading ambience file " + name);
-  ambience = Mix_LoadMUS(name.c_str ());
+  current_music = filename;
+  return 1;
+}
+
+// Loads a map pack-located music file.
+// Note that upon failure to find the music file in the map pack
+// directory, this falls back to the standard media directory.
+int load_ambience (string mappack, string filename) {
+  if (filename == current_music) return 2;
+  if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
+  Mix_FreeMusic(ambience);
+  
+  ambience = Mix_LoadMUS( filemgr.get_media(mappack, filename).c_str() );
   if (ambience == NULL) {
     default_ambience(0);
     return 0;

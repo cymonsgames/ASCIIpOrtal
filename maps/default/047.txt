@@ -1,4 +1,4 @@
-music:yorkiimusic.mp3
+music:yorkiimusic.ogg
 message:To proceed, move to the door on the left.  Do not stand next to the door on the right.
 message1:I told you not to stand here!
 message2:Thank you.  Please proceed to the exit.

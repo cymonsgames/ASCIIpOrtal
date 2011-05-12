@@ -26,15 +26,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <iomanip>
 #include <string>
 #include <vector>
 #include <ctime>
-// for stat
-#include <sys/stat.h>
-#include <sys/types.h>
 using namespace std;
 #include "asciiportal.h"
+#include "ap_filemgr.h"
 #ifndef __NOSOUND__
 #include "ap_sound.h"
 #endif
@@ -42,31 +39,13 @@ using namespace std;
 #include "ap_play.h"
 #include "menu.h"
 
-// begin game
+// begin game (TODO: get rid of these)
 vector<vector<string> > rawmaps;
 vector<unsigned int> rawmaps_maxwidth;
 extern int maxlevel;
 
-// base directory for media, maps, ...
-// if available, use "/usr/share/asciiportal/", else "" (current dir)
-// TODO: get to use the file manager (ap_filemgr.cpp)
-string basepath;
-
-// base directory for save data and custom maps
-// if available, "~/.asciiportal/", else "maps/"
-string userpath;
-
-// gets the content of an environment variable
-// TODO: move it to ap_filemgr
-string get_env_var( string const & key ) {
-  char * val;
-  val = getenv( key.c_str() );
-  string retval = "";
-  if (val != NULL) {
-    retval = val;
-  }
-  return retval;
-}
+// File manager for filesystem operations
+FileManager filemgr;
 
 // easy debug
 void debug(string message) {
@@ -75,9 +54,11 @@ void debug(string message) {
 #endif
 }
 
+// TODO: move this to an appropriate location and fuck this bunch of
+// global variables (use a proper structure instead)
 int loadmaps (string mappack) { // Looks for the mappack directory and loads
   // the files 001.txt, 002.txt etc and stores it in maps.
-  string line, name;
+  string line;
   int level = 0;
 
   // cleanup
@@ -92,44 +73,16 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
   
   // load maxlevel for the current mappack
 #ifndef GODMODE
-  maxlevel = 0;
-  string maxlevelfilename;
-#ifdef WIN32
-  maxlevelfilename = "maps\\" + mappack + "\\save.dat";
-#else
-  maxlevelfilename = userpath + mappack + "/save.dat";
+  maxlevel = filemgr.get_maxlevel(mappack);
 #endif
-  ifstream maxlevelfile;
-  maxlevelfile.open (maxlevelfilename.c_str());
-  if (maxlevelfile.is_open()) {
-    maxlevelfile >> maxlevel;
-    maxlevelfile.close();
-  }
-#endif //GODMODE
     
   // load level files
   while (1) {
-    level++;
+    ++level;
     unsigned int maxwidth = 0;
-    stringstream num;
-    num << setw(3) << setfill( '0' ) << level;
-#ifdef WIN32
-    name = "maps\\" + mappack + "\\" + num.str() + ".txt";
-#else
-    // On Linux/MacOS, the user-specific directory is searched first for custom maps
-    name = userpath + mappack + "/" + num.str() + ".txt";
-#endif
 
-    ifstream mapfile(name.c_str());
-
-#ifndef WIN32
-    // on unix, if read fails in user directory, fall back to basepath
-    if (! mapfile.is_open()) {
-      name = basepath + "maps/" + mappack + "/" + num.str() + ".txt";
-      mapfile.open(name.c_str());
-    }
-#endif
-
+    ifstream mapfile( (filemgr.get_map(mappack, level)).c_str() );
+    
     if (mapfile.is_open()) {
       vector<string> map;
       while (! mapfile.eof() ) {
@@ -143,10 +96,10 @@ int loadmaps (string mappack) { // Looks for the mappack directory and loads
       map.clear();
     }
     else { // no more maps
-      level--; // to return 0 if no map was found (I guess)
+      --level; // to return 0 if no map was found (I guess)
 #ifdef GODMODE
       maxlevel = level;
-      cerr << "Godmode activated! maxlevel set to " << maxlevel << endl;
+      cout << "Godmode activated! maxlevel set to " << maxlevel << endl;
 #endif
       return level; 
     }
@@ -192,49 +145,13 @@ int main(int args, char* argv[]) {
     }
   }
 
-#ifndef WIN32
-  struct stat buffer;
-  // Search for decent basepath and userpath (on unix)
-  if (stat("/usr/share/asciiportal/", &buffer) == 0)
-    basepath = "/usr/share/asciiportal/";
-
-  userpath = get_env_var("HOME");
-  if (userpath != "") {
-    userpath = userpath + "/.asciiportal/";
-    if (stat(userpath.c_str(), &buffer) != 0) {
-      cout << "Home directory " << userpath << " not existing, creating it." << endl;
-      mkdir(userpath.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
-      ofstream readme;
-      readme.open( (userpath + "readme").c_str() );
-      if (readme.is_open()) {
-        readme << "This is the user-specific data directory for ASCIIpOrtal.\n\n"
-               << "It is used to store the current level for each mappack,\n"
-               << "under <mappack_name>/save.dat\n\n"
-               << "You might want to provide custom mappacks; just put your maps under\n"
-               << "a <mappack_name> subdirectory, and make sure your maps are named properly\n"
-               << "('001.txt', '002.txt', ...)\n\n"
-               << "Keep in mind that this directory is searched first; if you provide maps\n"
-               << "under a mappack name that already exists (e.g. 'default/'), they'll get used\n"
-               << "instead of the official ones.\n"
-               << "Note that this can be used to extend the official mappacks: just start the\n"
-               << "number of your maps where the official maps number ends.\n";
-        readme.close();
-      }
-    }
-  }
-  else // There's no home directory, fall back to current dir
-    userpath = "maps/";
-
-#endif
-
-
   if (!loadmaps (mappack)) {
     cerr << "Error - The mappack '" << mappack << "' does not exist.\n\n"
 	 << "You must place all level files in a sub-directory of 'maps/' named '" << mappack << "/'.\n"
 #ifndef WIN32
-	 << "On unix systems, you may provide custom map packs in '" << userpath << "'.\n"
+	 << "On unix systems, you may provide custom map packs in '" << filemgr.get_userpath() << "/'.\n"
 #endif
-	 << "Bundled official map packs are in the '" << basepath << "maps/' directory.\n\n";
+	 << "Bundled official map packs are in the '" << filemgr.get_basepath() << "/maps/' directory.\n\n";
 
     if (mappack != "default") {
       mappack = "default";

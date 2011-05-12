@@ -6,10 +6,11 @@
 # on another system/architecture.
 
 # List of available ports
-PORTS = mingw32 nosdl nosdl32 linux32 linux64
+PORTS = mingw32 nosdl nosdl32 linux linux32
 
 # standard build (should work on most unix if SDL is available)
 # downloads and builds PDcurses against SDL for convenience.
+# See 'linux' target if you already have PDCurses built against SDL.
 default:
 	$(MAKE) -f Makefile.$@ $@
 
@@ -33,6 +34,9 @@ source:
 # This assumes running on a 64 bits linux environment.
 all:
 	$(foreach port,$(PORTS),$(MAKE) -k -f Makefile.$(port) all;)
+
+install:
+	$(MAKE) -f Makefile.defaut $@
 
 # Additional specific cleanup is done in child Makefiles
 clean:

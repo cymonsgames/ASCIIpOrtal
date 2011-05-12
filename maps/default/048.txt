@@ -1,4 +1,4 @@
-music:yorkiimusic.mp3
+music:yorkiimusic.ogg
 message:I am pleased that you successfully completed the last test. Please stay there while you are lowered into the congratulations chamber.
 message1:You were informed to stay in place, but you did not.  Please stay in place while the punishment boulder moves into punishment position.
 name:by Clayton Hobbs

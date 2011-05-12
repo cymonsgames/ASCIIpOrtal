@@ -1,4 +1,4 @@
-music:yorkiimusic.mp3
+music:yorkiimusic.ogg
 ###############################
 #     #   #         #   # # aQ#
 #     #   #         #   # # aQ#

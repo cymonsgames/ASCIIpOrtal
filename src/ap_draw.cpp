@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -144,7 +144,7 @@ void Pager::add_scrolling(string message) {
 
   // shift the previous messages to let enough space for this one
   int shift = 0;
-  for (pairlist::iterator i = messages.begin(); i != messages.end(); i++) {
+  for (pairlist::iterator i = messages.begin(); i != messages.end(); ++i) {
     int size = i->first.size(); // nasty unsigned int...
 
     i->second += shift;
@@ -157,7 +157,7 @@ void Pager::add_scrolling(string message) {
 }
 
 void Pager::scroll_messages() {
-  for (pairlist::iterator i = messages.begin(); i != messages.end(); i++) {
+  for (pairlist::iterator i = messages.begin(); i != messages.end(); ++i) {
     int tick = i->second;
     if (tick < COLS + i->first.size() - 2) {
       // display message (i->first)

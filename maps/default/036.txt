@@ -1,4 +1,4 @@
-music:ascii_threat3.mp3
+music:ascii_threat3.ogg
 NNNNNNNNNNNNNNNNN<>NNNNNNNNNNNNNNNNNNN
 NNNNNNNNNNNNNNNNN==NNNNNNNNNNNNNNNNNNN
 N                                    #

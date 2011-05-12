@@ -1,4 +1,4 @@
-music:ascii_threat2.mp3
+music:ascii_threat2.ogg
 NNNNNNNNNNNNNNNNNNNNNNNNNNNN>N
 NNNN##############NNNNNNNNNN=NNNNNNNN
 NNNN#            #                  N

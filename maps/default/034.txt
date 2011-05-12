@@ -1,4 +1,4 @@
-music:ascii_threat3.mp3
+music:ascii_threat3.ogg
 message:I just realized something about where these test chambers are going. Ah well, we'll burn that bridge when we get there.
 name:Portile19
 NNNNNNNNNNN####N#####

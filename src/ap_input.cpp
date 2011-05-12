@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -160,7 +160,8 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
 //        oldkey = SDLK_SPACE;
 //        if (SP->_trap_mbe)
 //          return _process_mouse_event();
-        key = ERR;
+//        key = ERR;
+        return ERR;
         break;
       case SDL_KEYUP :
         key = ERR;
@@ -188,10 +189,10 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
           case 17: key = '-'; break; // CP2X VolDown
         }
 #endif
-   	  default :
+          default :
 //   	    if (mouseon) PDC_mouse_set();
-        for (int i = 0; key_table[i].keycode; i++) {
-          if (key_table[i].keycode == event.key.keysym.sym) {
+            for (int i = 0; key_table[i].keycode; i++) {
+              if (key_table[i].keycode == event.key.keysym.sym) {
               key = key_table[i].normal;
           }
         }
@@ -239,7 +240,7 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
   if (delay) oldkey = -1;
 
   return key;
-#endif
+#endif //!NOSDL
 }
 
 int getinput() {

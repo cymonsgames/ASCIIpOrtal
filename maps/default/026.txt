@@ -1,4 +1,4 @@
-music:ascii_threat2.mp3
+music:ascii_threat2.ogg
 name:Donkey Kong by Nicholas McGuire
 message:Do you smell bananas?
 message1:There has got to be an easier way

@@ -1,4 +1,4 @@
-music:ascii_threat2.mp3
+music:ascii_threat2.ogg
 name:Portile22
 message:Do you have a plan if you miss the first time?
 NNNNNNNNNNN

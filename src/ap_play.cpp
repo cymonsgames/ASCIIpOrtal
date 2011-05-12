@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,6 @@
 #include <vector>
 #include <ctime>
 #include <cmath>
-#include <sys/stat.h>
-#include <sys/types.h>
 using namespace std;
 #include "asciiportal.h"
 #ifndef __NOSDL__
@@ -121,15 +119,13 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
 #ifndef __NOSOUND__
     if (rawmaps[lvl][yy].find("music") == 0) {
       if (rawmaps[lvl][yy].find("default") == 6) {
-	debug("parsing: default music found");
         if ((rawmaps[lvl][yy][13] >= '1') && (rawmaps[lvl][yy][13] <= '9'))
           default_ambience(rawmaps[lvl][yy][13] - '1' + 1);
         else default_ambience(0);
       }
       else {
-	string musicfile = rawmaps[lvl][yy].substr (6, (signed)rawmaps[lvl][yy].size() - 6);
-	debug("parsing: custom music file: " + musicfile);
-	load_ambience(mappack, musicfile);
+        string musicfile = rawmaps[lvl][yy].substr (6, (signed)rawmaps[lvl][yy].size() - 6);
+        load_ambience(mappack, musicfile);
       }
       start_ambience();
     } else
@@ -583,7 +579,7 @@ void collapse_portals () {
   }
 
   // cancel all portals
-  for (int i = 0; i < 2; i++) {
+  for (int i = 0; i < 2; ++i) {
     if (objm.portals[i] != objm.NULLOBJ) {
       objm.portals[i]->d.y = CharData[PORTAL1 + i][2];
       objm.portals[i]->type = FLASH;
@@ -1051,25 +1047,25 @@ int play (string mappack) {
         if (level != -1)
           playing = 1;
         else
-	  level = 0;
+          level = 0;
         break;
       case 2: { // Change Map Set
         string newmappack = select_mappack ();
-	if (newmappack.size() != 0) {
-	  attrset(color_pair(HELPMENU));
-	  fillsquare(LINES / 2 - 3, (COLS - 26) / 2, 7, 26);
-	  if (!loadmaps (newmappack)) {
-	    mvprintw (LINES / 2, (COLS - 16) / 2, "Invalid Map Pack"); refresh ();
-	    restms (150);
-	    getch();
-	    loadmaps (mappack);
-	  } else {
-	    mvprintw (LINES / 2, (COLS - 15) / 2, "Map Pack Loaded!"); refresh ();
-	    restms (150);
-	    getch();
-	    mappack = newmappack;
-	  }
-	}
+        if (newmappack.size() != 0) {
+          attrset(color_pair(HELPMENU));
+          fillsquare(LINES / 2 - 3, (COLS - 26) / 2, 7, 26);
+          if (!loadmaps (newmappack)) {
+            mvprintw (LINES / 2, (COLS - 16) / 2, "Invalid Map Pack"); refresh ();
+            restms (150);
+            getch();
+            loadmaps (mappack);
+          } else {
+            mvprintw (LINES / 2, (COLS - 15) / 2, "Map Pack Loaded!"); refresh ();
+            restms (150);
+            getch();
+            mappack = newmappack;
+          }
+        }
         break;
       }
       case 3: // Instructions
@@ -1116,27 +1112,7 @@ int play (string mappack) {
         level += displaystats (levelstats, level);
         if ((level > maxlevel) && (level < (signed)rawmaps.size())) {
           maxlevel = level;
-          // save maxlevel
-          string maxlevelfilename;
-#ifdef WIN32
-          maxlevelfilename = "maps\\" + mappack + "\\save.dat";
-#else
-          string localdir = get_env_var("HOME");
-          if (localdir != "")
-            localdir = localdir + "/.asciiportal/";
-	  else
-	    localdir = "maps/";
-          string mapdir = localdir + mappack;
-          struct stat buffer;
-          if (stat(mapdir.c_str(), &buffer) != 0)
-            // create the mappack directory under the user-specific directory
-            mkdir(mapdir.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
-          maxlevelfilename = mapdir + "/save.dat";
-#endif
-          ofstream maxlevelfile;
-          maxlevelfile.open (maxlevelfilename.c_str());
-          maxlevelfile << maxlevel;
-          maxlevelfile.close();
+          // TODO: save maxlevel
         }
         while ((level < (signed)rawmaps.size()) && !setup_level(level, mappack)) level ++;
         ticks = 0;

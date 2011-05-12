@@ -42,7 +42,7 @@ TARBALL = $(DISTNAME).tar.xz
 
 # Final executable name. Same thing, you should only edit the extension.
 #EXE_NAME = $(ASCIIPORTAL).exe
-EXE_NAME = $(ASCIIPORTAL).i686
+EXE_NAME = $(ASCIIPORTAL)
 
 
 ### Custom variables ###

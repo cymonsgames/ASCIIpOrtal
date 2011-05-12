@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,8 @@ int sound_init ();
 
 int default_ambience (int);
 
-int load_ambience (std::string, std::string);
+int load_ambience (std::string filename);
+int load_ambience (std::string mappack, std::string filename);
 
 int start_ambience ();
 

@@ -1,9 +1,9 @@
-# Native 64-bits Linux compilation for ASCIIpOrtal.
-# Note that we assume having 
+# Native Linux compilation for ASCIIpOrtal.
+# Note that we assume having PDCurses compiled against SDL
 
 include Makefile.common
 
-PORT = linux64
+PORT = linux
 
 
 ### Customisable variables ###
@@ -14,7 +14,7 @@ PORT = linux64
 
 # Custom base name for release (tarball). Keeping '-$(PORT)' is generally a good option,
 # but feel free to change it.
-DISTNAME := $(DISTNAME)-$(PORT)
+DISTNAME := $(DISTNAME)-$(PORT)64
 
 # Custom C flags: you may define ('-D') or unset ('-U') macros to get your specific
 # code to work.
@@ -40,7 +40,7 @@ TARBALL = $(DISTNAME).tar.xz
 
 # Final executable name. Same thing, you should only edit the extension.
 #EXE_NAME = $(ASCIIPORTAL).exe
-EXE_NAME = $(ASCIIPORTAL).x86_64
+EXE_NAME = $(ASCIIPORTAL)
 
 
 ### Custom variables ###

@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,6 @@
 #include <fstream>
 #include <sstream>
 #include <cctype>
-// for stat/readdir
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 #include "asciiportal.h"
 #ifndef __NOSDL__
 #include "SDL/SDL.h"
@@ -41,18 +37,17 @@
 #ifndef __NOSOUND__
 #include "ap_sound.h"
 #endif
+#include "ap_filemgr.h"
 #include "menu.h"
 #include "ap_draw.h"
 #include "ap_input.h"
-
-// #define PAUSE 200 // Achtung: conflicts with enum GameObjs in asciiportal.h. Not used anymore anyhow.
 
 using namespace std;
 extern const int CharData[MAXColors][5];
 
 // from main.cpp
-extern string userpath;
-extern string basepath;
+extern FileManager filemgr;
+
 
 int chartoscreen(char o) {
   for (int c = 0; c < MAXObjects; c++)
@@ -181,7 +176,7 @@ int menu (vector <string>& items, int selection) {
 
   while (1) {
     fillsquare(LINES - 2 - items.size() * 2, 1, items.size() * 2 + 1, w);
-    for (int i = 0; i < (signed)items.size(); i++) {
+    for (int i = 0; i < (signed)items.size(); ++i) {
       if (i != selection) attrset (color_pair(MENUDIM));
       else attrset (color_pair(MENUSELECT));
       mvprintw (LINES - 2 * (items.size() - i) - 1, 1, " %d) %s ", i + 1, items[i].c_str());
@@ -216,9 +211,9 @@ int menu (vector <string>& items, int selection) {
 #ifndef __NOSOUND__
         play_sound(MENUCHOICE);
 #endif
-	pauserun(0);
-	return -1;
-	break;
+        pauserun(0);
+        return -1;
+        break;
       case KEY_ENTER:
       case KEY_RIGHT:
       case '\n':
@@ -242,54 +237,32 @@ int main_menu (string mappack) {
   Pager pager;
  
 #ifndef __NOSOUND__
-  load_ambience ("media", "menumusic.ogg");
+  load_ambience ("menumusic.ogg");
 #endif
 
-  bool inscreen_ok = false;
-  // will fall back to 'default' if not found
-  string inscreen_location = mappack;
-  // display the in-screen background, message, and load music
-  do {
-    if (inscreen_location == "default")
-      inscreen_ok = true;
+  // first load the 'inscreen' file
+  name = filemgr.get_inscreen(mappack);
+  ifstream mapfile(name.c_str());
 
-#ifdef WIN32
-    name = "maps\\" + inscreen_location + "\\inscreen.txt";
-#else
-    name = userpath + inscreen_location + "/inscreen.txt";
-#endif
-
-    ifstream mapfile(name.c_str());
-
-#ifndef WIN32
-    if (!mapfile.is_open()) {
-      name = basepath + "maps/" + inscreen_location + "/inscreen.txt";
-      mapfile.open(name.c_str());
-    }
-#endif
-
-    if (mapfile.is_open()) {
-      vector<string> map;
-      while (! mapfile.eof() ) {
-	getline (mapfile, line);
-	if ((signed)line.length() > maxwidth) maxwidth = (signed)line.length();
-	if (line.find("music") == 0) {
+  if (mapfile.is_open()) {
+    vector<string> map;
+    while (! mapfile.eof() ) {
+      getline (mapfile, line);
+      if ((signed)line.length() > maxwidth) maxwidth = (signed)line.length();
+      if (line.find("music") == 0) {
 #ifndef __NOSOUND__
-	  load_ambience (inscreen_location, line.substr (6, line.size() - 6));
+        // 'mappack' isn't really suitable here, since we might well be
+        // reading the default 'inscreen' file...
+        // Anyway, load_ambience is clever enough to find the music file.
+        load_ambience (mappack, line.substr (6, line.size() - 6));
 #endif
-	}
-	if (line.find("message") == 0)
-	  pager.add_scrolling(line.substr (8, line.size() - 8));
-	else inscreen.push_back(line);
       }
-      mapfile.close();
-      inscreen_ok = true;
+      if (line.find("message") == 0)
+        pager.add_scrolling(line.substr (8, line.size() - 8));
+      else inscreen.push_back(line);
     }
-
-    // fall back to default inscreen
-    inscreen_location = "default";
-    
-  } while (!inscreen_ok);
+    mapfile.close();
+  }
 
   XY s, d, upperleft;
 
@@ -317,8 +290,8 @@ int main_menu (string mappack) {
     for (s.x = 0; s.x < (signed)inscreen[s.y].size(); s.x++)
       if ((upperleft.y + s.y >= 0) && (upperleft.y + s.y < LINES)
           && (upperleft.x + s.x >= 0) && (upperleft.x + s.x < COLS)) {
-	move (upperleft.y + s.y, upperleft.x + s.x);
-	addch(chartoscreen(inscreen[s.y][s.x]));
+        move (upperleft.y + s.y, upperleft.x + s.x);
+        addch(chartoscreen(inscreen[s.y][s.x]));
       }
   attrset(color_pair(NONE) | WA_BOLD);
   mvprintw (LINES - 2, COLS - 28, "v%s (%s)", AP_VERSION, __DATE__);
@@ -408,16 +381,16 @@ int select_level (int maxlevel, int level){
 #endif
       level ++;
     }
-	  if (input == KEY_LEFT) {
+          if (input == KEY_LEFT) {
 #ifndef __NOSOUND__
       play_sound(MENUBEEP);
 #endif
-	    level --;
-	  }
-	  if (level > maxlevel + 1) {
-	    if ((input >= '0') && (input <= '9')) level = input - '0';
-	    else level = maxlevel + 1;
-	  }
+            level --;
+          }
+          if (level > maxlevel + 1) {
+            if ((input >= '0') && (input <= '9')) level = input - '0';
+            else level = maxlevel + 1;
+          }
     if (level < 1) level = 1;
   } while ((input != '\n') && (input != ' ') && (input != 'z') && (input != 'x'));
 
@@ -430,7 +403,7 @@ int select_level (int maxlevel, int level){
 
 void roll_credits (string mappack) {
   const int numcredits = 13;
-  char defaultcredits[numcredits][50] = {
+  char basecredits[numcredits][50] = {
     "ASCIIpOrtal by Joe Larson",
     "",
     "Inspired by Increpare's Portile game",
@@ -442,17 +415,17 @@ void roll_credits (string mappack) {
     "And Valve's Portal.",
     "",
     "Sound Design by Steve Fenton.",
-    "",
-    "Additional code by ivanq and zorun."};
+    "Additional code by ivanq and zorun.",
+    ""};
   vector <string> credits;
-  string line, name;
+  string line;
 
-#ifdef WIN32
-  name = mappack + "\\credits.txt";
-#else
-  name = mappack + "/credits.txt";
-#endif
-  ifstream mapfile(name.c_str());
+  for (int l = 0; l < numcredits; l++) {
+    line = basecredits[l];
+    credits.push_back(line);
+  }
+
+  ifstream mapfile( filemgr.get_credits(mappack).c_str() );
   if (mapfile.is_open()) {
     vector<string> map;
     while (! mapfile.eof() ) {
@@ -466,12 +439,8 @@ void roll_credits (string mappack) {
         line.clear();
       }
     }
-  } else {
-    for (int l = 0; l < numcredits; l++) {
-      line = defaultcredits[l];
-      credits.push_back(line);
-    }
-  }
+  } 
+
   for (int c = 0; c < (LINES / 2); c++) credits.push_back("");
   credits.push_back("Thank you for playing.");
 
@@ -486,7 +455,8 @@ void roll_credits (string mappack) {
     refresh ();
     restms (250);
     clear();
-    int input = getinput();
+    nodelay(stdscr, 1);
+    int input = getch();
 #ifdef PDCURSES
     if (input == KEY_RESIZE) {
       resize_term(0,0);
@@ -505,7 +475,7 @@ void roll_credits (string mappack) {
     }
     refresh ();
     restms (250);
-    input = getinput();
+    input = getch();
 #ifdef PDCURSES
     if (input == KEY_RESIZE) {
       resize_term(0,0);
@@ -519,8 +489,9 @@ void roll_credits (string mappack) {
       return;
     }
   }
-//  restms(PAUSE);
-  int input = getinput();
+
+  nodelay(stdscr, 0);
+  int input = getch();
   do {
 #ifdef PDCURSES
     if (input == KEY_RESIZE) {
@@ -528,49 +499,19 @@ void roll_credits (string mappack) {
       input = ERR;
     }
 #endif
-//    restms(PAUSE);
-    input = getinput ();
+    input = getch();
   } while (input == ERR);
 }
 
-// returns a vector of available mappacks in the given directory
-vector<string> get_avail_mappacks(string dir) {
-  // code heavily inspired from 'man 3 stat'
-  struct dirent *dp;
-  struct stat statbuf;
-  string filename, fullpath;
-  vector<string> map_packs;
-  if (dir.size() == 0) dir = "./";
-  DIR *dirp = opendir(dir.c_str());
-
-  while ((dp = readdir(dirp)) != NULL) {
-    filename = dp->d_name;
-    fullpath = dir + filename;
-    if (stat(fullpath.c_str(), &statbuf) == -1)
-      continue;
-    
-    if (filename != "." && filename != ".." && S_ISDIR(statbuf.st_mode)) {
-      string testfile = fullpath + "/001.txt";
-      if (stat(testfile.c_str(), &statbuf)!= -1)
-        map_packs.push_back(filename);
-    }
-  }
-  return map_packs;
-}
-
 string select_mappack () {
-  vector<string> mappacks;
-  int displayed_entries = 3;
+  vector<string> mappacks, custommappacks;
+  int displayed_entries = 6;
   int input;
   
   // first, get available mappacks
-#ifdef WIN32
-  mappacks = get_avail_mappacks(basepath);
-#else
-  vector<string> mappacks_user = get_avail_mappacks(userpath);
-  mappacks = get_avail_mappacks(basepath + "maps/");
-  mappacks.insert(mappacks.end(), mappacks_user.begin(), mappacks_user.end());
-#endif
+  mappacks = filemgr.list_official_mappacks();
+  custommappacks = filemgr.list_custom_mappacks();
+  mappacks.insert(mappacks.end(), custommappacks.begin(), custommappacks.end());
 
   cout << mappacks.size() << " mappacks detected" << endl;
 
@@ -586,14 +527,14 @@ string select_mappack () {
     fillsquare(LINES / 2 - 3, (COLS - 28) / 2, 4 + displayed_entries, 28);
     attrset(color_pair(MENUDIM));
     mvprintw (LINES / 2 - 2, (COLS - 26) / 2, "Select your map pack:");
-    for (int i = 0; i < displayed_entries && i < size; i++) {
+    for (int i = 0; i < displayed_entries && i < size; ++i) {
       if (i == position - top_map_displayed) {
-	attrset(color_pair(MENUSELECT));
-	fillsquare(LINES / 2 + i, (COLS - 26) / 2, 1, 26);
+        attrset(color_pair(MENUSELECT));
+        fillsquare(LINES / 2 + i, (COLS - 26) / 2, 1, 26);
       }
       else {
-	attrset(color_pair(TEXTFIELD));
-	fillsquare(LINES / 2 + i, (COLS - 26) / 2, 1, 26);
+        attrset(color_pair(TEXTFIELD));
+        fillsquare(LINES / 2 + i, (COLS - 26) / 2, 1, 26);
       }
       mvprintw (LINES / 2 + i, (COLS - 26) / 2, (" " + mappacks[i+top_map_displayed]).c_str());
     }
@@ -604,39 +545,39 @@ string select_mappack () {
     switch (input) {
       case KEY_UP :
 #ifndef __NOSOUND__
-	play_sound(MENUBEEP);
+        play_sound(MENUBEEP);
 #endif
-	if (position > 0) position--;
-	if ((position <= top_map_displayed) && (top_map_displayed > 0))
-	  top_map_displayed--;
-	break;
+        if (position > 0) position--;
+        if ((position <= top_map_displayed) && (top_map_displayed > 0))
+          top_map_displayed--;
+        break;
       case KEY_DOWN :
 #ifndef __NOSOUND__
-	play_sound(MENUBEEP);
+        play_sound(MENUBEEP);
 #endif
-	if (position + 1 < size) position++;
-	if ((position + 1 >= displayed_entries)
-	    && (top_map_displayed < size - displayed_entries))
-	  top_map_displayed++;
-	break;
+        if (position + 1 < size) position++;
+        if ((position + 1 >= displayed_entries)
+            && (top_map_displayed < size - displayed_entries))
+          top_map_displayed++;
+        break;
       case KEY_ENTER :
       case KEY_RIGHT :
       case '\n':
       case ' ':
 #ifndef __NOSOUND__
-	play_sound(MENUCHOICE);
+        play_sound(MENUCHOICE);
 #endif
-	pauserun(0);
-	return mappacks[position];
-	break;
+        pauserun(0);
+        return mappacks[position];
+        break;
       case 27 : // ESC key
       case KEY_LEFT :
 #ifndef __NOSOUND__
-	play_sound(MENUCHOICE);
+        play_sound(MENUCHOICE);
 #endif
-	pauserun(0);
-	return "";
-	break;
+        pauserun(0);
+        return "";
+        break;
     }
   } while (1);
 

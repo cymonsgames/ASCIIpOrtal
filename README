@@ -92,14 +92,11 @@ challenging maps.
 
 COMMAND LINE PROMPTS
 ====================
- -?               This help menu\n"
- -m [mappackname] load a map pack\n"
- -d               80x24 character text graphics window (overrides all other options)
- -r 640x480       Choose 640x480 screen resolution\n"
- -r 800x600       Choose 800x600 screen resolution\n"
- -r 1024x768      Choose 1024x768 screen resolution\n"
- -f               Fullscreen\n"
- -w               Windowed mode\n"
+ -?                  This help menu
+ -m [mappackname]    load a map pack
+ -r <width>x<height> Choose the screen resolution (default: 640x480)
+ -f                  Fullscreen mode
+ -w                  Windowed mode (default)
 
 Please visit Cymon's Games and register on the forums 
 (http://cymonsgames.com/forum).
@@ -114,8 +111,8 @@ o If a portal is on one side of a wall, and you attempt to place a portal on
   This is because both portals, despite not being invisible to each other, 
   will be trying to occupy the same space. Does not warrant the time to fix it.
 
-THANK YOUS
-==========
+THANK YOU
+=========
 Thanks again to Erin Robinson who without which I would not have been as well 
 known as quickly. It was her tweet that got me on Kotaku, Boing Boing, Wired, 
 Joystiq, and just about every other games news website.
@@ -123,40 +120,3 @@ Joystiq, and just about every other games news website.
 Thanks to Nicholas McGuire, Mads Lund, arminwagner, Sparky, and i300 for 
 designing levels during the beta that were used in the initial public 
 release. Thank you to everyone else who helped with the beta testing.
-
-Releases:
-1.2c bugfixes.
-
-1.2a (Nov 18 2009)
-o WADS keys added.
-o Music files changed to OGG.
-o Menu item for changing map set disabled.
-o 5th default ambient music added.
-o Number-pad input is fixed.
-o Objects in portals when they collapse are more properly delt with.
-
-1.2 (Nov 14 2009)
-o Controls finally fixed to react instantly. For real this time.
-o Original levels reduced from 50 to 25. Extra levels moved to their own pack.
-o 4 default musics available for custom map makers.
-o Visual effect added when portals change.
-o "Next" for portal gun increments when portal is created.
-o Key to turn off all portals ('C') added.
-o Game speed is now variable.
-o Code hopefully compiles nativly for dingoo and GP2X devices.
-o There is a known issue involving mouse movement being caught as input.
-
-1.1 (Oct 21 2009) - Bug fix release:
-o Physics bugs concerning boulder movements have been corrected.
-o Player will pass through portals determined by aiming direction. 
-o The keyboard delay pause has been considerably scaled back. (You still may 
-  need to turn before moving, so there may be a pause there.)
-o Some levels have been adjusted slightly.
-o Comes with all known extra levels and new map packs.
-o Player will now "catch" ladders mid fling.
-o Level stats no longer try to keep track of time.
-o You can now adjust your aim if at the top or bottom of a ladder.
-o Portals will no longer count doors as valid walls when calculating normals.
-o Portals will no longer open up straight to a chain link wall.
-
-1.0 (Sept 16 2009) - First public release.

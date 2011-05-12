@@ -1,4 +1,4 @@
-music:ascii_threat2.mp3
+music:ascii_threat2.ogg
 name:Tower of Doom by Nicholas McGuire
 message:Hold down the arrow key to run.
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
