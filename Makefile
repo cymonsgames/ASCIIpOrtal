@@ -32,7 +32,7 @@ source:
 
 # Release target: compile and pack everything.
 # This assumes running on a 64 bits linux environment.
-all:
+all: source
 	$(foreach port,$(PORTS),$(MAKE) -k -f Makefile.$(port) all;)
 
 install:
