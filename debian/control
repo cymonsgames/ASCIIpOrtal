@@ -1,0 +1,18 @@
+Source: asciiportal
+Section: games
+Priority: extra
+Maintainer: Baptiste Jonglez <zerstorer@free.fr>
+Build-Depends: debhelper (>= 7.0.50~), libsdl1.2-dev, libsdl-mixer1.2-dev
+Standards-Version: 3.8.4
+Homepage: http://cymonsgames.com/asciiportal
+
+Package: asciiportal
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: It's like portal, but in ASCII. And 2D.
+ Grab your hand-held portal device and enter the test chambers for a
+ non-euclidean good time.
+ ASCIIpOrtal is a text based puzzle game inspired by the popular video game.
+ In ASCIIpOrtal you overcome challenges by placing portal way-points, joining
+ two points in the map. If the player or any object passes through one portal
+ way-point it will seamlessly exit the other.

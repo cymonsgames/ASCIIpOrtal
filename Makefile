@@ -36,7 +36,7 @@ all: source
 	$(foreach port,$(PORTS),$(MAKE) -k -f Makefile.$(port) all;)
 
 install:
-	$(MAKE) -f Makefile.defaut $@
+	$(MAKE) -f Makefile.default $@
 
 # Additional specific cleanup is done in child Makefiles
 clean:
