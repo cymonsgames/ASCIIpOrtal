@@ -58,7 +58,11 @@ bool file_exists( string const & filename ) {
 }
 
 void makedir( string const & path) {
+#ifndef WIN32
   mkdir(path.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+#else
+  mkdir(path.c_str());
+#endif
 }
 
 // returns a list of all subdirectories of the given directory
