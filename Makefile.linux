@@ -86,7 +86,7 @@ $(EXE_NAME): $(OBJECTS)
 # You might want to add additional targets here (see 'Makefile.mingw32')
 $(TARBALL): $(EXE_NAME)
 	mkdir $(DISTNAME)
-	cp -r $(FILES_INCLUDE_DIST) $(DISTNAME)
+	cp -r $(EXE_NAME) $(FILES_INCLUDE_DIST) $(DISTNAME)
 #	zip -r $@ $(DISTNAME) # zip is bad, but anyway...
 #	tar czf $@ $(DISTNAME) # tar.gz
 #	tar cjf $@ $(DISTNAME) # tar.bz2

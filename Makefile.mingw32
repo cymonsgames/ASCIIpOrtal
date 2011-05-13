@@ -10,6 +10,9 @@ PORT = mingw32
 
 SDL_CONFIG = /usr/i486-mingw32/bin/sdl-config
 
+SDL_DLL = SDL.dll 
+SDL_MIXER_DLL = SDL_mixer.dll libogg-0.dll libvorbis-0.dll libvorbisfile-3.dll mikmod.dll smpeg.dll
+
 # Location of libpdcurses.a (cross-compiled for win32, with SDL support)
 PDCURSES_LIBDIR = /usr/i486-mingw32/lib
 
@@ -42,7 +45,7 @@ CXX = i486-mingw32-g++
 TARBALL = $(DISTNAME).zip
 
 # Final executable name. Same thing, you should only edit the extension.
-EXE_NAME = $(ASCIIPORTAL).exe
+EXE_NAME := $(ASCIIPORTAL).exe
 
 
 ### Custom variables ###
@@ -52,9 +55,6 @@ SDL_VER = 1.2.14
 SDL = SDL-$(SDL_VER)-win32.zip
 SDL_MIXER_VER = 1.2.11
 SDL_MIXER = SDL_mixer-$(SDL_MIXER_VER)-win32.zip
-
-SDL_DLL = SDL.dll 
-SDL_MIXER_DLL = SDL_mixer.dll libogg-0.dll libvorbis-0.dll libvorbisfile-3.dll mikmod.dll smpeg.dll
 
 
 
@@ -97,7 +97,7 @@ $(EXE_NAME): $(OBJECTS)
 #$(TARBALL): $(EXE_NAME) $(SDL_DLL) $(SDL_MIXER_DLL)
 $(TARBALL): $(EXE_NAME) $(SDL_DLL) SDL_mixer.dll
 	mkdir $(DISTNAME)
-	cp -r $(FILES_INCLUDE_DIST) $(DISTNAME)
+	cp -r $(EXE_NAME) $(FILES_INCLUDE_DIST) $(DISTNAME)
 	zip -r $@ $(DISTNAME) # zip is bad, but anyway...
 #	tar czf $@ $(DISTNAME) # tar.gz
 #	tar cjf $@ $(DISTNAME) # tar.bz2
