@@ -70,6 +70,8 @@ void stopmessages ();
 
 int screenchar(int);
 
+void draw_map(std::vector< std::vector<chtype> > const &);
+
 void map_screen (std::vector<std::vector<chtype> >&);
 
 void draw_screen_angle (int angle);

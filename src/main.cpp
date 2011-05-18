@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <locale.h>
 using namespace std;
 #include "asciiportal.h"
 #include "ap_filemgr.h"
@@ -165,6 +166,8 @@ int main(int args, char* argv[]) {
 
     cin.get();
   }
+  
+  setlocale (LC_ALL, "");
 
   graphics_init (fullscreen, height, width);
 #ifndef __NOSOUND__

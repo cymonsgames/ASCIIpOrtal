@@ -7,6 +7,7 @@ o 14 map packs bundled.
 o Made things a lot more unix-friendly: now uses '~/.asciiportal/' to store
   local data and optionally '/usr/share/asciiportal/' for game data.
 o Map pack's 'credits.txt' now gets added to the default credits.
+o The nosdl port (truly ASCII!) should be roughly working now.
 
 1.2c bugfixes.
 

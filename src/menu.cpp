@@ -50,7 +50,7 @@ extern FileManager filemgr;
 
 
 int chartoscreen(char o) {
-  for (int c = 0; c < MAXObjects; c++)
+  for (int c = 0; c < MAXObjects; ++c)
     if (CharData[c][0] == o)
       return screenchar(c);
   return screenchar(NONE);
@@ -264,19 +264,26 @@ int main_menu (string mappack) {
     mapfile.close();
   }
 
-  XY s, d, upperleft;
+  XY upperleft;
 
-  d.x = d.y = 0;
-  upperleft.x = (COLS - maxwidth);
-  upperleft.y = (LINES - inscreen.size());
-  if (upperleft.x > 0)
-    upperleft.x /= 2;
-  else
-    d.x = rand() % 2 + 1;
-  if (upperleft.y > 0)
-    upperleft.y /= 2;
-  else
-    d.y = rand() % 2 + 1;
+  // Convert the inscreen vector into a drawable one, centering it
+  // in the process.
+  vector< vector<chtype> > inscreen_draw;
+  vector<chtype> draw_line(COLS, chartoscreen(' '));
+  upperleft.x = (COLS - maxwidth)/2;
+  upperleft.y = (LINES - inscreen.size())/2;
+  for (int i = 0; i < LINES; ++i) {
+    draw_line.assign(COLS, chartoscreen(' '));
+    // there is a line to draw
+    if ((i - upperleft.y >= 0) && (i - upperleft.y < inscreen.size())) {
+      for (int j = 0; j < COLS; ++j) {
+        if ((j - upperleft.x >= 0) && (j - upperleft.x < inscreen[i-upperleft.y].length())) {
+          draw_line[j] = chartoscreen(inscreen[i - upperleft.y][j - upperleft.x]);
+        }
+      }
+    }
+    inscreen_draw.push_back(draw_line);
+  }
 
 #ifndef __NOSOUND__
   start_ambience ();
@@ -286,13 +293,8 @@ int main_menu (string mappack) {
   attrset (color_pair(NONE));
   clear();
 
-  for (s.y = 0; s.y < (signed)inscreen.size(); s.y++)
-    for (s.x = 0; s.x < (signed)inscreen[s.y].size(); s.x++)
-      if ((upperleft.y + s.y >= 0) && (upperleft.y + s.y < LINES)
-          && (upperleft.x + s.x >= 0) && (upperleft.x + s.x < COLS)) {
-        move (upperleft.y + s.y, upperleft.x + s.x);
-        addch(chartoscreen(inscreen[s.y][s.x]));
-      }
+  draw_map(inscreen_draw);
+
   attrset(color_pair(NONE) | WA_BOLD);
   mvprintw (LINES - 2, COLS - 28, "v%s (%s)", AP_VERSION, __DATE__);
 
@@ -303,12 +305,6 @@ int main_menu (string mappack) {
     pager.print_status();
     refresh ();
     restms (100);
-    upperleft.x += d.x;
-    if ((d.x > 0) && (upperleft.x >= 0)) d.x = -(rand() % 2 + 1);
-    if ((d.x < 0) && (upperleft.x + maxwidth <= COLS)) d.x = (rand() % 2 + 1);
-    upperleft.y += d.y;
-    if ((d.y > 0) && (upperleft.y >= 0)) d.y = -(rand() % 2 + 1);
-    if ((d.y < 0) && (upperleft.y + (signed)inscreen.size() <= LINES)) d.y = (rand() % 2 + 1);
     input = getinput();
 #ifdef PDCURSES
     if (input == KEY_RESIZE) {
