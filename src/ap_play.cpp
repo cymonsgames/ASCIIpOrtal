@@ -41,6 +41,7 @@ using namespace std;
 #include "ap_play.h"
 #include "ap_draw.h"
 #include "ap_input.h"
+#include "ap_filemgr.h"
 #include "menu.h"
 #include "ap_object.h"
 
@@ -59,8 +60,9 @@ int gamespeed = defaultspeed;
 extern vector<vector<string> > rawmaps;
 extern vector<int> rawmaps_maxwidth;
 extern int animateportal;
+extern FileManager filemgr;
 
-// from draw.cpp
+// from ap_draw.cpp
 extern const int CharData[MAXObjects][5];
 extern int cheatview;
 extern Pager game_pager;
@@ -116,8 +118,8 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
   map.push_back(blankline);
   syy = 1; // screen yy
   for (yy = 0; yy < (signed)rawmaps[lvl].size(); yy++) {
-#ifndef __NOSOUND__
     if (rawmaps[lvl][yy].find("music") == 0) {
+#ifndef __NOSOUND__
       if (rawmaps[lvl][yy].find("default") == 6) {
         if ((rawmaps[lvl][yy][13] >= '1') && (rawmaps[lvl][yy][13] <= '9'))
           default_ambience(rawmaps[lvl][yy][13] - '1' + 1);
@@ -128,8 +130,8 @@ int setup_level (int lvl, string mappack) { // setup map, and objects from raw d
         load_ambience(mappack, musicfile);
       }
       start_ambience();
-    } else
 #endif
+    } else
     if (rawmaps[lvl][yy].find("message") == 0) {
       if ((rawmaps[lvl][yy][7] >= '1') && (rawmaps[lvl][yy][7] <= '9')) {
         texttrigger[rawmaps[lvl][yy][7] - '1'] = rawmaps[lvl][yy].substr (9, (signed)rawmaps[lvl][yy].size() - 9);
@@ -1112,7 +1114,7 @@ int play (string mappack) {
         level += displaystats (levelstats, level);
         if ((level > maxlevel) && (level < (signed)rawmaps.size())) {
           maxlevel = level;
-          // TODO: save maxlevel
+          filemgr.save_maxlevel(mappack, maxlevel);
         }
         while ((level < (signed)rawmaps.size()) && !setup_level(level, mappack)) level ++;
         ticks = 0;

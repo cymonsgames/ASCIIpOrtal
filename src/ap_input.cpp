@@ -121,7 +121,8 @@ static struct
  {SDLK_KP7,	TRUE,	'7',      '7',	   CTL_PAD7,	ALT_PAD7},
  {SDLK_KP8,	TRUE,	'8',      '8',	   CTL_PAD8,	ALT_PAD8},
  {SDLK_KP9,	TRUE,	'9',      '9',	   CTL_PAD9,	ALT_PAD9},
- {SDLK_WORLD_0,0,0,0,0}
+ {SDLK_WORLD_0,0,0,0,0},
+ {SDLK_SPACE,   FALSE,  ' ', ' ', ' ', ' '}
 };
 #endif
 
@@ -137,8 +138,8 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
   if (!hasevent) hasevent = SDL_PollEvent( &event );
   if ( hasevent ) {
     hasevent = 0;
-   	switch (event.type) {
-   		case SDL_QUIT:
+    switch (event.type) {
+      case SDL_QUIT:
         exit(1);
       case SDL_VIDEORESIZE: // shameless copied from sdl1/pdckbd.c
         if (pdc_own_screen && (event.resize.h / pdc_fheight != LINES || event.resize.w / pdc_fwidth != COLS)) {
@@ -189,11 +190,11 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
           case 17: key = '-'; break; // CP2X VolDown
         }
 #endif
-          default :
-//   	    if (mouseon) PDC_mouse_set();
-            for (int i = 0; key_table[i].keycode; i++) {
-              if (key_table[i].keycode == event.key.keysym.sym) {
-              key = key_table[i].normal;
+      default :
+        //if (mouseon) PDC_mouse_set();
+        for (int i = 0; key_table[i].keycode; i++) {
+          if (key_table[i].keycode == event.key.keysym.sym) {
+            key = key_table[i].normal;
           }
         }
 
