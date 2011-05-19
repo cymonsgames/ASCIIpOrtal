@@ -206,6 +206,16 @@ string FileManager::get_credits(string const & mappack)
   return try_locations(locs);
 }
 
+// Get the path of the infos file.
+string FileManager::get_infos(string const & mappack)
+{
+  string infos = "infos.txt";
+  string locs[2] = { userpath + s + mappack + s + infos,
+                     basepath + s + "maps" + s + mappack + s + infos };
+
+  return try_locations(locs);
+}
+
 int FileManager::get_maxlevel(string const & mappack) {
   int maxlevel;
   string mapdir;
@@ -247,10 +257,6 @@ void FileManager::save_maxlevel(string const & mappack, int level) {
   }
 }
 
-vector<string> FileManager::list_official_mappacks() {
+vector<MapPack> FileManager::list_mappacks() {
   return mappacks;
-}
-
-vector<string> FileManager::list_custom_mappacks() {
-  return custommappacks;
 }

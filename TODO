@@ -9,7 +9,8 @@ TODO list:
    => done
 
  - Create a "mappack" structure that hold everything related to it : name, maxlevel, rawmaps, Pager, ObjectManager... would be cleaner than the current bunch of global variables. -zorun
+   => coding it now, see src/ap_maps.h
 
- - Sort official map packs by difficulty, and custom map packs would show up at the bottom. Anyway, need to find a way to distinguish between those (maybe a file listing official map packs?) -zorun
+ - Have some properties for a map pack, ie. difficulty, description, etc. -zorun
 
  - The mouse events should not do anything (ie. returning ERR), but they do have an effect sometimes. -zorun

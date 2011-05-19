@@ -59,12 +59,6 @@ using namespace std;
 
 #include "asciiportal.h"
 
-/*
- * TODO: is it possible to define custom binary operators in C++? It
- * would be very convenient to have a '+/' operator that would
- * concatenate string while adding a path separator between each.
- * Eg.: "foo" +/ "bar" +/ "in"  ->  "foo/bar/in" or "foo\\bar\\in"
- */
 
 class FileManager {
  private:
@@ -90,6 +84,7 @@ class FileManager {
   FileManager();
   string get_userpath();
   string get_basepath();
+
   // Note that the following functions only try to find a decent path
   // for the request, they do not open the file.
   // Get the path to the given media file.
@@ -97,20 +92,29 @@ class FileManager {
   // This looks into the map pack directory, but falls back to the
   // media directory if not found.
   string get_media(string const & mappack, string const & media);
+
+  string get_fullpath(string const & mappack_name);
+
+  // Get the path to the given map.
   string get_map(string const & mappack, int level);
   // Get the path to the 'inscreen' file for the given mappack.
   // Falls back to the 'default' one if not found.
   string get_inscreen(string const & mappack);
   // Get the path to the 'credits' file for the given mappack.
   string get_credits(string const & mappack);
+  // Get the path to the 'infos' file for the given mappack.
+  string get_infos(string const & mappack);
+
   // Get the highest level reached for the given map pack.
+  // Note that this loads it from a file; the MapPack class stores a
+  // local copy of maxlevel.
+  // If not found, returns 0.
   int get_maxlevel(string const & mappack);
   // Store the highest level reached for the given map pack.
   void save_maxlevel(string const & mappack, int maxlevel);
-  // with proper difficulty ordering.
-  vector<string> list_official_mappacks();
-  // maybe alphabetically for this one?
-  vector<string> list_custom_mappacks();
+
+  // See the MapPack class for ordering.
+  vector<MapPack> list_mappacks();
 };
 
 #endif // AP_DRAW_H_INCLUDED

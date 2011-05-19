@@ -64,10 +64,6 @@ void fillscreen (int);
 
 int displaystats (statstype, int);
 
-void statusmessage (std::string);
-
-void stopmessages ();
-
 int screenchar(int);
 
 void draw_map(std::vector< std::vector<chtype> > const &);
@@ -80,8 +76,7 @@ void draw_rotate (int);
 
 void draw_screen ();
 
-// fullscreen, height, width
-void graphics_init (bool, int, int);
+void graphics_init (bool fullscreen, int height, int width);
 
 void graphics_deinit ();
 
