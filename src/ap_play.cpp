@@ -30,6 +30,7 @@
 #include <vector>
 #include <ctime>
 #include <cmath>
+#include <sys/time.h>
 using namespace std;
 #include "asciiportal.h"
 #ifndef __NOSDL__
@@ -41,6 +42,7 @@ using namespace std;
 #include "ap_play.h"
 #include "ap_draw.h"
 #include "ap_input.h"
+#include "ap_maps.h"
 #include "ap_filemgr.h"
 #include "menu.h"
 #include "ap_object.h"
@@ -57,194 +59,76 @@ const int maxspeed = 6;
 int gamespeed = defaultspeed;
 
 // from main.cpp
-extern vector<vector<string> > rawmaps;
-extern vector<int> rawmaps_maxwidth;
 extern int animateportal;
 extern FileManager filemgr;
 
 // from ap_draw.cpp
 extern const int CharData[MAXObjects][5];
 extern int cheatview;
-extern Pager game_pager;
 
-#include <sys/time.h>
 
-vector<vector<int> > map;
-ObjectManager objm;
-object aimobject;
-string lvlname, texttrigger[9];
 int ticks = 0;
-int level, maxlevel;
-statstype levelstats;
 
-int setup_level (int lvl, string mappack) { // setup map, and objects from raw data.
-  int yy, xx, syy;
-  int hasplayer = 0;
+/*
+  Needs a big cleanup here... Functions defined:
 
-  for (yy = 0; yy < (signed)map.size(); yy++)  // clear the old.
-    map[yy].clear();
-  for (yy = 0; yy < 9; yy++)
-    texttrigger[yy].clear();
-  map.clear();
-  objm.objs.clear();
-  lvlname.clear();
-  game_pager.clear();
+  int pause_menu(string mappack)
+  > objm, levelstats
 
-  if (level > (signed)rawmaps.size()) {
-    mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
-    mvprintw (LINES / 2 , (COLS - 40) / 2,"Mappack does not contain that many maps.");
-    mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
-    refresh ();
-    int input = getch();
-    do {
-#ifdef PDCURSES
-      if (input == KEY_RESIZE) {
-        resize_term(0,0);
-        input = ERR;
-      }
-#endif
-      input = getch ();
-    } while (input == ERR);
-    return 0;
-  }
+  int hitswall(int xx, int xx)
+  > map (const)
 
-  aimobject.coord.x = 1; // used to remember x
-  aimobject.type = SHOT1;
-  aimobject.tick = 0;
-  aimobject.d.x = 1;
-  aimobject.d.y = 0;
+  objiter hitsobj(objiter it0, int yy, int xx)
+  > objm (const)
 
-  vector<int> blankline(rawmaps_maxwidth[lvl] + 2, NONSTICK); // one extra line to start
-  map.push_back(blankline);
-  syy = 1; // screen yy
-  for (yy = 0; yy < (signed)rawmaps[lvl].size(); yy++) {
-    if (rawmaps[lvl][yy].find("music") == 0) {
-#ifndef __NOSOUND__
-      if (rawmaps[lvl][yy].find("default") == 6) {
-        if ((rawmaps[lvl][yy][13] >= '1') && (rawmaps[lvl][yy][13] <= '9'))
-          default_ambience(rawmaps[lvl][yy][13] - '1' + 1);
-        else default_ambience(0);
-      }
-      else {
-        string musicfile = rawmaps[lvl][yy].substr (6, (signed)rawmaps[lvl][yy].size() - 6);
-        load_ambience(mappack, musicfile);
-      }
-      start_ambience();
-#endif
-    } else
-    if (rawmaps[lvl][yy].find("message") == 0) {
-      if ((rawmaps[lvl][yy][7] >= '1') && (rawmaps[lvl][yy][7] <= '9')) {
-        texttrigger[rawmaps[lvl][yy][7] - '1'] = rawmaps[lvl][yy].substr (9, (signed)rawmaps[lvl][yy].size() - 9);
-      } else {
-        game_pager.add_scrolling(rawmaps[lvl][yy].substr (8, (signed)rawmaps[lvl][yy].size() - 8));
-#ifndef __NOSOUND__
-        play_sound(VOICE + rand() % 10);
-#endif
-      }
-    } else if (rawmaps[lvl][yy].find("name") == 0) {
-      lvlname = rawmaps[lvl][yy].substr (5, (signed)rawmaps[lvl][yy].size() - 5);
-      debug("parsing: level name found: " + lvlname);
-      game_pager.set_levelname(lvlname);
-    } else {
-      vector<int> mapline(rawmaps_maxwidth[lvl] + 2, NONSTICK);
+  int still_alive()
+  > objm (const)
 
-      for (xx = 0; xx < (signed)rawmaps[lvl][yy].length(); xx++) { // process the line
-        int check;
-        if ((toupper(rawmaps[lvl][yy][xx]) >= 'A') && (toupper(rawmaps[lvl][yy][xx]) <= 'M')) {
-          if (toupper(rawmaps[lvl][yy][xx])== rawmaps[lvl][yy][xx])
-            check = SWITCH;
-          else check = DOOR;
-        } else if ((rawmaps[lvl][yy][xx] >= '1') && (rawmaps[lvl][yy][xx] <= '9')) {
-          check = TEXTTRIGGER;
-        } else if ((rawmaps[lvl][yy][xx] == '<') || (rawmaps[lvl][yy][xx] == '>')) {
-          check = BOULDER;
-        } else for (check = 0; (check < MAXObjects) && (rawmaps[lvl][yy][xx] != CharData[check][0]); check++) ;
+  void fireportal(int por)
+  > objm
 
-        if (check < MAXObjects) { // then we have a match
-          if (check < MAXWall) {  // and it's a map object.
-            mapline[xx + 1] = check;
-          } else { // No, it's a dynamic object, not a map object.
-            mapline[xx + 1] = NONE;
-            object newobject;
-            newobject.coord.x = xx + 1;
-            newobject.coord.y = syy;
-            newobject.type = check;
-            newobject.tick = 0;
-            newobject.d.x = 0;
-            newobject.d.y = 0;
+  objiter in_portal()
+  > objm (const)
 
-            if (check == SWITCH) {
-              newobject.d.y = rawmaps[lvl][yy][xx] - 'A';
-              mapline[xx + 1] = NONSTICK;
-            }
-            if (check == DOOR) {
-              newobject.d.y = rawmaps[lvl][yy][xx] - 'a';
-              newobject.d.x = 4;
-            }
-            if (check == TEXTTRIGGER) {
-              newobject.d.y = rawmaps[lvl][yy][xx] - '1';
-            }
-            if (check == BOULDER) {
-              if (rawmaps[lvl][yy][xx] == '<') newobject.d.x = -1;
-              if (rawmaps[lvl][yy][xx] == '>') newobject.d.x = 1;
-            }
-            if (newobject.type == PLAYER) hasplayer++;
+  int switch_in_portal()
+  > objm
 
-            objm.objs.push_back(newobject);
-          }
-        }
-      }
-      map.push_back(mapline); // add the line to the current map.
-      syy++;
-    }
-  }
-  map.push_back(blankline);
+  int sc(int x)
+  > 
 
-  debug("Parsing map '" + mappack + "' done.");
+  int por_col(int yy, int xx)
+  > map (const), objm (const)
 
-  objm.resetmap(map[0].size(), map.size());
+  int will_hit(objiter c)
+  > 
 
-  if (objm.objs.size() == 0) {
-    mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
-    mvprintw (LINES / 2 , (COLS - 24) / 2,"Level contains no objects", lvl + 1);
-    mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
-    refresh ();
-    nodelay(stdscr,0);
-    int input = getch();
-    do {
-#ifdef PDCURSES
-      if (input == KEY_RESIZE) {
-        resize_term(0,0);
-        input = ERR;
-      }
-#endif
-      input = getch ();
-    } while (input == ERR);
-    return 0;
-  }
-  if (hasplayer != 1) {
-    mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
-    mvprintw(LINES / 2, (COLS - 50) / 2,"Level contains more or less than one player object");
-    mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
-    refresh ();
-    nodelay(stdscr,0);
-    int input = getch();
-    do {
-#ifdef PDCURSES
-      if (input == KEY_RESIZE) {
-        resize_term(0,0);
-        input = ERR;
-      }
-#endif
-      input = getch ();
-    } while (input == ERR);
-    return 0;
-  }
-  return 1;
-}
+  int applyd(objiter c)
+  >
 
-// handles in-game menu
-int pause_menu() {
+  void collapse_portals()
+  >
+
+  int move_object(objiter c)
+  >
+
+  int physics()
+  >
+
+  int move_player()
+  >
+
+  int play()
+  >
+
+  unsigned long long int get_microseconds()
+
+  Could use an object to avoid passing a level structure as argument
+  everywhere.
+*/
+
+// handles in-game menu.
+// TODO: use the new MapPack structure.
+int pause_menu(MapPack mappack) {
   int pause = display_pause_menu();
   switch (pause) {
   case 0 : case -1 : break; // Resume
@@ -271,7 +155,8 @@ int pause_menu() {
   }
 }
 
-int hitswall(int yy, int xx) {
+//TODO: use level
+int hitswall(level const &level, int yy, int xx) {
   if ((yy < 0) || (yy >= map.size()) || (xx < 0) || (xx >= map[0].size()))
     return NONSTICK;
   switch (map[yy][xx]) {
@@ -285,7 +170,8 @@ int hitswall(int yy, int xx) {
   return map[yy][xx];
 }
 
-objiter hitsobj(objiter it0, int yy, int xx) { // returns iterator to hit object, else it0
+//TODO: use level
+objiter hitsobj(level const &level, objiter it0, int yy, int xx) { // returns iterator to hit object, else it0
   objiter val = it0;
 
   if (xx < 0 || xx >= objm.objmap[yy].size() || yy < 0 || yy >= objm.objmap.size())
@@ -319,7 +205,8 @@ objiter hitsobj(objiter it0, int yy, int xx) { // returns iterator to hit object
   return val;
 }
 
-int still_alive () {
+//TODO: use level
+int still_alive (level const &level) {
   if (objm.player == objm.NULLOBJ || objm.player->coord.y > map.size()) return 0;
 
   int underplayer = map[objm.player->coord.y][objm.player->coord.x];
@@ -331,7 +218,8 @@ int still_alive () {
   return 1;
 }
 
-void fireportal (int por) {
+// TODO: use level
+void fireportal (level &level, int por) {
 #ifndef __NOSOUND__
   play_sound(GUNSHOT);
 #endif
@@ -349,7 +237,8 @@ void fireportal (int por) {
   objm.addobj(newobject);
 }
 
-objiter in_portal () { // Technically both portals are the same space.
+//TODO: use level
+objiter in_portal (level const &level) { // Technically both portals are the same space.
   objiter por1 = objm.portals[0];
   objiter por2 = objm.portals[1];
   if (por1 != objm.NULLOBJ && por2 != objm.NULLOBJ) {
@@ -419,7 +308,7 @@ int sc (int x) {
   return 0;
 }
 
-int por_col (int yy, int xx) { // Collision speciffic to portal shots
+int por_col (int yy, int xx) { // Collision specific to portal shots
   int col = map[yy][xx];
   if ((yy < 0) || (yy >= (signed)map.size())
   || (xx < 0) || (xx >= (signed)map[0].size()))
@@ -1033,7 +922,7 @@ int move_player () {
   return 1;
 }
 
-int play (string mappack) {
+int play (MapPack &mappack) {
   unsigned long long int start, stop;
   double seconds;
 
@@ -1102,9 +991,9 @@ int play (string mappack) {
       return 0;
     }
 */
-    if (physics () < 0) return 0;
-    if (still_alive()) {
-      draw_screen ();
+    if (physics(level) < 0) return 0;
+    if (still_alive(level)) {
+      draw_screen();
       if (map[objm.player->coord.y][objm.player->coord.x] == GOAL) {
 #ifndef __NOSOUND__
         play_sound(WIN);

@@ -10,12 +10,34 @@
 using namespace std;
 
 #include "ap_object.h"
+#include "ap_filemgr.h"
 
-enum state {
-  MAPPACK_ERROR,
-  MAP_ERROR,
-  OK
+// Statistics of a level
+struct levelstats {
+  int numportals;
+  int numdeaths;
+  int numticks;
+  int numsteps;
+  void clear() {
+    numportals = 0;
+    numdeaths = 0;
+    numsteps = 0;
+    numticks = 0;
+  };
 };
+
+// Hold global persistent statistics, to be able to provide nice
+// things like an achievements system, etc.
+struct globalstats {
+  int numportals;
+  int numdeaths;
+  int numsteps;
+  // Number of levels accomplished
+  int numlevels;
+  // Number of map packs accomplished
+  int nummappacks;
+};
+
 
 // General properties of a map pack.
 // Once loaded from a file, this shouldn't be changing.
@@ -65,19 +87,18 @@ struct level {
   object aimobject;
   Pager pager;
 
-  // loads map, texttrigger, objm, ...
-  void load_map();
-
-  void clear();
+  // Statistics
+  levelstats stats;
 };
 
 class MapPack {
 private:
 
-  state state;
-
-  // Holds everything related to the current map
+  // Holds everything related to the current map.
   level currentlevel;
+
+  // Embedded file manager.
+  MapPack_FileManager filemgr;
 
   // The maximum level reached for this map pack.
   // Upon starting, its value is 0; when a map pack is done, its value
@@ -85,26 +106,38 @@ private:
   int maxlevel;
 
 public:
-  MapPack(string const & path);
+  // Loads map pack description, initialize the bundled file manager.
+  MapPack(string const & name);
 
-  // Location of the map pack (eg. "default")
-  string path;
-  
-  // eg. "/usr/share/asciiportal/maps/default"
-  string fullpath;
+  // Copy operator
+  //  MapPack &operator=(const MapPack &source);
+
+  // Name of the map pack (eg. "default")
+  // Empty string if loading has failed.
+  string name;
   
   properties properties;
 
   int get_maxlevel();
-  void set_maxlevel(int);
+  //  void set_maxlevel(int);
   int get_currentlevel();
 
-  // This loads the required map as appropriate
+  // This loads the required level as appropriate.
   void set_currentlevel(int);
 
-  // incrementation of the current level (postfix notation)
+  // Incrementation of the current level (postfix notation)
   MapPack &operator++(void);
   MapPack &operator--(void);
+
+  // Loads map, texttrigger, objm, ...
+  void load_map();
+
+  // Hold persistent global statistics
+  globalstats stats;
+
+  // This also write the maximum level reached in a save file, using
+  // the file manager.
+  void clear_level();
 
   void clear();
 };

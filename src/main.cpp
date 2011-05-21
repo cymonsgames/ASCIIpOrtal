@@ -50,10 +50,8 @@ void debug(string message) {
 #endif
 }
 
-const string default_mappack = "default";
-
 int main(int args, char* argv[]) {
-  string mappack_name = default_mappack;
+  string mappack_name = filemgr.default_mappack;
   bool fullscreen = false;
   string resolution;
   istringstream res_buffer;
@@ -95,22 +93,23 @@ int main(int args, char* argv[]) {
 
   MapPack mappack(mappack_name);
 
-  if (mappack.state == MAPPACK_ERROR) {
-    cerr << "Error - The mappack '" << mappack << "' does not exist.\n\n"
-	 << "You must place all level files in a sub-directory of 'maps/' named '" << mappack << "/'.\n"
+  if (mappack.name == "") {
+    cerr << "Error - The mappack '" << mappack_name << "' does not exist.\n\n"
+	 << "You must place all level files in a sub-directory of 'maps/' named '" << mappack_name << "/'.\n"
 #ifndef WIN32
 	 << "On unix systems, you may provide custom map packs in '" << filemgr.get_userpath() << "/'.\n"
 #endif
 	 << "Bundled official map packs are in the '" << filemgr.get_basepath() << "/maps/' directory.\n\n";
 
-    if (mappack_name != default_mappack) {
-      mappack = "default";
-      if (!loadmaps (mappack)) {
+    if (mappack_name != filemgr.default_mappack) {
+      MapPack mappack_(filemgr.default_mappack);
+      if (mappack_.name == "") {
         cerr << "Error - No map files found in default location.\n"
 	     << "Double check your installation!\n\n"
 	     << "Press ENTER to continue.\n";
         exit(1);
       }
+      mappack = mappack_;
     }
 
     cin.get();

@@ -58,23 +58,8 @@ enum GameObjs {
   MAXColors
 };
 
-class XY { // very simple class for keeping XY cooridnate pairs.
-  public:
+struct XY { // very simple struct for keeping XY cooridnate pairs.
   int x; int y;
-};
-
-class statstype {
-  public:
-  int numportals;
-  int numdeaths;
-  int numticks;
-  int numsteps;
-  void clear() {
-    numportals = 0;
-    numdeaths = 0;
-    numsteps = 0;
-    numticks = 0;
-  };
 };
 
 int loadmaps (std::string);

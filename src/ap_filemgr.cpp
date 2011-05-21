@@ -146,6 +146,7 @@ FileManager::FileManager() {
 #endif //!WIN32
 
   // now find available map packs
+  // TODO: delay it for when the user requests it (which he probably won't)
   mappacks.clear();
   custommappacks.clear();
   mappacks = get_subdirectories(basepath + s + "maps");

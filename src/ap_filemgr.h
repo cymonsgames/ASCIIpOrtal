@@ -58,63 +58,107 @@
 using namespace std;
 
 #include "asciiportal.h"
+#include "ap_maps.h"
 
 
+// Base class for a file manager
 class FileManager {
  private:
   // eg. "/usr/share/asciiportal" or ""
   string basepath;
+
   // eg. "~/.asciiportal" if available
   string userpath;
+
   // path separator
   string s;
+
   // available map packs
-  vector<string> mappacks;
-  // custom ones (only on unix atm)
-  vector<string> custommappacks;
+  vector<MapPack> mappacks;
+
   // returns a list of all subdirectories of the given directory
   vector<string> get_subdirectories(string const &);
+
   // get the name of the given map file (eg 21 -> '0021.txt')
   string get_lvl_filename(int);
+
   // try to find a file in multiple locations; the first location that
   // exists gets chosen, "" if no location exists.
   string try_locations(string[]);
 
- public:
+public:
   FileManager();
+
+  // "default" at the moment, but this makes sure we only have to
+  // modify it in one place if we want to change it.
+  const string default_mappack;
+
   string get_userpath();
   string get_basepath();
 
-  // Note that the following functions only try to find a decent path
-  // for the request, they do not open the file.
   // Get the path to the given media file.
   string get_media(string const & media);
-  // This looks into the map pack directory, but falls back to the
-  // media directory if not found.
-  string get_media(string const & mappack, string const & media);
-
-  string get_fullpath(string const & mappack_name);
-
-  // Get the path to the given map.
-  string get_map(string const & mappack, int level);
-  // Get the path to the 'inscreen' file for the given mappack.
-  // Falls back to the 'default' one if not found.
-  string get_inscreen(string const & mappack);
-  // Get the path to the 'credits' file for the given mappack.
-  string get_credits(string const & mappack);
-  // Get the path to the 'infos' file for the given mappack.
-  string get_infos(string const & mappack);
-
-  // Get the highest level reached for the given map pack.
-  // Note that this loads it from a file; the MapPack class stores a
-  // local copy of maxlevel.
-  // If not found, returns 0.
-  int get_maxlevel(string const & mappack);
-  // Store the highest level reached for the given map pack.
-  void save_maxlevel(string const & mappack, int maxlevel);
 
   // See the MapPack class for ordering.
   vector<MapPack> list_mappacks();
+};
+
+
+// Specialized class to be used embedded into a map pack object.
+class MapPack_FileManager : public FileManager {
+private:
+  /*
+  // Used to access some properties of the map pack we're in.
+  Mappack *host;
+  */
+
+  // Name of the host map pack (eg. "default" or "n_a_portal")
+  // This also is the name of the directory where the level files are stored.
+  string name;
+
+  // eg. "/usr/share/asciiportal/maps/default" or "~/.asciiportal/default"
+  // Empty string if not found.
+  string fullpath;
+
+public:
+  /*
+  // The FileManager constructor should be called first by the compiler.
+  // A pointer to the host MapPack object.
+  MapPack_FileManager(Mappack *mappack);
+  */
+  // The FileManager constructor should be called first by the compiler.
+  // Name of the host map pack, see above.
+  MapPack_FileManager(string const & name);
+
+  string get_fullpath();
+
+  // This looks into the host map pack directory, but falls back to the
+  // media directory if not found.
+  // Overloads the FileManager method.
+  string get_media(string const & media);
+
+  // Get the path to the given level's map file.
+  string get_map(int level);
+
+  // Get the path to the 'inscreen' file for the host mappack.
+  // Falls back to the 'default' one if not found.
+  string get_inscreen();
+
+  // Get the path to the 'credits' file for the host mappack.
+  string get_credits();
+
+  // Get the path to the 'infos' file for the host mappack.
+  string get_infos();
+
+  // Fetch the highest level reached for the host map pack.
+  // Note that this loads it from a file; the MapPack class stores a
+  // local copy of maxlevel.
+  // If not found, returns 0.
+  int fetch_maxlevel();
+
+  // Store the highest level reached for the host map pack in a file.
+  void save_maxlevel(int maxlevel);
+
 };
 
 #endif // AP_DRAW_H_INCLUDED
