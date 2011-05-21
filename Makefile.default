@@ -122,7 +122,8 @@ distclean:
 # for an example
 
 install: saveclean
-	mkdir -p $(DESTDIR)/usr/share/{,doc/}asciiportal
+	mkdir -p $(DESTDIR)/usr/share/asciiportal
+	mkdir -p $(DESTDIR)/usr/share/doc/asciiportal
 	mkdir -p $(DESTDIR)/usr/bin
 	cp -r media/ maps/ $(DESTDIR)/usr/share/asciiportal/
 	cp README CHANGELOG $(DESTDIR)/usr/share/doc/asciiportal/
