@@ -100,25 +100,25 @@ int ticks = 0;
   > map (const), objm (const)
 
   int will_hit(objiter c)
-  > 
+  > texttrigger, pager, objm
 
   int applyd(objiter c)
-  >
+  > objm
 
   void collapse_portals()
-  >
+  > objm
 
   int move_object(objiter c)
-  >
+  > 
 
   int physics()
-  >
+  > objm, levelstats, map
 
   int move_player()
-  >
+  > aimobject, pager, objm, levelstats, map
 
   int play()
-  >
+  > objm, map
 
   unsigned long long int get_microseconds()
 
