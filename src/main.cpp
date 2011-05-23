@@ -122,7 +122,7 @@ int main(int args, char* argv[]) {
   sound_init ();
 #endif
 
-  while (play (mappack) >= 0) ;
+  while (main_menu (mappack) >= 0) ;
 
   graphics_deinit();
   cout << "Thank you for playing ASCIIpOrtal\n";

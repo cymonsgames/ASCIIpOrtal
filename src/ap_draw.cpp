@@ -88,13 +88,6 @@ extern const int CharData [MAXColors][5] = // File, Screen, Forground, backgroun
  {0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
 };
 
-extern vector<vector<int> > map;
-extern ObjectManager objm;
-extern object aimobject;
-extern string lvlname;
-extern int ticks;
-Pager game_pager;
-
 int cheatview = 2;
 int animateportal = 0;
 
@@ -423,7 +416,8 @@ inline void portal_space (XY& s, XY& d, int type, int& zmax, int& wmin, int& wma
   }
 }
 
-void map_screen (vector<vector<chtype> >& screenmap) {
+// Fills screenmap according to the objects present in the world
+void map_screen (level const & level, vector<vector<chtype> >& screenmap) {
   XY upperleft, screenc;
   screenmap.clear();
   upperleft.x = objm.player->coord.x - (COLS/2);

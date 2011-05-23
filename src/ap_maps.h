@@ -11,9 +11,11 @@ using namespace std;
 
 #include "ap_object.h"
 #include "ap_filemgr.h"
+#include "ap_draw.h"
 
 // Statistics of a level
-struct levelstats {
+class levelstats {
+ public:
   int numportals;
   int numdeaths;
   int numticks;
@@ -28,7 +30,8 @@ struct levelstats {
 
 // Hold global persistent statistics, to be able to provide nice
 // things like an achievements system, etc.
-struct globalstats {
+class globalstats {
+ public:
   int numportals;
   int numdeaths;
   int numsteps;
@@ -41,7 +44,8 @@ struct globalstats {
 
 // General properties of a map pack.
 // Once loaded from a file, this shouldn't be changing.
-struct properties {
+class properties {
+ public:
   int number_maps;
 
   // Short name (eg. "Default levels")
@@ -70,12 +74,15 @@ struct properties {
 };
 
 // This stores the necessary informations on a given level
-struct level {
-  // level identification
+class level {
+public:
+  // Level identification
   int level_id;
   string levelname;
   // the mappack name we're in
   string mappack;
+
+  int ticks;
   
   // Stores the current map
   vector< vector<int> > map;
@@ -93,13 +100,6 @@ struct level {
 
 class MapPack {
 private:
-
-  // Holds everything related to the current map.
-  level currentlevel;
-
-  // Embedded file manager.
-  MapPack_FileManager filemgr;
-
   // The maximum level reached for this map pack.
   // Upon starting, its value is 0; when a map pack is done, its value
   // is 'properties.number_maps'.
@@ -112,6 +112,12 @@ public:
   // Copy operator
   //  MapPack &operator=(const MapPack &source);
 
+  // Holds everything related to the current level.
+  level level;
+
+  // Embedded file manager.
+  MapPack_FileManager filemgr;
+
   // Name of the map pack (eg. "default")
   // Empty string if loading has failed.
   string name;
@@ -119,13 +125,14 @@ public:
   properties properties;
 
   int get_maxlevel();
-  //  void set_maxlevel(int);
+  // The current level is marked is maxlevel
+  void set_maxlevel();
   int get_currentlevel();
 
   // This loads the required level as appropriate.
   void set_currentlevel(int);
 
-  // Incrementation of the current level (postfix notation)
+  // Incrementation of the current level (prefix notation)
   MapPack &operator++(void);
   MapPack &operator--(void);
 
@@ -135,8 +142,9 @@ public:
   // Hold persistent global statistics
   globalstats stats;
 
-  // This also write the maximum level reached in a save file, using
-  // the file manager.
+  // Adds level stats to global stats
+  void update_stats();
+
   void clear_level();
 
   void clear();

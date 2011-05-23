@@ -66,9 +66,6 @@ extern FileManager filemgr;
 extern const int CharData[MAXObjects][5];
 extern int cheatview;
 
-
-int ticks = 0;
-
 /*
   Needs a big cleanup here... Functions defined:
 
@@ -77,18 +74,23 @@ int ticks = 0;
 
   int hitswall(int xx, int xx)
   > map (const)
+  => out of class
 
   objiter hitsobj(objiter it0, int yy, int xx)
   > objm (const)
+  Used in ap_draw.cpp
+  => out of class
 
   int still_alive()
   > objm (const)
+  => out of class
 
   void fireportal(int por)
   > objm
 
   objiter in_portal()
   > objm (const)
+  => out of class
 
   int switch_in_portal()
   > objm
@@ -98,6 +100,7 @@ int ticks = 0;
 
   int por_col(int yy, int xx)
   > map (const), objm (const)
+  => out of class
 
   int will_hit(objiter c)
   > texttrigger, pager, objm
@@ -125,6 +128,11 @@ int ticks = 0;
   Could use an object to avoid passing a level structure as argument
   everywhere.
 */
+
+Game::Game(level &lvl) {
+  level = lvl;
+  NULLOBJ = level.objm.NULLOBJ;
+}
 
 // handles in-game menu.
 // TODO: use the new MapPack structure.
@@ -155,11 +163,10 @@ int pause_menu(MapPack mappack) {
   }
 }
 
-//TODO: use level
 int hitswall(level const &level, int yy, int xx) {
-  if ((yy < 0) || (yy >= map.size()) || (xx < 0) || (xx >= map[0].size()))
+  if ((yy < 0) || (yy >= level.map.size()) || (xx < 0) || (xx >= level.map[0].size()))
     return NONSTICK;
-  switch (map[yy][xx]) {
+  switch (level.map[yy][xx]) {
     case NONE:
     case GOAL:
     case LADDER:
@@ -167,17 +174,17 @@ int hitswall(level const &level, int yy, int xx) {
     case XFIELD:
       return 0; // Everyone and everything passes through these
   }
-  return map[yy][xx];
+  return level.map[yy][xx];
 }
 
-//TODO: use level
-objiter hitsobj(level const &level, objiter it0, int yy, int xx) { // returns iterator to hit object, else it0
+// returns iterator to hit object, else it0
+objiter hitsobj(level const &level, objiter it0, int yy, int xx) {
   objiter val = it0;
 
-  if (xx < 0 || xx >= objm.objmap[yy].size() || yy < 0 || yy >= objm.objmap.size())
+  if (xx < 0 || xx >= level.objm.objmap[yy].size() || yy < 0 || yy >= level.objm.objmap.size())
     return val;
 
-  objset *s = &(objm.objmap[yy][xx]);
+  objset *s = &(level.objm.objmap[yy][xx]);
   for (objset::iterator it = s->begin(); it != s->end(); it++) {
     if (*it != it0) {
       switch ((*it)->type) {
@@ -205,59 +212,57 @@ objiter hitsobj(level const &level, objiter it0, int yy, int xx) { // returns it
   return val;
 }
 
-//TODO: use level
 int still_alive (level const &level) {
-  if (objm.player == objm.NULLOBJ || objm.player->coord.y > map.size()) return 0;
+  if (level.objm.player == level.objm.NULLOBJ || level.objm.player->coord.y > map.size()) return 0;
 
-  int underplayer = map[objm.player->coord.y][objm.player->coord.x];
+  int underplayer = level.map[level.objm.player->coord.y][level.objm.player->coord.x];
   if (underplayer == FFIELD || underplayer == SPIKE) return 0;
 
-  int hitobject = hitsobj(objm.player, objm.player->coord.y, objm.player->coord.x)->type;
+  int hitobject = hitsobj(level, level.objm.player, level.objm.player->coord.y, level.objm.player->coord.x)->type;
   if (hitobject == BOULDER) return 0;
 
   return 1;
 }
 
-// TODO: use level
-void fireportal (level &level, int por) {
+void Game::fireportal (int por) {
 #ifndef __NOSOUND__
   play_sound(GUNSHOT);
 #endif
-  if (objm.shots[por - SHOT1] != objm.NULLOBJ) {
-    objm.shots[por - SHOT1]->type = NONE;
-    objm.shots[por - SHOT1] = objm.NULLOBJ;
+  if (level.objm.shots[por - SHOT1] != NULLOBJ) {
+    level.objm.shots[por - SHOT1]->type = NONE;
+    level.objm.shots[por - SHOT1] = NULLOBJ;
   }
   object newobject;
-  newobject.coord.x = objm.player->coord.x + aimobject.d.x;
-  newobject.coord.y = objm.player->coord.y + aimobject.d.y;
+  newobject.coord.x = level.objm.player->coord.x + level.aimobject.d.x;
+  newobject.coord.y = level.objm.player->coord.y + level.aimobject.d.y;
   newobject.type = por;
   newobject.tick = 0;
-  newobject.d.x = aimobject.d.x;
-  newobject.d.y = aimobject.d.y;
-  objm.addobj(newobject);
+  newobject.d.x = level.aimobject.d.x;
+  newobject.d.y = level.aimobject.d.y;
+  level.objm.addobj(newobject);
 }
 
-//TODO: use level
 objiter in_portal (level const &level) { // Technically both portals are the same space.
-  objiter por1 = objm.portals[0];
-  objiter por2 = objm.portals[1];
-  if (por1 != objm.NULLOBJ && por2 != objm.NULLOBJ) {
-    objiter smacked = hitsobj(por1, por1->coord.y, por1->coord.x);
+  objiter por1 = level.objm.portals[0];
+  objiter por2 = level.objm.portals[1];
+  if (por1 != level.objm.NULLOBJ && por2 != level.objm.NULLOBJ) {
+    objiter smacked = hitsobj(level, por1, por1->coord.y, por1->coord.x);
     if (por1 != smacked)
       return smacked;
-    smacked = hitsobj(por2, por2->coord.y, por2->coord.x);
+    smacked = hitsobj(level, por2, por2->coord.y, por2->coord.x);
     if (por2 != smacked)
       return smacked;
   }
-  return objm.NULLOBJ;
+  return level.objm.NULLOBJ;
 }
 
-int switch_in_portal() { // find what's in the portal and switch it to the other portal
-  objiter c_obj = in_portal();
-  objiter por1 = objm.portals[0];
-  objiter por2 = objm.portals[1];
+// find what's in the portal and switch it to the other portal
+int Game::switch_in_portal() {
+  objiter c_obj = in_portal(level);
+  objiter por1 = level.objm.portals[0];
+  objiter por2 = level.objm.portals[1];
 
-  if (c_obj != objm.NULLOBJ) {
+  if (c_obj != NULLOBJ) {
     if ((c_obj->coord.x == por2->coord.x) && (c_obj->coord.y == por2->coord.y)) {
       objiter t = por2;
       por2 = por1;
@@ -267,7 +272,7 @@ int switch_in_portal() { // find what's in the portal and switch it to the other
     if (por1->d.x == 0) c_obj->d.x = 0;
     if (por1->d.y == 0) c_obj->d.y = 0; // only allow one direction vector through.
 
-    objm.moveobj(c_obj, por2->coord.x, por2->coord.y);
+    level.objm.moveobj(c_obj, por2->coord.x, por2->coord.y);
 
     XY temp, control; // rotate d vector
     int rotation = 0;
@@ -281,13 +286,13 @@ int switch_in_portal() { // find what's in the portal and switch it to the other
     }
 
     if (c_obj->type == PLAYER) {
-      if (aimobject.d.x == -por2->d.x) { // try to avoid flipflop scenarios due to aiming.
-        if (aimobject.d.y != 0) aimobject.d.x = 0;
-        else aimobject.d.x = -aimobject.d.x;
+      if (level.aimobject.d.x == -por2->d.x) { // try to avoid flipflop scenarios due to aiming.
+        if (level.aimobject.d.y != 0) level.aimobject.d.x = 0;
+        else level.aimobject.d.x = -level.aimobject.d.x;
       }
-      if (aimobject.d.y == -por2->d.y) {
-        if (aimobject.d.x != 0) aimobject.d.y = 0;
-        else aimobject.d.y = -aimobject.d.y;
+      if (level.aimobject.d.y == -por2->d.y) {
+        if (level.aimobject.d.x != 0) level.aimobject.d.y = 0;
+        else level.aimobject.d.y = -level.aimobject.d.y;
       }
     }
 
@@ -308,12 +313,12 @@ int sc (int x) {
   return 0;
 }
 
-int por_col (int yy, int xx) { // Collision specific to portal shots
-  int col = map[yy][xx];
-  if ((yy < 0) || (yy >= (signed)map.size())
-  || (xx < 0) || (xx >= (signed)map[0].size()))
+int Game::por_col (int yy, int xx) { // Collision specific to portal shots
+  int col = level.map[yy][xx];
+  if ((yy < 0) || (yy >= (signed)level.map.size())
+  || (xx < 0) || (xx >= (signed)level.map[0].size()))
   col = NONSTICK;
-  else switch (map[yy][xx]) {
+  else switch (level.map[yy][xx]) {
     case NONE:
     case GOAL:
     case LADDER:
@@ -325,8 +330,8 @@ int por_col (int yy, int xx) { // Collision specific to portal shots
     case PFIELD:
       col = NONSTICK;
   }
-  objiter colobj = hitsobj(objm.NULLOBJ, yy, xx);
-  if (colobj != objm.NULLOBJ)
+  objiter colobj = hitsobj(level, NULLOBJ, yy, xx);
+  if (colobj != NULLOBJ)
   switch (colobj->type) {
     case DOOR : if (colobj->d.x > 0) col = NONSTICK; break;
     case DUPLICATOR :
@@ -337,7 +342,11 @@ int por_col (int yy, int xx) { // Collision specific to portal shots
   return col;
 }
 
-int will_hit (objiter c) {
+bool Game::has_won() {
+  return (level.map[level.objm.player->coord.y][level.objm.player->coord.x] == GOAL);
+}
+
+int Game::will_hit (objiter c) {
   objiter c_obj; // = hitsobj(c, c->coord.y + d.y, c->coord.x + d.x);
   int c_wall; // = hitswall(c->coord.y + d.y, c->coord.x + d.x);
   XY d;
@@ -348,21 +357,21 @@ int will_hit (objiter c) {
     d.x = sc(c->d.x);
   d.y = sc(c->d.y);
 
-  c_obj = hitsobj(c, c->coord.y + d.y, c->coord.x + d.x);
-  c_wall = hitswall(c->coord.y + d.y, c->coord.x + d.x);
+  c_obj = hitsobj(level, c, c->coord.y + d.y, c->coord.x + d.x);
+  c_wall = hitswall(level, c->coord.y + d.y, c->coord.x + d.x);
 
   if ((c_obj != c) && (c_obj->type != NONE)) { // if hit object
     int objtype = c_obj->type;
 
     if (objtype == TEXTTRIGGER) {
       if (c->type == PLAYER) {
-        if (texttrigger[c_obj->d.y].size()) {
-          game_pager.add_scrolling(texttrigger[c_obj->d.y]);
+        if (level.texttrigger[c_obj->d.y].size()) {
+          level.pager.add_scrolling(level.texttrigger[c_obj->d.y]);
 #ifndef __NOSOUND__
           play_sound(VOICE + rand() % 10);
 #endif
         }
-        objm.killtriggers(c_obj->d.y);
+        level.objm.killtriggers(c_obj->d.y);
       }
       if ((c->type == SWITCH) || (c->type == SWITCHON))
         return objtype;
@@ -371,8 +380,8 @@ int will_hit (objiter c) {
     if ((objtype == PORTAL1) || (objtype == PORTAL2)) { // if hit portal
       if (((c_obj->d.x != 0) && (c_obj->d.x != d.x))
           || ((c_obj->d.y != 0) && (c_obj->d.y != d.y))) { // only allow in if portal is right direction
-        objiter other_por = objm.portals[(objtype == PORTAL1) ? 1 : 0]; // get the other portal
-        if (other_por != objm.NULLOBJ) { // Yes 2 portals present
+        objiter other_por = level.objm.portals[(objtype == PORTAL1) ? 1 : 0]; // get the other portal
+        if (other_por != NULLOBJ) { // Yes 2 portals present
           objiter inp = in_portal();
           if (inp != objm.objs.end() && c != inp) { // if something's in the other portal
             c_obj = inp;
@@ -442,16 +451,16 @@ int applyd (objiter c) {
   return 0;
 }
 
-void collapse_portals () {
+void Game::collapse_portals () {
   int playsound = 0;
 
-  objiter in_por = in_portal();
-  if (in_por != objm.NULLOBJ) {
-    objiter por1 = objm.portals[0];
-    objiter por2 = objm.portals[1];
-    if (in_por == hitsobj(por2, por2->coord.y, por2->coord.x)) { // FIXME: redundant, need to rework in_portal()
-      por1 = objm.portals[1];
-      por2 = objm.portals[0];
+  objiter in_por = in_portal(level);
+  if (in_por != NULLOBJ) {
+    objiter por1 = level.objm.portals[0];
+    objiter por2 = level.objm.portals[1];
+    if (in_por == hitsobj(level, por2, por2->coord.y, por2->coord.x)) { // FIXME: redundant, need to rework in_portal()
+      por1 = level.objm.portals[1];
+      por2 = level.objm.portals[0];
     }
     in_por->d.x += por1->d.x; // push anything stuck in portal out.
     in_por->d.y += por1->d.y; // before collapsing it.
@@ -463,7 +472,7 @@ void collapse_portals () {
       in_por->tick--;
       if (!move_object(in_por)) {
         if (in_por->type == PLAYER)
-          objm.player = objm.NULLOBJ; // a unique way to die
+          level.objm.player = NULLOBJ; // a unique way to die
         in_por->type = FLASH;
       }
     }
@@ -471,16 +480,16 @@ void collapse_portals () {
 
   // cancel all portals
   for (int i = 0; i < 2; ++i) {
-    if (objm.portals[i] != objm.NULLOBJ) {
-      objm.portals[i]->d.y = CharData[PORTAL1 + i][2];
-      objm.portals[i]->type = FLASH;
-      objm.portals[i] = objm.NULLOBJ;
+    if (level.objm.portals[i] != NULLOBJ) {
+      level.objm.portals[i]->d.y = CharData[PORTAL1 + i][2];
+      level.objm.portals[i]->type = FLASH;
+      level.objm.portals[i] = NULLOBJ;
       playsound = 1;
     }
-    if (objm.shots[i] != objm.NULLOBJ) {
-      objm.shots[i]->d.y = CharData[SHOT1 + i][2];
-      objm.shots[i]->type = FLASH;
-      objm.shots[i] = objm.NULLOBJ;
+    if (level.objm.shots[i] != NULLOBJ) {
+      level.objm.shots[i]->d.y = CharData[SHOT1 + i][2];
+      level.objm.shots[i]->type = FLASH;
+      level.objm.shots[i] = NULLOBJ;
       playsound = 1;
     }
   }
@@ -490,26 +499,27 @@ void collapse_portals () {
 #endif
 }
 
-int move_object (objiter c) { // collision detection and movement.
+// collision detection and movement.
+int Game::move_object (objiter c) {
   objiter c_obj;
 
   if (c->tick >= ticks) return 0;
   c->tick = ticks;
   if (c->type == BOX) c->tick--;
 
-  c_obj = hitsobj(c, c->coord.y, c->coord.x);
+  c_obj = hitsobj(level, c, c->coord.y, c->coord.x);
   if ((c_obj->type == PORTAL1) || (c_obj->type == PORTAL2)) { // if obj[c] is in portal
-    int needswitch = 0;
-    if ((c->d.x) && (sc(c->d.x) == -c_obj->d.x)) needswitch = 1;
-    if ((c->d.y) && (sc(c->d.y) == -c_obj->d.y)) needswitch = 1;
+    bool needswitch = false;
+    if ((c->d.x) && (sc(c->d.x) == -c_obj->d.x)) needswitch = true;
+    if ((c->d.y) && (sc(c->d.y) == -c_obj->d.y)) needswitch = true;
     if (c->type == PLAYER) {
-      if ((aimobject.d.x) && (sc(aimobject.d.x) == -c_obj->d.x)) needswitch = 1;
-      if ((aimobject.d.y) && (sc(aimobject.d.y) == -c_obj->d.y)) needswitch = 1;
+      if ((level.aimobject.d.x) && (sc(level.aimobject.d.x) == -c_obj->d.x)) needswitch = true;
+      if ((level.aimobject.d.y) && (sc(level.aimobject.d.y) == -c_obj->d.y)) needswitch = true;
     }
 
     if (needswitch) { // if facing the right way
       int rotations = switch_in_portal();
-      c_obj = hitsobj(c, c->coord.y, c->coord.x);
+      c_obj = hitsobj(level, c, c->coord.y, c->coord.x);
       if (c->type == PLAYER) {
 #ifndef __NOSOUND__
         play_sound(THROUGH);
@@ -528,11 +538,11 @@ int move_object (objiter c) { // collision detection and movement.
   if ((c->type == PLAYER) && (c->d.x)) {
     c->d.y = -1; // step up;
 
-    objiter porcheck = hitsobj(c, c->coord.y, c->coord.x);
+    objiter porcheck = hitsobj(level, c, c->coord.y, c->coord.x);
     if ((porcheck->type == PORTAL1) || (porcheck->type == PORTAL2)) {
       if (porcheck->d.y == 1) {
         int rotations = switch_in_portal();
-        c_obj = hitsobj(c, c->coord.y, c->coord.x);
+        c_obj = hitsobj(level, c, c->coord.y, c->coord.x);
 #ifndef __NOSOUND__
         play_sound(THROUGH);
 #endif
@@ -551,19 +561,19 @@ int move_object (objiter c) { // collision detection and movement.
   return 0; // didn't move
 }
 
-int physics () {
+int Game::physics () {
   int por = 0;
 
-  for (objiter c = objm.objs.begin(); c != objm.objs.end(); c++) {
+  for (objiter c = level.objm.objs.begin(); c != level.objm.objs.end(); c++) {
     por = 0;
     switch (c->type) { // Every tick movements (like gravity)
       case NONE: break;
       case DUPLICATOR:
         if (c->d.y > 0) c->d.y--;
         else {
-          objiter dupe = hitsobj(c, c->coord.y - 1, c->coord.x);
+          objiter dupe = hitsobj(level, c, c->coord.y - 1, c->coord.x);
           if ((c != dupe) && (dupe->type == BOX || dupe->type == BOULDER)
-            && (c == hitsobj(c, c->coord.y + 1, c->coord.x))) {
+              && (c == hitsobj(level, c, c->coord.y + 1, c->coord.x))) {
             object newobject;
             newobject.coord.x = c->coord.x;
             newobject.coord.y = c->coord.y;
@@ -571,7 +581,7 @@ int physics () {
             newobject.tick = dupe->tick;
             newobject.d.x = dupe->d.x;
             newobject.d.y = 0;
-            objm.addobj(newobject);
+            level.objm.addobj(newobject);
             c->d.y = beatsperdupe;
 #ifndef __NOSOUND__
             if (newobject.type == BOX) play_sound (DUPLICATE);
@@ -583,19 +593,19 @@ int physics () {
       case SWITCH:
       case SWITCHON: {
         int playsound = 0;
-        objiter colobj = hitsobj(c, c->coord.y - 1, c->coord.x);
+        objiter colobj = hitsobj(level, c, c->coord.y - 1, c->coord.x);
         if (c != colobj) {
           if (c->type == SWITCH) {
             c->type = SWITCHON;
             if ((colobj->type == PLAYER) || (colobj->type == BOX)) playsound = 2;
           }
           int otheropen = 0;
-          for (int i = 0; i < objm.switches[c->d.y].size(); i++)
-            if (objm.switches[c->d.y][i]->type == SWITCH)
+          for (int i = 0; i < level.objm.switches[c->d.y].size(); i++)
+            if (level.objm.switches[c->d.y][i]->type == SWITCH)
               otheropen = 1;
           if (!otheropen) // open the doors
-            for (int i = 0; i < objm.doors[c->d.y].size(); i++) {
-              objiter d = objm.doors[c->d.y][i];
+            for (int i = 0; i < level.objm.doors[c->d.y].size(); i++) {
+              objiter d = level.objm.doors[c->d.y][i];
               if (((colobj->type == PLAYER) || (colobj->type == BOX)) && (d->d.x == 4)) playsound = 1;
               if (--d->d.x < 0) d->d.x = 0;
             }
@@ -605,10 +615,10 @@ int physics () {
 #endif
         } else {
           c->type = SWITCH;
-          for (int i = 0; i < objm.doors[c->d.y].size(); i++) {
-            objiter d = objm.doors[c->d.y][i];
+          for (int i = 0; i < level.objm.doors[c->d.y].size(); i++) {
+            objiter d = level.objm.doors[c->d.y][i];
             if (c->d.y >= 6) { // if it's a momentary switch
-              if (d == hitsobj(d, d->coord.y, d->coord.x)) { // and there's nothing in the door
+              if (d == hitsobj(level, d, d->coord.y, d->coord.x)) { // and there's nothing in the door
                 if (d->d.x == 0) playsound = 1;
                 if (++d->d.x > 4) d->d.x = 4; // close the door
               }
@@ -638,7 +648,7 @@ int physics () {
           if (col) {
             if (col == NONSTICK) {
               c->d.y = CharData[c->type][2];
-              objm.shots[c->type - SHOT1] = objm.NULLOBJ;
+              level.objm.shots[c->type - SHOT1] = objm.NULLOBJ;
               c->type = FLASH;
 #ifndef __NOSOUND__
               play_sound (PORTALFAIL);
@@ -647,22 +657,22 @@ int physics () {
             }
             // Calculate portal normal.
             int east = por_col(c->coord.y, c->coord.x + 1);
-            if (hitsobj(c,c->coord.y, c->coord.x + 1)->type == DOOR) east = NONE;
+            if (hitsobj(level, c, c->coord.y, c->coord.x + 1)->type == DOOR) east = NONE;
 
             int west = por_col(c->coord.y, c->coord.x - 1);
-            if (hitsobj(c,c->coord.y, c->coord.x - 1)->type == DOOR) west = NONE;
+            if (hitsobj(level, c, c->coord.y, c->coord.x - 1)->type == DOOR) west = NONE;
 
             int north= por_col(c->coord.y - 1, c->coord.x);
-            if (hitsobj(c,c->coord.y - 1, c->coord.x)->type == DOOR) north = NONE;
+            if (hitsobj(level, c, c->coord.y - 1, c->coord.x)->type == DOOR) north = NONE;
 
             int south= por_col(c->coord.y + 1, c->coord.x);
-            if (hitsobj(c,c->coord.y + 1, c->coord.x)->type == DOOR) south = NONE;
+            if (hitsobj(level, c,c->coord.y + 1, c->coord.x)->type == DOOR) south = NONE;
 
             int yback= por_col(c->coord.y - c->d.y, c->coord.x);
-            if (map[c->coord.y - c->d.y][c->coord.x] == FFIELD) yback = NONSTICK;
+            if (level.map[c->coord.y - c->d.y][c->coord.x] == FFIELD) yback = NONSTICK;
 
             int xback= por_col(c->coord.y, c->coord.x - c->d.x);
-            if (map[c->coord.y][c->coord.x - c->d.x] == FFIELD) xback = NONSTICK;
+            if (level.map[c->coord.y][c->coord.x - c->d.x] == FFIELD) xback = NONSTICK;
 
             if (east && west && yback == NONE) {
               c->d.x = 0; c->d.y = -c->d.y;
@@ -673,13 +683,13 @@ int physics () {
               play_sound (PORTALFAIL);
 #endif
               c->d.y = CharData[c->type][2];
-              objm.shots[c->type - SHOT1] = objm.NULLOBJ;
+              level.objm.shots[c->type - SHOT1] = NULLOBJ;
               c->type = FLASH;
               z = portalspeed; continue;
             }
-            if (objm.portals[por] != objm.NULLOBJ) {
-              objiter d = objm.portals[por];
-              objiter in_por = hitsobj(d, d->coord.y, d->coord.x);
+            if (level.objm.portals[por] != NULLOBJ) {
+              objiter d = level.objm.portals[por];
+              objiter in_por = hitsobj(level, d, d->coord.y, d->coord.x);
               if ((in_por != d) && (in_por->type != PORTAL1) && (in_por->type != PORTAL2)){
                 in_por->d.x += d->d.x; // push anything stuck in portal out.
                 in_por->d.y += d->d.y; // before collapsing it. FIXME: similar code elsewhere-- remove the redundancy
@@ -690,29 +700,29 @@ int physics () {
               d->d.y = CharData[d->type][2];
               d->type = FLASH;
             }
-            levelstats.numportals++;
+            level.stats.numportals++;
             animateportal = 2;
 #ifndef __NOSOUND__
             play_sound (PORTALCREATE);
 #endif
-            objm.shots[c->type - SHOT1] = objm.NULLOBJ;
-            objm.portals[por] = c;
+            level.objm.shots[c->type - SHOT1] = NULLOBJ;
+            level.objm.portals[por] = c;
             c->type = PORTAL1 + por;
-            aimobject.type = SHOT1 + ((por + 1) % 2);
+            level.aimobject.type = SHOT1 + ((por + 1) % 2);
             z = portalspeed;
           } else {
-            objm.moveobj(c, c->coord.x + c->d.x, c->coord.y + c->d.y);
+            level.objm.moveobj(c, c->coord.x + c->d.x, c->coord.y + c->d.y);
           }
         }
         continue;
       case PLAYER: // gravity
         if (move_player() < 0) return -1;
-        if (map[c->coord.y + 1][c->coord.x + c->d.x] == LADDER) break;
-        if (map[c->coord.y + 1][c->coord.x] == LADDER) break;
-        if (map[c->coord.y][c->coord.x] == LADDER) break;
-        if (map[c->coord.y + sc(c->d.y)][c->coord.x + sc(c->d.x)] == LADDER) break;
+        if (level.map[c->coord.y + 1][c->coord.x + c->d.x] == LADDER) break;
+        if (level.map[c->coord.y + 1][c->coord.x] == LADDER) break;
+        if (level.map[c->coord.y][c->coord.x] == LADDER) break;
+        if (level.map[c->coord.y + sc(c->d.y)][c->coord.x + sc(c->d.x)] == LADDER) break;
       case BOULDER: {
-        if ((map[c->coord.y + 1][c->coord.x] == LADDER) && (rand() < RAND_MAX / 2)) break;
+        if ((level.map[c->coord.y + 1][c->coord.x] == LADDER) && (rand() < RAND_MAX / 2)) break;
       }
       case BOX:
         if ((c->d.x > 2) || (c->d.x < -2) || (c->d.y < -2)) break; // fling!
@@ -728,7 +738,7 @@ int physics () {
           break;
         case PLAYER:
         case BOX:
-          switch (map[c->coord.y + 1][c->coord.x]) {
+          switch (level.map[c->coord.y + 1][c->coord.x]) {
             case LTREAD:
         if (c->d.x == 0) c->d.x --;
         break;
@@ -768,7 +778,7 @@ int physics () {
 #endif
             c->d.y = COLOR_WHITE;
             if (c->type == PLAYER)
-              objm.player = objm.NULLOBJ;
+              level.objm.player = NULLOBJ;
             c->type = FLASH;
         }
       }
@@ -777,7 +787,7 @@ int physics () {
   return 0;
 }
 
-int move_player () {
+int Game::move_player () {
   int input;
   XY d;
 
@@ -787,26 +797,26 @@ int move_player () {
     return 1;
   }
   switch (input) {
-    case '1' : aimobject.d.y =  1; aimobject.d.x = -1; break;
-    case '2' : aimobject.d.y =  1; aimobject.d.x =  0; break;
-    case '3' : aimobject.d.y =  1; aimobject.d.x =  1; break;
-    case '4' : aimobject.d.y =  0; aimobject.d.x = -1; break;
-    case '6' : aimobject.d.y =  0; aimobject.d.x =  1; break;
-    case '7' : aimobject.d.y = -1; aimobject.d.x = -1; break;
-    case '8' : aimobject.d.y = -1; aimobject.d.x =  0; break;
-    case '9' : aimobject.d.y = -1; aimobject.d.x =  1; break;
+    case '1' : level.aimobject.d.y =  1; level.aimobject.d.x = -1; break;
+    case '2' : level.aimobject.d.y =  1; level.aimobject.d.x =  0; break;
+    case '3' : level.aimobject.d.y =  1; level.aimobject.d.x =  1; break;
+    case '4' : level.aimobject.d.y =  0; level.aimobject.d.x = -1; break;
+    case '6' : level.aimobject.d.y =  0; level.aimobject.d.x =  1; break;
+    case '7' : level.aimobject.d.y = -1; level.aimobject.d.x = -1; break;
+    case '8' : level.aimobject.d.y = -1; level.aimobject.d.x =  0; break;
+    case '9' : level.aimobject.d.y = -1; level.aimobject.d.x =  1; break;
     case '0' :
     case 'Z' :
-    case 'z' : aimobject.type = SHOT1; fireportal(aimobject.type); break;
+    case 'z' : level.aimobject.type = SHOT1; fireportal(level.aimobject.type); break;
     case '.' :
     case 'X' :
-    case 'x' : aimobject.type = SHOT2; fireportal(aimobject.type); break;
+    case 'x' : level.aimobject.type = SHOT2; fireportal(level.aimobject.type); break;
     case 'C' :
     case 'c' : collapse_portals (); break;
     case '5' :
     case '\n':
     case ' ' :
-      fireportal(aimobject.type);
+      fireportal(level.aimobject.type);
       break;
     case '?' : help_menu (); break;
     case 27 : // ASCII for escape
@@ -816,13 +826,13 @@ int move_player () {
     case KEY_F(2) :
       cheatview = (cheatview + 1) % 3;
       switch (cheatview) {
-        case 0: game_pager.set_status("No Portal Edges view mode."); break;
-        case 1: game_pager.set_status("Portal Fill view mode"); break;
-        case 2: game_pager.set_status("Portal Edges view mode."); break;
+        case 0: level.pager.set_status("No Portal Edges view mode."); break;
+        case 1: level.pager.set_status("Portal Fill view mode"); break;
+        case 2: level.pager.set_status("Portal Edges view mode."); break;
       }
       break;
     case KEY_F(3) :
-      game_pager.set_status("Default speed restored");
+      level.pager.set_status("Default speed restored");
       gamespeed = defaultspeed;
       break;
     case '+' :
@@ -834,26 +844,26 @@ int move_player () {
       if (gamespeed >= maxspeed) gamespeed = maxspeed - 1;
       else if (gamespeed < 1) gamespeed = 1;
       else switch (gamespeed) {
-        case 1 : game_pager.set_status("Very slow speed"); break;
-        case 2 : game_pager.set_status("Slow speed"); break;
-        case 3 : game_pager.set_status("Normal speed"); break;
-        case 4 : game_pager.set_status("Fast speed"); break;
-        case 5 : game_pager.set_status("Very fast speed"); break;
+        case 1 : level.pager.set_status("Very slow speed"); break;
+        case 2 : level.pager.set_status("Slow speed"); break;
+        case 3 : level.pager.set_status("Normal speed"); break;
+        case 4 : level.pager.set_status("Fast speed"); break;
+        case 5 : level.pager.set_status("Very fast speed"); break;
       }
       break;
     case KEY_F(10) :
-      game_pager.set_status("Roguelike-ish speed mode");
+      level.pager.set_status("Roguelike-ish speed mode");
       gamespeed = 0;
       break;
 #ifndef __NOSOUND__
     case 'M' :
-    case 'm' : game_pager.set_status("Toggling music");
+    case 'm' : level.pager.set_status("Toggling music");
     toggle_ambience (); break;
 #endif
     case 'R' :
     case 'r' :
-      objm.player->type = NONE;
-      objm.player = objm.NULLOBJ;
+      level.objm.player->type = NONE;
+      level.objm.player = NULLOBJ;
       break;
 #ifdef PDCURSES
     case KEY_RESIZE : resize_term(0,0); break;
@@ -861,59 +871,62 @@ int move_player () {
     case 'd' :
     case 'D' :
     case KEY_RIGHT :
-      if (aimobject.d.x == 1) {
-        if (objm.player->d.x <= 0) objm.player->d.x ++;
-        levelstats.numsteps++;
+      if (level.aimobject.d.x == 1) {
+        if (level.objm.player->d.x <= 0) level.objm.player->d.x ++;
+        level.stats.numsteps++;
       } else {
-        aimobject.coord.x = aimobject.d.x = 1;
+        level.aimobject.coord.x = level.aimobject.d.x = 1;
       }
-      aimobject.d.y = 0;
+      level.aimobject.d.y = 0;
       break;
     case 'a' :
     case 'A' :
     case KEY_LEFT :
-      if (aimobject.d.x == -1) {
-        if (objm.player->d.x >= 0) objm.player->d.x --;
-        levelstats.numsteps++;
+      if (level.aimobject.d.x == -1) {
+        if (level.objm.player->d.x >= 0) level.objm.player->d.x --;
+        level.stats.numsteps++;
       } else {
-        aimobject.coord.x = aimobject.d.x = -1;
+        level.aimobject.coord.x = level.aimobject.d.x = -1;
       }
-      aimobject.d.y = 0;
+      level.aimobject.d.y = 0;
       break;
     case 'w' :
     case 'W' :
     case KEY_UP :
-      if ((map[objm.player->coord.y][objm.player->coord.x] == LADDER)
-      && ((!hitswall(objm.player->coord.y - 1, objm.player->coord.x) || (hitsobj(objm.player, objm.player->coord.y - 1, objm.player->coord.x)->type == PORTAL1) || (hitsobj(objm.player, objm.player->coord.y - 1, objm.player->coord.x)->type == PORTAL2))))
-      {
-        if (objm.player->d.y >= 0) objm.player->d.y --;
-        levelstats.numsteps++;
-      } else if ((aimobject.d.x == 0) && (aimobject.d.y > 0)) {
-        aimobject.d.x = aimobject.coord.x;
-      } else {
-        aimobject.d.y--;
-        if (aimobject.d.y < -1) {
-          aimobject.d.y = -1;
-          aimobject.d.x = 0;
+      if ((level.map[level.objm.player->coord.y][level.objm.player->coord.x] == LADDER)
+          && ((!hitswall(level.objm.player->coord.y - 1, level.objm.player->coord.x)
+               || (hitsobj(level, level.objm.player, level.objm.player->coord.y - 1, level.objm.player->coord.x)->type == PORTAL1)
+               || (hitsobj(level, level.objm.player, level.objm.player->coord.y - 1, level.objm.player->coord.x)->type == PORTAL2))))
+        {
+          if (level.objm.player->d.y >= 0) level.objm.player->d.y --;
+          level.stats.numsteps++;
+        } else
+        if ((level.aimobject.d.x == 0) && (level.aimobject.d.y > 0)) {
+          level.aimobject.d.x = level.aimobject.coord.x;
+        } else {
+          level.aimobject.d.y--;
+          if (level.aimobject.d.y < -1) {
+            level.aimobject.d.y = -1;
+            level.aimobject.d.x = 0;
+          }
         }
-      }
       break;
     case 's' :
     case 'S' :
     case KEY_DOWN :
-      if (((map[objm.player->coord.y][objm.player->coord.x] == LADDER)
-      || (map[objm.player->coord.y + 1][objm.player->coord.x] == LADDER))
-      && ((!hitswall(objm.player->coord.y + 1, objm.player->coord.x) || (hitsobj(objm.player, objm.player->coord.y + 1, objm.player->coord.x)->type == PORTAL1) || (hitsobj(objm.player, objm.player->coord.y + 1, objm.player->coord.x)->type == PORTAL2))))
+      if (((level.map[level.objm.player->coord.y][level.objm.player->coord.x] == LADDER)
+      || (level.map[level.objm.player->coord.y + 1][level.objm.player->coord.x] == LADDER))
+      && ((!hitswall(level.objm.player->coord.y + 1, level.objm.player->coord.x) || (hitsobj(level.objm.player, level.objm.player->coord.y + 1, level.objm.player->coord.x)->type == PORTAL1) || (hitsobj(level.objm.player, level.objm.player->coord.y + 1, level.objm.player->coord.x)->type == PORTAL2))))
       {
-        objm.player->d.y ++;
-        levelstats.numsteps++;
-      } else if ((aimobject.d.x == 0) && (aimobject.d.y < 0)) {
-        aimobject.d.x = aimobject.coord.x;
+        level.objm.player->d.y ++;
+        level.stats.numsteps++;
+      } else if ((level.aimobject.d.x == 0) && (level.aimobject.d.y < 0)) {
+        level.aimobject.d.x = level.aimobject.coord.x;
       } else {
-        aimobject.d.y++;
-        if (aimobject.d.y > 1) {
-          aimobject.d.y = 1;
-          aimobject.d.x = 0;
+        level.aimobject.d.y++;
+        if (level.aimobject.d.y > 1) {
+          level.aimobject.d.y = 1;
+          level.aimobject.d.x = 0;
         }
       }
       break;
@@ -926,96 +939,54 @@ int play (MapPack &mappack) {
   unsigned long long int start, stop;
   double seconds;
 
-  level = 0;
+  level &level;
+  Game game(level);
 
-  int playing = 0;
-  do {
-    switch (main_menu (mappack)) {
-      case 0: // Play
-        playing = 1; break;
-      case 1: // Select Level
-        level = select_level (maxlevel, maxlevel);
-        if (level != -1)
-          playing = 1;
-        else
-          level = 0;
-        break;
-      case 2: { // Change Map Set
-        string newmappack = select_mappack ();
-        if (newmappack.size() != 0) {
-          attrset(color_pair(HELPMENU));
-          fillsquare(LINES / 2 - 3, (COLS - 26) / 2, 7, 26);
-          if (!loadmaps (newmappack)) {
-            mvprintw (LINES / 2, (COLS - 16) / 2, "Invalid Map Pack"); refresh ();
-            restms (150);
-            getch();
-            loadmaps (mappack);
-          } else {
-            mvprintw (LINES / 2, (COLS - 15) / 2, "Map Pack Loaded!"); refresh ();
-            restms (150);
-            getch();
-            mappack = newmappack;
-          }
-        }
-        break;
-      }
-      case 3: // Instructions
-        help_menu (); break;
-      case 4: // Credits
-        roll_credits (mappack); break;
-      default: // QUIT
-        return -1;
-    }
-  } while (!playing);
+  // Have we finished the map pack yet?
+  bool finished = false;
+    
 #ifndef __NOSOUND__
   default_ambience (0);
   start_ambience ();
 #endif
-  while ((level < (signed)rawmaps.size()) && !setup_level(level, mappack)) level ++;
-  ticks = 0;
-  levelstats.clear();
-  while (level < (signed)rawmaps.size()) {
-    for (objiter c = objm.objs.begin(); c != objm.objs.end(); ) { // clean up NONEs.
+ 
+  while (!finished) {
+    for (objiter c = level.objm.objs.begin(); c != level.objm.objs.end(); ) { // clean up NONEs.
       if (c->type == FLASH) {
         c->type = NONE;
         c++;
       }
-      else if (c->type == NONE) c = objm.delobj(c);
+      else if (c->type == NONE) c = level.objm.delobj(c);
       else c++;
     }
-
+ 
     start = get_microseconds();
-/*
-    if (!objm.verify()) {
-      cout << "object manager state is inconsistent!\n";
-      return 0;
-    }
-*/
-    if (physics(level) < 0) return 0;
-    if (still_alive(level)) {
+
+    if (game.physics() < 0) return 0;
+    if (game.still_alive()) {
       draw_screen();
-      if (map[objm.player->coord.y][objm.player->coord.x] == GOAL) {
+      stop = get_microseconds();
+      if (game.has_won()) {
 #ifndef __NOSOUND__
         play_sound(WIN);
 #endif
-        stop = get_microseconds();
-        levelstats.numticks = ticks;
-        level += displaystats (levelstats, level);
-        if ((level > maxlevel) && (level < (signed)rawmaps.size())) {
-          maxlevel = level;
-          filemgr.save_maxlevel(mappack, maxlevel);
+        level.stats.numticks = level.ticks;
+        mappack.update_stats();
+        mappack.set_maxlevel();
+        if (displaystats(level)) {
+          if (mappack.get_currentlevel == mappack.properties.number_maps)
+            finished = true;
+          ++mappack;
         }
-        while ((level < (signed)rawmaps.size()) && !setup_level(level, mappack)) level ++;
-        ticks = 0;
-        levelstats.clear();
-      } else {
-        stop = get_microseconds();
+        else
+          mappack.clear_level();
+      } else { // Game is still running
         seconds = ((double)stop - (double)start)/1000000.0;
         if (gamespeed > 0) {
           if (seconds < (1.0 / beatspersecond[gamespeed]))
             restms (((1.0 / beatspersecond[gamespeed]) - seconds) * 1000);
           ticks++;
-        } else {
+        } else { // handles rogue-like time mode (?)
           while (!pollevent()) {
             restms (150);
             draw_screen();
@@ -1024,19 +995,20 @@ int play (MapPack &mappack) {
           ticks++;
         }
       }
-    } else {
+    } else { // We're dead...
 #ifndef __NOSOUND__
       beep ();
 #endif
-      levelstats.numdeaths++;
-      levelstats.numportals = 0;
+      level.stats.++numdeaths;
+      mappack.stats.numtick += level.ticks;
+      mappack.stats.++numdeaths;
+      level.stats.numportals = 0;
       fillscreen(screenchar(XFIELD)); refresh();
       restms(100);
       fillscreen(CharData[XFIELD][1] | color_pair(XFIELD) | WA_ALTCHARSET); refresh();
       restms(150);
-      while ((level < (signed)rawmaps.size()) && !setup_level(level, mappack)) level ++;
+      mappack.set_currentlevel(mappack.get_currentlevel());
       flushinput();
-//      draw_screen (player);
     }
   }
   roll_credits(mappack);

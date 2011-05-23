@@ -30,6 +30,7 @@
 #include <vector>
 #include <curses.h>
 #include "ap_object.h"
+#include "ap_maps.h"
 
 using namespace std;
 
@@ -62,7 +63,8 @@ int color_pair(int);
 
 void fillscreen (int);
 
-int displaystats (statstype, int);
+// True if we want to go to the next level, false if we want to retry
+bool displaystats (const level&);
 
 int screenchar(int);
 

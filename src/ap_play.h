@@ -26,25 +26,33 @@
 #define AP_PLAY_H_INCLUDED
 
 #include "ap_object.h"
+#include "ap_maps.h"
 
-int setup_level (int, std::string);
+// Groups functions dedicated to the game itself.
+// This is instanciated for every level.
+class Game {
+private:
+  level &level;
+  objiter &NULLOBJ;
+  void fireportal(int por);
+  int switch_in_portal();
+  int por_col(int yy, int xx);
+  bool has_won();
+  int will_hit(objiter c);
+  int applyd(objiter c);
+  void collapse_portals();
+  int move_object(objiter c);
+  int move_player();
 
-int hitswall(int, int);
+public:
+  Game(level&);
+  int physics();
+};
 
-objiter hitsobj(objiter, int, int);
-
-int still_alive ();
-
-void fireportal (int);
-
-int sc (int x);
-
-int move_object (objiter);
-
-int physics ();
-
-int move_player ();
-
-int play (std::string);
+int sc(int x);
+int hitswall(level const & level, int yy, int xx);
+objiter hitsobj(level const & level, objiter, int, int);
+int still_alive (level const & level);
+int play (MapPack&);
 
 #endif // AP_PLAY_H_INCLUDED

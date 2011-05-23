@@ -228,7 +228,49 @@ int menu (vector <string>& items, int selection) {
   }
 }
 
-int main_menu (string mappack) {
+// This gets called forever by the main function
+int main_menu(MapPack& mappack) {
+  switch (display_main_menu (mappack)) {
+    case 0: // Play
+      play(mappack); break;
+    case 1: // Select Level
+      level = select_level (maxlevel, maxlevel);
+      if (level != -1)
+        playing = 1;
+      else
+        level = 0;
+      break;
+    case 2: { // Change Map Set
+      string newmappack = select_mappack ();
+      if (newmappack.size() != 0) {
+        attrset(color_pair(HELPMENU));
+        fillsquare(LINES / 2 - 3, (COLS - 26) / 2, 7, 26);
+        if (!loadmaps (newmappack)) {
+          mvprintw (LINES / 2, (COLS - 16) / 2, "Invalid Map Pack"); refresh ();
+          restms (150);
+          getch();
+          loadmaps (mappack);
+        } else {
+          mvprintw (LINES / 2, (COLS - 15) / 2, "Map Pack Loaded!"); refresh ();
+          restms (150);
+          getch();
+          mappack = newmappack;
+        }
+      }
+      break;
+    }
+    case 3: // Instructions
+      help_menu (); break;
+    case 4: // Credits
+      roll_credits (mappack); break;
+    default: // QUIT
+      return -1;
+  }
+  return 0
+}
+
+
+int display_main_menu (MapPack &mappack) {
   string line, name;
   int maxwidth = 0;
   int input;
