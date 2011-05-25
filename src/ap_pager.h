@@ -22,39 +22,39 @@
 // The source links with SDL, PDCurses compiled for SDL rendering (PDCSDL)
 // and SDL mixer.
 
-#ifndef AP_DRAW_H_INCLUDED
-#define AP_DRAW_H_INCLUDED
+#ifndef AP_PAGER_H_INCLUDED
+#define AP_PAGER_H_INCLUDED
 
-#include <vector>
-#include <curses.h>
-#include "ap_object.h"
-#include "ap_maps.h"
+#include <utility>
+#include <list>
 
 using namespace std;
 
-class level;
+typedef list< pair<string, int> > pairlist;
 
-int color_pair(int);
+// Used to display both status messages, level name and scrolling messages
+class Pager {
+ private:
+  // <message to scroll, tick>
+  list< pair<string, int> > messages;
+  // minimum space between two messages
+  int scrolling_space;
 
-void fillscreen (int);
+  string status;
+  int status_tick;
+  string levelname;
+ public:
+  Pager();
+  // Scrolling messages handling
+  void add_scrolling(string);
+  void scroll_messages();
+  // Status message handling
+  void set_status(string);
+  void set_levelname(string);
+  void print_status();
+  void clear();
+};
 
-// True if we want to go to the next level, false if we want to retry
-bool displaystats (const level&);
 
-int screenchar(int);
 
-void draw_map(std::vector< std::vector<chtype> > const &);
-
-void map_screen (std::vector<std::vector<chtype> >&);
-
-void draw_screen_angle (int angle);
-
-void draw_rotate (int);
-
-void draw_screen ();
-
-void graphics_init (bool fullscreen, int height, int width);
-
-void graphics_deinit ();
-
-#endif // AP_DRAW_H_INCLUDED
+#endif // AP_PAGER_H_INCLUDED

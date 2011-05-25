@@ -60,6 +60,7 @@ using namespace std;
 #include "asciiportal.h"
 #include "ap_maps.h"
 
+class MapPack;
 
 // Base class for a file manager
 class FileManager {

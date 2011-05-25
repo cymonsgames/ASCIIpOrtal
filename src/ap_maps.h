@@ -9,9 +9,13 @@
 #include <string>
 using namespace std;
 
+#include "asciiportal.h"
 #include "ap_object.h"
+#include "ap_pager.h"
 #include "ap_filemgr.h"
 #include "ap_draw.h"
+
+class MapPack_FileManager;
 
 // Statistics of a level
 class levelstats {
@@ -73,6 +77,7 @@ class properties {
   int rating;
 };
 
+
 // This stores the necessary informations on a given level
 class level {
 public:
@@ -113,7 +118,7 @@ public:
   //  MapPack &operator=(const MapPack &source);
 
   // Holds everything related to the current level.
-  level level;
+  level lvl;
 
   // Embedded file manager.
   MapPack_FileManager filemgr;
