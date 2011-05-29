@@ -5,7 +5,7 @@
 ASCIIPORTAL = asciiportal
 
 # This is also used in the code at compilation time
-AP_VERSION = 1.3-beta3
+AP_VERSION = 1.3-beta4
 
 # This is the base name for the tarball generated
 DISTNAME = $(ASCIIPORTAL)-$(AP_VERSION)
@@ -20,7 +20,7 @@ FILES_INCLUDE_DIST = maps/ media/ README CONTRIBUTE COPYING CHANGELOG pdcicon.bm
 # Files to include in source tarball
 FILES_INCLUDE_SRC = $(FILES_INCLUDE_DIST) src/ INSTALL TODO Makefile Makefile.*
 
-OBJECTS_NOSOUND = ap_object.o ap_filemgr.o ap_input.o ap_draw.o ap_play.o main.o menu.o
+OBJECTS_NOSOUND = ap_pager.o ap_object.o ap_maps.o ap_filemgr.o ap_input.o ap_draw.o ap_play.o main.o menu.o
 OBJECTS = $(OBJECTS_NOSOUND) ap_sound.o
 
 # Dummy target if called directly

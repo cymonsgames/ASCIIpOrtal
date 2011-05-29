@@ -24,13 +24,19 @@
 
 #include "ap_pager.h"
 
+using namespace std;
+
+extern const int CharData [MAXColors][5];
+
+extern int color_pair(int);
+
 /* Pager implementation */
 Pager::Pager() {
   scrolling_space = 8;
   status.clear();
   messages.clear();
   levelname.clear();
-  status_tick = 0;
+  status_time = 0;
 }
 
 void Pager::add_scrolling(string message) {
@@ -73,18 +79,18 @@ void Pager::scroll_messages() {
   } // for
 } // scroll_messages
 
-void Pager::set_status(string status_msg) {
+void Pager::set_status(int ticks, string status_msg) {
   status = status_msg;
-  status_tick = ticks + 30;
+  status_time = ticks;
 }
 
 void Pager::set_levelname(string lvlname) {
   levelname = lvlname;
 }
 
-void Pager::print_status() {
+void Pager::print_status(int ticks) {
   attrset(color_pair(NONE));
-  if (status.size() && status_tick > ticks)
+  if (status.size() && status_time > ticks + 30)
     mvprintw(LINES - 1, 0, "%s", status.c_str());
  
   if (levelname.size() && ticks < 200)

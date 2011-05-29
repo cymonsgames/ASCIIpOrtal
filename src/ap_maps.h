@@ -35,7 +35,13 @@ struct levelstats {
 // Statistics of a map pack.
 // Gets written to the disk.
 struct mappackstats {
-  int i;
+  int numportals;
+  int numdeaths;
+  int numticks;
+  int numsteps;
+  // Number of levels accomplished
+  int numlevels;
+
 };
 
 // Hold global persistent statistics, to be able to provide nice
@@ -144,9 +150,9 @@ public:
   
   mp_properties properties;
 
-  int get_maxlevel() { return maxlevel; };
+  int get_maxlevel() const { return maxlevel; };
   void set_maxlevel(int);
-  int get_currentlevel() { return lvl.id; };
+  int get_currentlevel() const { return lvl.id; };
 
   // This loads the required level as appropriate.
   int set_currentlevel(int);
@@ -154,6 +160,10 @@ public:
   // Incrementation of the current level (prefix notation)
   MapPack &operator++(void);
   MapPack &operator--(void);
+
+  // Used to sort map packs in the menu (by difficulty, etc)
+  bool operator<(const MapPack &) const;
+
 
   // Loads map, texttrigger, objm, ...
   int load_map();

@@ -79,7 +79,7 @@ int main(int args, char* argv[]) {
         default :
           cout << "ASCIIpOrtal Command Line Parameters:\n\n"
                << " -?                  This help menu\n"
-               << " -m [mappackname]    Load a map pack (default: '" << default_mappack << "')\n"
+               << " -m [mappackname]    Load a map pack (default: '" << filemgr.default_mappack << "')\n"
 #ifndef __NOSDL__
                << " -r <width>x<height> Choose the screen resolution (eg. 600x480, the default)\n"
                << " -f                  Fullscreen mode\n"

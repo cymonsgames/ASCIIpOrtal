@@ -25,6 +25,8 @@
 #ifndef AP_INPUT_H_INCLUDED
 #define AP_INPUT_H_INCLUDED
 
+#include "asciiportal.h"
+
 int getinput ();
 
 void flushinput ();

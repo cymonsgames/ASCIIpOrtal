@@ -27,6 +27,10 @@
 
 #include <utility>
 #include <list>
+#include <string>
+#include <curses.h>
+
+#include "asciiportal.h"
 
 using namespace std;
 
@@ -41,7 +45,8 @@ class Pager {
   int scrolling_space;
 
   string status;
-  int status_tick;
+  // the time at which the status was added
+  int status_time;
   string levelname;
  public:
   Pager();
@@ -49,9 +54,9 @@ class Pager {
   void add_scrolling(string);
   void scroll_messages();
   // Status message handling
-  void set_status(string);
+  void set_status(int ticks, string status);
   void set_levelname(string);
-  void print_status();
+  void print_status(int ticks);
   void clear();
 };
 

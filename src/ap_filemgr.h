@@ -76,32 +76,33 @@ class FileManager {
   // path separator
   string s;
 
-  // various constants paths and file names
-  // (WTF? C++ can't initialize constant members in a class
-  // declaration? The actual syntax for this is awful...)
-  const string inscreen;
-  const string credits;
-  const string infos;
-  // This makes sure we only have to modify it in one place if we want
-  // to change it.
-  const string default_mappack;
-
   // returns a list of all subdirectories of the given directory
-  vector<string> get_subdirectories(string const &);
+  vector<string> get_subdirectories(string const &) const;
 
   // get the name of the given map file (eg 21 -> '0021.txt')
-  string get_lvl_filename(int);
+  string get_lvl_filename(int) const;
 
 public:
   FileManager();
 
-  string get_userpath() { return userpath; };
-  string get_basepath() { return basepath; };
+  // various constants paths and file names
+  // (WTF? C++ can't initialize constant members in a class
+  // declaration? The actual syntax for this is awful...)
+  static string inscreen;
+  static string credits;
+  static string infos;
+  // This makes sure we only have to modify it in one place if we want
+  // to change it.
+  static string default_mappack;
+
+  string get_userpath() const { return userpath; };
+  string get_basepath() const { return basepath; };
 
   // Get the path to the given media file.
-  string get_media(string const & media);
+  string get_media(string const & media) const;
 
-  // vector<MapPack> list_mappacks();
+  // lists the potential mappacks
+  vector<string> list_mappacks() const;
 };
 
 
@@ -131,34 +132,34 @@ public:
   // Name of the host map pack, see above.
   MapPack_FileManager(string const & name);
 
-  string get_fullpath() { return fullpath; };
+  string get_fullpath() const { return fullpath; };
 
   // This looks into the host map pack directory, but falls back to the
   // media directory if not found.
   // Overloads the FileManager method.
-  string get_media(string const & media);
+  string get_media(string const & media) const;
 
   // Get the path to the given level's map file.
-  string get_map(int level) { return fullpath + s + get_lvl_filename(level); };
+  string get_map(int level) const { return fullpath + s + get_lvl_filename(level); };
 
   // Get the path to the 'inscreen' file for the host mappack.
   // Falls back to the 'default' one if not found.
-  string get_inscreen();
+  string get_inscreen() const;
 
   // Get the path to the 'credits' file for the host mappack.
-  string get_credits() { return fullpath + s + credits; };
+  string get_credits() const { return fullpath + s + credits; };
 
   // Get the path to the 'infos' file for the host mappack.
-  string get_infos() { return fullpath + s + infos; };
+  string get_infos() const { return fullpath + s + infos; };
 
   // Fetch the highest level reached for the host map pack.
   // Note that this loads it from a file; the MapPack class stores a
   // local copy of maxlevel.
   // If not found, returns 0.
-  int fetch_maxlevel();
+  int fetch_maxlevel() const;
 
   // Store the highest level reached for the host map pack in a file.
-  void save_maxlevel(int maxlevel);
+  void save_maxlevel(int maxlevel) const;
 
 };
 

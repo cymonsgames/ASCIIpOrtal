@@ -25,6 +25,7 @@
 #ifndef AP_PLAY_H_INCLUDED
 #define AP_PLAY_H_INCLUDED
 
+#include "asciiportal.h"
 #include "ap_object.h"
 #include "ap_maps.h"
 
@@ -32,12 +33,14 @@
 // This is instanciated for every level.
 class Game {
 private:
-  level &level;
+  level &lvl;
   objiter &NULLOBJ;
+  // Commodity: calls pager.set_status with a proper argument
+  void set_status(string);
   void fireportal(int por);
+  objiter in_portal();
   int switch_in_portal();
   int por_col(int yy, int xx);
-  bool has_won();
   int will_hit(objiter c);
   int applyd(objiter c);
   void collapse_portals();
@@ -46,13 +49,16 @@ private:
 
 public:
   Game(level&);
+  // whether the user requested the pause menu or not
+  bool pause;
+  bool still_alive();
+  bool has_won();
   int physics();
 };
 
 int sc(int x);
-int hitswall(level const & level, int yy, int xx);
-objiter hitsobj(level const & level, objiter, int, int);
-int still_alive (level const & level);
+int hitswall(level const & lvl, int yy, int xx);
+objiter hitsobj(level & lvl, objiter, int, int);
 int play (MapPack&);
 
 #endif // AP_PLAY_H_INCLUDED

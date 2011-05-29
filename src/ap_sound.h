@@ -25,6 +25,9 @@
 #ifndef AP_SOUND_H_INCLUDED
 #define AP_SOUND_H_INCLUDED
 
+#include "asciiportal.h"
+#include "ap_maps.h"
+
 enum Sounds {
   SILENT, WIN, SIZZLE, PORTALCOLLAPSE, CRUSH, SWITCHHIT, DOOROPEN, DOORCLOSE, DUPLICATE,
   MENUBEEP, MENUCHOICE, GUNSHOT, PORTALCREATE, PORTALFAIL, THROUGH,
@@ -37,7 +40,7 @@ int sound_init ();
 int default_ambience (int);
 
 int load_ambience (std::string filename);
-int load_ambience (std::string mappack, std::string filename);
+int load_ambience (MapPack const & mappack, std::string filename);
 
 int start_ambience ();
 

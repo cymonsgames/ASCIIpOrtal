@@ -32,7 +32,9 @@
 #include <ctime>
 #include <cmath>
 using namespace std;
-#include "asciiportal.h"
+
+#include "ap_input.h"
+
 #ifndef __NOSDL__
 #include "pdcsdl.h"
 #include "SDL/SDL.h"
@@ -40,9 +42,9 @@ using namespace std;
 #ifndef __NOSOUND__
 #include "ap_sound.h"
 #endif
+
 //#include "ap_play.h"
 //#include "ap_draw.h"
-#include "ap_input.h"
 #include "menu.h"
 
 /*

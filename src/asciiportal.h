@@ -25,6 +25,8 @@
 #ifndef ASCIIPORTAL_H_INCLUDED
 #define ASCIIPORTAL_H_INCLUDED
 
+#include <string>
+
 // This gets defined by the Makefile at compile time
 #ifndef AP_VERSION
 #define AP_VERSION "1.3"

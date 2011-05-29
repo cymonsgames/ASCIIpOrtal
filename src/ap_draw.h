@@ -27,12 +27,12 @@
 
 #include <vector>
 #include <curses.h>
-#include "ap_object.h"
+
+#include "asciiportal.h"
+
 #include "ap_maps.h"
 
 using namespace std;
-
-class level;
 
 int color_pair(int);
 
@@ -45,13 +45,13 @@ int screenchar(int);
 
 void draw_map(std::vector< std::vector<chtype> > const &);
 
-void map_screen (std::vector<std::vector<chtype> >&);
+void map_screen(level &, std::vector<std::vector<chtype> >&);
 
 void draw_screen_angle (int angle);
 
-void draw_rotate (int);
+void draw_rotate (level &, int num);
 
-void draw_screen ();
+void draw_screen (level &);
 
 void graphics_init (bool fullscreen, int height, int width);
 

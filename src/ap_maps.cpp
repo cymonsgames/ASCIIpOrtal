@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "ap_maps.h"
 
@@ -10,10 +11,12 @@ extern const int CharData [MAXColors][5];
 // Initialize 'properties' and the bundled file manager. Map loading
 // will be done on-demand.
 MapPack::MapPack(string const & _name) : filemgr(_name) {
-
+  cerr << "Initializing MapPack with name " << _name << endl;
   // Not found
-  if (filemgr.get_fullpath() == "")
+  if (filemgr.get_fullpath() == "") {
+    name = "";
     return;
+  }
 
   name = _name;
 
@@ -60,13 +63,19 @@ MapPack::MapPack(string const & _name) : filemgr(_name) {
 
   // temporary
   properties.number_maps = 666;
-  properties.name = "Example map pack";
+  stringstream stuff;
+  stuff << "Example map pack " << rand() % 100;
+  properties.name = stuff.str();
   properties.description = "This is a dumb map pack to show the new properties attached to a map pack.\nIt does nothing useful!";
   properties.author = "zorun";
   properties.version = "0.1";
-  properties.difficulty = 9;
+  properties.difficulty = rand() % 11;
   properties.priority = 0;
   properties.rating = 0;
+  if (name == "default") {
+    properties.priority = 10;
+    properties.name = "Default levels! These are quite easy.";
+  }
 
 
 #ifdef GODMODE
@@ -75,7 +84,7 @@ MapPack::MapPack(string const & _name) : filemgr(_name) {
 #else
   // load maxlevel from a file, using filemgr
   // (0 if not found)
-  maxlevel = filemgr.get_maxlevel();
+  maxlevel = filemgr.fetch_maxlevel();
 #endif
 
   if (maxlevel == properties.number_maps)
@@ -115,6 +124,13 @@ MapPack &MapPack::operator++(void) {
 MapPack &MapPack::operator--(void) {
   set_currentlevel(get_currentlevel() - 1);
   return *this;
+}
+
+bool MapPack::operator<(const MapPack & mp) const {
+  // Higher priority is better (show up first)
+  return (this->properties.priority > mp.properties.priority)
+    || (this->properties.priority == mp.properties.priority
+        && this->properties.difficulty < mp.properties.difficulty);
 }
 
 int MapPack::load_map() {

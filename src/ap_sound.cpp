@@ -25,7 +25,8 @@
 #include <string>
 #include <iostream>
 #include <curses.h>
-#include "asciiportal.h"
+
+#include "ap_sound.h"
 
 #ifndef __NOSOUND__
 #ifndef __NOSLD__
@@ -33,7 +34,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_mixer.h"
 using namespace std;
-#include "ap_sound.h"
+
 #include "ap_filemgr.h"
 
 // from main.cpp
@@ -124,12 +125,12 @@ int load_ambience(string filename) {
 // Loads a map pack-located music file.
 // Note that upon failure to find the music file in the map pack
 // directory, this falls back to the standard media directory.
-int load_ambience (string mappack, string filename) {
+int load_ambience (MapPack const & mappack, string filename) {
   if (filename == current_music) return 2;
   if( Mix_PlayingMusic() == 0 ) Mix_HaltMusic();
   Mix_FreeMusic(ambience);
   
-  ambience = Mix_LoadMUS( filemgr.get_media(mappack, filename).c_str() );
+  ambience = Mix_LoadMUS( mappack.filemgr.get_media(filename).c_str() );
   if (ambience == NULL) {
     default_ambience(0);
     return 0;
