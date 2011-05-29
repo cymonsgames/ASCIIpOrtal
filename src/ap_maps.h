@@ -13,13 +13,13 @@ using namespace std;
 #include "ap_object.h"
 #include "ap_pager.h"
 #include "ap_filemgr.h"
-#include "ap_draw.h"
+//#include "ap_draw.h"
 
-class MapPack_FileManager;
 
-// Statistics of a level
-class levelstats {
- public:
+// Statistics of a level.
+// Gets discarded at the end of the level (but its content might be
+// added to the map pack stats).
+struct levelstats {
   int numportals;
   int numdeaths;
   int numticks;
@@ -32,10 +32,15 @@ class levelstats {
   };
 };
 
+// Statistics of a map pack.
+// Gets written to the disk.
+struct mappackstats {
+  int i;
+};
+
 // Hold global persistent statistics, to be able to provide nice
 // things like an achievements system, etc.
-class globalstats {
- public:
+struct globalstats {
   int numportals;
   int numdeaths;
   int numsteps;
@@ -48,8 +53,7 @@ class globalstats {
 
 // General properties of a map pack.
 // Once loaded from a file, this shouldn't be changing.
-class properties {
- public:
+struct mp_properties {
   int number_maps;
 
   // Short name (eg. "Default levels")
@@ -79,11 +83,10 @@ class properties {
 
 
 // This stores the necessary informations on a given level
-class level {
-public:
+struct level {
   // Level identification
-  int level_id;
-  string levelname;
+  int id;
+  string name;
   // the mappack name we're in
   string mappack;
 
@@ -101,6 +104,18 @@ public:
 
   // Statistics
   levelstats stats;
+
+  void clear() {
+    for (int yy = 0; yy < (signed)map.size(); ++yy)
+      map[yy].clear();
+    for (int yy = 0; yy < 9; ++yy)
+      texttrigger[yy].clear();
+    map.clear();
+    objm.objs.clear();
+    name.clear();
+    pager.clear();
+    stats.clear();
+  };
 };
 
 class MapPack {
@@ -127,32 +142,32 @@ public:
   // Empty string if loading has failed.
   string name;
   
-  properties properties;
+  mp_properties properties;
 
-  int get_maxlevel();
-  // The current level is marked is maxlevel
-  void set_maxlevel();
-  int get_currentlevel();
+  int get_maxlevel() { return maxlevel; };
+  void set_maxlevel(int);
+  int get_currentlevel() { return lvl.id; };
 
   // This loads the required level as appropriate.
-  void set_currentlevel(int);
+  int set_currentlevel(int);
 
   // Incrementation of the current level (prefix notation)
   MapPack &operator++(void);
   MapPack &operator--(void);
 
   // Loads map, texttrigger, objm, ...
-  void load_map();
+  int load_map();
+
+  // Hold map pack statistics
+  mappackstats stats;
 
   // Hold persistent global statistics
-  globalstats stats;
+  //globalstats stats;
 
-  // Adds level stats to global stats
+  // Adds level stats to mappack stats
   void update_stats();
 
-  void clear_level();
-
-  void clear();
+  //void clear();
 };
 
 #endif // MAPS_H_INCLUDED

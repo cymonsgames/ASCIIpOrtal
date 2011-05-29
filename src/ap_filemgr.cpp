@@ -57,6 +57,16 @@ bool file_exists( string const & filename ) {
   return (stat(filename.c_str(), &buffer) == 0);
 }
 
+string try_locations(string locations[]) {
+  int count = sizeof(locations);
+  for (int i = 0; i < count; ++i) {
+    if (file_exists(locations[i]))
+      return locations[i];
+  }
+  // Not found
+  return "";
+}
+
 void makedir( string const & path) {
 #ifndef WIN32
   mkdir(path.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
@@ -95,34 +105,34 @@ string FileManager::get_lvl_filename(int level) {
   return (num.str() + ".txt");
 }
 
-string FileManager::try_locations(string locations[]) {
-  int count = sizeof(locations);
-  for (int i = 0; i < count; ++i) {
-    if (file_exists(locations[i]))
-      return locations[i];
-  }
-  // Not found
-  return "";
-}
-
-
 // Initialize everything based on the environment
-FileManager::FileManager() {
+FileManager::FileManager() : inscreen("inscreen.txt"),
+                             credits("credits.txt"),
+                             infos("infos.txt"),
+                             default_mappack("default")
+{
   userpath = "";
   basepath = ".";
-  s = "\\";
 
-#ifndef WIN32
+
+#ifdef WIN32
+  s = "\\";
+#else
   s = "/";
 
   // Search for a decent basepath for media and maps (on unix)
   if (file_exists("/usr/share/asciiportal"))
     basepath = "/usr/share/asciiportal";
+#endif
 
   // Look for a user-specific directory to store save data and custom maps
+#ifdef WIN32
+  userpath = get_env_var("APPDATA");
+#else
   userpath = get_env_var("HOME");
+#endif
   if (userpath != "") {
-    userpath += "/.asciiportal";
+    userpath += s +".asciiportal";
     if (! file_exists(userpath)) {
       cout << "Home directory " << userpath << " not existing, creating it." << endl;
       makedir(userpath);
@@ -143,87 +153,58 @@ FileManager::FileManager() {
       }
     }
   }
-#endif //!WIN32
+} //FileManager::FileManager
 
-  // now find available map packs
-  // TODO: delay it for when the user requests it (which he probably won't)
-  mappacks.clear();
-  custommappacks.clear();
-  mappacks = get_subdirectories(basepath + s + "maps");
-  if (userpath != "")
-    custommappacks = get_subdirectories(userpath);
-  
-}
-
-string FileManager::get_userpath()
-{
-  return userpath;
-}
-
-string FileManager::get_basepath()
-{
-  return basepath;
-}
 
 string FileManager::get_media(string const & media) {
   return(basepath + s + "media" + s + media);
 }
 
-string FileManager::get_media(string const & mappack, string const & media) {
-  string locs[3] = { userpath + s + mappack + s + media,
-                     basepath + s + "maps" + s + mappack + s + media,
+
+MapPack_FileManager::MapPack_FileManager(string const & _name) {
+  name = _name;
+  
+  // Try to find where is the map stored. We look for the 'infos.txt'
+  // file.
+  string paths[2] = { userpath + s + name,
+                      basepath + s + "maps" + s + name};
+  int size = sizeof(paths);
+  for (int i = 0; i < size; ++i) {
+    if (file_exists(paths[i] + s + infos)) {
+      fullpath = paths[i];
+      return;
+    }
+  }
+
+  // Not found
+  fullpath = "";
+}
+
+string MapPack_FileManager::get_media(string const & media) {
+  string locs[2] = { fullpath + s + media,
                      basepath + s + "media" + s + media };
   return try_locations(locs);
 }
 
-string FileManager::get_map(string const & mappack, int level) {
-  string levelfilename = get_lvl_filename(level);
-  string localpath = userpath + s + mappack + s + levelfilename;
-  if (file_exists(localpath))
-    return localpath;
-  else
-    return basepath + s + "maps" + s + mappack + s + levelfilename;
-}
-
 // Get the path of the inscreen file, falling back to the default one
 // if not found.
-string FileManager::get_inscreen(string const & mappack)
+string MapPack_FileManager::get_inscreen()
 {
-  string inscreen = "inscreen.txt";
-  string locs[3] = { userpath + s + mappack + s + inscreen,
-                     basepath + s + "maps" + s + mappack + s + inscreen,
-                     basepath + s + "maps" + s + "default" + s + inscreen };
+  string locs[2] = { fullpath + s + inscreen,
+                     basepath + s + "maps" + s + default_mappack + s + inscreen };
 
   return try_locations(locs);
 }
 
-// Get the path of the credits file.
-string FileManager::get_credits(string const & mappack)
-{
-  string credits = "credits.txt";
-  string locs[2] = { userpath + s + mappack + s + credits,
-                     basepath + s + "maps" + s + mappack + s + credits };
-
-  return try_locations(locs);
-}
-
-// Get the path of the infos file.
-string FileManager::get_infos(string const & mappack)
-{
-  string infos = "infos.txt";
-  string locs[2] = { userpath + s + mappack + s + infos,
-                     basepath + s + "maps" + s + mappack + s + infos };
-
-  return try_locations(locs);
-}
-
-int FileManager::get_maxlevel(string const & mappack) {
+int MapPack_FileManager::fetch_maxlevel() {
+  //TODO: use only one file to store map pack persistent data (also,
+  //don't read/write into files in the file manager)
   int maxlevel;
   string mapdir;
   if (userpath != "")
-    mapdir = userpath + s + mappack;
+    mapdir = userpath + s + name;
   else
-    mapdir = basepath + s + "maps" + s + mappack;
+    mapdir = basepath + s + "maps" + s + name;
   
   string maxlevelfilename = mapdir + s + "save.dat";
 
@@ -237,12 +218,12 @@ int FileManager::get_maxlevel(string const & mappack) {
   else return 0;
 }
 
-void FileManager::save_maxlevel(string const & mappack, int level) {
+void MapPack_FileManager::save_maxlevel(int level) {
   string mapdir;
   if (userpath != "")
-    mapdir = userpath + s + mappack;
+    mapdir = userpath + s + name;
   else
-    mapdir = basepath + s + "maps" + s + mappack;
+    mapdir = basepath + s + "maps" + s + name;
   
   string maxlevelfilename = mapdir + s + "save.dat";
 
@@ -256,8 +237,4 @@ void FileManager::save_maxlevel(string const & mappack, int level) {
     maxlevelfile << level;
     maxlevelfile.close();
   }
-}
-
-vector<MapPack> FileManager::list_mappacks() {
-  return mappacks;
 }
