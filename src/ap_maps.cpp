@@ -3,15 +3,28 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include <yaml-cpp/yaml.h>
 #include "ap_maps.h"
 
 extern const int CharData [MAXColors][5];
 
+
+void operator>>(const YAML::Node& node, mp_properties& p)
+{
+  node["protocol"] >> p.protocol;
+  node["number_maps"] >> p.number_maps;
+  node["name"] >> p.name;
+  node["description"] >> p.description;
+  node["author"] >> p.author;
+  node["version"] >> p.version;
+  node["difficulty"] >> p.difficulty;
+  node["priority"] >> p.priority;
+  //node["rating"] >> p.rating;
+}
+
 // Initialize 'properties' and the bundled file manager. Map loading
 // will be done on-demand.
 MapPack::MapPack(string const & _name) : filemgr(_name) {
-  cerr << "Initializing MapPack with name " << _name << endl;
   // Not found
   if (filemgr.get_fullpath() == "") {
     name = "";
@@ -20,8 +33,53 @@ MapPack::MapPack(string const & _name) : filemgr(_name) {
 
   name = _name;
 
-  // load properties from a file (infos.txt)
-  /* TODO: use JSON or YAML */
+  // load properties from a file
+  if (file_exists(filemgr.get_infos())) {
+    ifstream infos(filemgr.get_infos().c_str());
+  
+    YAML::Parser parser(infos);
+    YAML::Node doc;
+    parser.GetNextDocument(doc);
+    
+    doc >> properties;
+  }
+  else {
+    properties.protocol = 1;
+    properties.number_maps = 42;
+    properties.name = name + "'s funny levels";
+    properties.description = "This is a dumb default description intended to serve as an example.\nYou should really edit it to reflect the description of your own map pack!";
+    properties.author = "ASCIIpOrtal";
+    properties.version = "0.1";
+    properties.difficulty = rand() % 11;
+    properties.priority = 5;
+    //properties.rating = 0;
+    YAML::Emitter out;
+    out << YAML::Comment("This is a YAML-formatted file designed to store informations about the given map pack.") << YAML::Newline;
+    out << YAML::BeginMap;
+    out << YAML::Key << "protocol" << YAML::Value << properties.protocol;
+    out << YAML::Comment("The protocol version used. Leave this to the default value.");
+    out << YAML::Key << "number_maps" << YAML::Value << properties.number_maps;
+    out << YAML::Comment("The number of levels stored in this map pack.");
+    out << YAML::Key << "name" << YAML::Value << properties.name;
+    out << YAML::Comment("The name of the map pack. Should not exceed 30 characters.");
+    out << YAML::Key << "description" << YAML::Value << YAML::Literal << properties.description;
+    out << YAML::Key << "author" << YAML::Value << properties.author;
+    out << YAML::Comment("The author of the map pack.");
+    out << YAML::Key << "version" << YAML::Value << properties.version;
+    out << YAML::Comment("Version. You might want to provide a changelog file.");
+    out << YAML::Key << "difficulty" << YAML::Value << properties.difficulty;
+    out << YAML::Comment("Difficulty range from 0 (easiest) to 10 (hardest)");
+    out << YAML::Key << "priority" << YAML::Value << properties.priority;
+    out << YAML::Comment("This is used for official map packs only. The default should be fine.");
+    out << YAML::EndMap << YAML::Newline;
+
+    cerr << "File " << filemgr.get_infos() << " not existing, creating it..." << endl;
+
+    ofstream infos(filemgr.get_infos().c_str());
+    infos << out.c_str();
+    //ofstream tmp("/tmp/infos.yaml");
+    //tmp << out.c_str();
+  }
   /*
   string filename = filemgr.get_infos(path);
   string line;
@@ -60,22 +118,6 @@ MapPack::MapPack(string const & _name) : filemgr(_name) {
     infos.close();
   }
   */
-
-  // temporary
-  properties.number_maps = 666;
-  stringstream stuff;
-  stuff << "Example map pack " << rand() % 100;
-  properties.name = stuff.str();
-  properties.description = "This is a dumb map pack to show the new properties attached to a map pack.\nIt does nothing useful!";
-  properties.author = "zorun";
-  properties.version = "0.1";
-  properties.difficulty = rand() % 11;
-  properties.priority = 0;
-  properties.rating = 0;
-  if (name == "default") {
-    properties.priority = 10;
-    properties.name = "Default levels! These are quite easy.";
-  }
 
 
 #ifdef GODMODE

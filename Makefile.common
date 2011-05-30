@@ -12,7 +12,7 @@ DISTNAME = $(ASCIIPORTAL)-$(AP_VERSION)
 
 # Common options to every build
 CXXFLAGS = -O2 -DAP_VERSION=\"$(AP_VERSION)\"
-LINKFLAGS = 
+LINKFLAGS = -l yaml-cpp
 
 # Files to include in releases
 FILES_INCLUDE_DIST = maps/ media/ README CONTRIBUTE COPYING CHANGELOG pdcicon.bmp map_making_tips.txt

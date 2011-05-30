@@ -29,8 +29,9 @@ To build ASCIIpOrtal the standard way (that is, using SDL to emulate a
 curses environment), you need the following:
  + a C++ compiler (GNU g++ is preferred) along with the standard library;
  + SDL headers and library;
- + SDL_mixer headers and library (;
- + PDCurses compiled with SDL support.
+ + SDL_mixer headers and library;
+ + yaml-cpp headers and library.
+ + PDCurses compiled with SDL support;
 
 The last one is the trickier to get, it might not be available on your
 system.

@@ -44,7 +44,7 @@ using namespace std;
 
 string FileManager::inscreen = "inscreen.txt";
 string FileManager::credits = "credits.txt";
-string FileManager::infos = "infos.txt";
+string FileManager::infos = "infos.yaml";
 string FileManager::default_mappack = "default";
 
 // gets the content of an environment variable
@@ -113,7 +113,6 @@ string FileManager::get_lvl_filename(int level) const {
 
 // Initialize everything based on the environment
 FileManager::FileManager() {
-  debug("Initializing FileManager");
   userpath = "";
   basepath = ".";
 
@@ -178,7 +177,6 @@ vector<string> FileManager::list_mappacks() const {
 
 
 MapPack_FileManager::MapPack_FileManager(string const & _name) {
-  cerr << "Initializing MapPack_FileManager with name " << _name << endl;
   name = _name;
   
   // Try to find where is the map stored. We look for the 'infos.txt'

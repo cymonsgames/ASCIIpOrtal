@@ -4,7 +4,9 @@ o New object management that should be a lot more efficient.
 o A lot of bugfixes in the menus (were taking 100% CPU).
 o Added the long-awaited menu to select a map pack.
 o 14 map packs bundled.
-o Made things a lot more unix-friendly: now uses '~/.asciiportal/' to store
+o Now rely on yaml for config files; most notably, map packs now have
+  a lot of associated data: description, author, difficulty...
+o Made things a lot more unix-friendly: uses '~/.asciiportal/' to store
   local data and optionally '/usr/share/asciiportal/' for game data.
 o Map pack's 'credits.txt' now gets added to the default credits.
 o The nosdl port (truly ASCII!) should be roughly working now.

@@ -68,6 +68,12 @@ void fillsquare(int y1, int x1, int height, int width) {
       mvaddch (yy, xx, ' ');
 }
 
+void wfillsquare(WINDOW* win, int y1, int x1, int height, int width) {
+  for (int yy = y1; yy < height + y1; yy++)
+    for (int xx = x1; xx < width + x1; xx++)
+      mvwaddch(win, yy, xx, ' ');
+}
+
 void help_menu () {
   int maxwidth = 0;
 #ifdef __DINGOO__
@@ -574,13 +580,85 @@ void roll_credits (MapPack const & mappack) {
   } while (input == ERR);
 }
 
+
+bool describe_mappack (MapPack const & mp) {
+
+  int const width = 60;
+  int const height = 16;
+  int input;
+  string tmp;
+  WINDOW *win = subwin(stdscr, height, width, (LINES - height) / 2, (COLS - width) / 2);
+
+  wattrset(win, color_pair(TEXTFIELD));
+  wfillsquare(win, 0, 0, height, width);
+  wattrset(win, color_pair(MENUSELECT));
+  wfillsquare(win, 1, 1, 1, width-2);
+  tmp = mp.properties.name + " (" + mp.properties.version + ")";
+  mvwprintw(win, 1, (width - tmp.size()) / 2, tmp.c_str());
+
+  wattrset(win, color_pair(TEXTFIELD));
+  mvwprintw(win, 3, 1, "Difficulty: ");
+  int diff = mp.properties.difficulty;
+  for (int i = 0; i < diff; ++i)
+    waddch(win, 3 | WA_ALTCHARSET);
+  tmp.clear();
+  if (diff < 2) tmp = "Numby Pumby";
+  else if (diff < 4) tmp = "Quite easy";
+  else if (diff < 6) tmp = "Achievable";
+  else if (diff < 8) tmp = "Challenging";
+  else if (diff < 10) tmp = "Hardcore";
+  else tmp = "Impossible";
+  wprintw(win, (" " + tmp).c_str());
+
+  mvwprintw(win, 4, 1, "Author: ");
+  wprintw(win, mp.properties.author.c_str());
+
+  mvwprintw(win, 5, 1, "Short name: ");
+  wprintw(win, mp.name.c_str());
+
+  mvwprintw(win, 6, 1, "Description:");
+  mvwprintw(win, 7, 2, mp.properties.description.c_str());
+
+  do {
+    wrefresh(win);
+    flushinput();
+    //nodelay(stdscr, 0);
+    restms(100);
+    input = getinput();
+    switch (input) {
+      case KEY_ENTER :
+      case KEY_RIGHT :
+      case '\n':
+      case ' ':
+#ifndef __NOSOUND__
+        play_sound(MENUCHOICE);
+#endif
+        delwin(win);
+        return true;
+        break;
+      case 27 : // ESC key
+      case KEY_LEFT :
+#ifndef __NOSOUND__
+        play_sound(MENUCHOICE);
+#endif
+        pauserun(0);
+        delwin(win);
+        return false;
+        break;
+      default: break;
+    }
+  } while (1);
+
+}
+
+
 MapPack select_mappack (MapPack const & current) {
   vector<string> _mappacks = filemgr.list_mappacks();
   vector<MapPack> mappacks;
   int const displayed_entries = 6;
-  int const width = 38;
   // Maximum displayed size of a map pack name
-  int name_maxwidth = width - 10;
+  int const name_maxwidth = 30;
+  int width = name_maxwidth + 9;
   int input;
   
   // first, get available mappacks
@@ -601,7 +679,8 @@ MapPack select_mappack (MapPack const & current) {
   int position = 0;
   int top_map_displayed = 0;
   int size = mappacks.size();
-  stringstream line;
+  stringstream namestream, levelstream, tmpstream;
+  string _name;
 
   do {
     attrset(color_pair(HELPMENU));
@@ -617,16 +696,22 @@ MapPack select_mappack (MapPack const & current) {
         attrset(color_pair(TEXTFIELD));
         fillsquare(LINES / 2 + i, (COLS - width) / 2, 1, width);
       }
-      line.str("");
-      line << left << setw(name_maxwidth)
-            << setfill(' ');
+      namestream.str("");
+      levelstream.str("");
+      tmpstream.str("");
+      namestream << left << setw(name_maxwidth)
+                 << setfill(' ');
+      levelstream << right << setw(width - name_maxwidth - 1)
+                  << setfill(' ');
       if (mappacks[i+top_map_displayed].properties.name.size() > name_maxwidth)
-        line << mappacks[i+top_map_displayed].properties.name.substr(0, name_maxwidth);
+        _name = mappacks[i+top_map_displayed].properties.name.substr(0, name_maxwidth);
       else
-        line << mappacks[i+top_map_displayed].properties.name;
-      //      line << " (" + mappacks[i+top_map_displayed].get_maxlevel() << "/"
-      line   << " (42/" << mappacks[i+top_map_displayed].properties.number_maps << ")";
-      mvprintw (LINES / 2 + i, (COLS - width) / 2, (" " + line.str()).c_str());
+        _name = mappacks[i+top_map_displayed].properties.name;
+      namestream << _name;
+      tmpstream << "(" << mappacks[i+top_map_displayed].get_maxlevel() << "/";
+      tmpstream << mappacks[i+top_map_displayed].properties.number_maps << ")";
+      levelstream << tmpstream.str();
+      mvprintw (LINES / 2 + i, (COLS - width) / 2, (" " + namestream.str() + levelstream.str()).c_str());
     }
     refresh();
     flushinput();
@@ -658,7 +743,8 @@ MapPack select_mappack (MapPack const & current) {
         play_sound(MENUCHOICE);
 #endif
         pauserun(0);
-        return mappacks[position];
+        if (describe_mappack(mappacks[position]))
+          return mappacks[position];
         break;
       case 27 : // ESC key
       case KEY_LEFT :

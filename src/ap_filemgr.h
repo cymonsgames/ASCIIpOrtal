@@ -163,4 +163,6 @@ public:
 
 };
 
+bool file_exists(string const &);
+
 #endif // AP_DRAW_H_INCLUDED

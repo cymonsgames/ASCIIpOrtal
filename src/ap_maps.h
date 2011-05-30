@@ -7,6 +7,8 @@
 #define MAPS_H_INCLUDED
 
 #include <string>
+//#include <fstream>
+//#include <yaml-cpp/yaml.h>
 using namespace std;
 
 #include "asciiportal.h"
@@ -60,11 +62,14 @@ struct globalstats {
 // General properties of a map pack.
 // Once loaded from a file, this shouldn't be changing.
 struct mp_properties {
+  // Used for future improvements. '1' for now.
+  int protocol;
+
   int number_maps;
 
   // Short name (eg. "Default levels")
   // This is what shows up in the map pack selection menu.
-  // It should not be greater than xx characters.
+  // It should not be greater than 30 characters.
   string name;
 
   // Long description
@@ -80,13 +85,14 @@ struct mp_properties {
   // Additional sorting criteria that gets used before difficulty.
   // Useful for official map packs to show up first.
   // Higher is better.
-  // (default: 0 ; official map packs: around 10)
+  // (default: 5 ; official map packs: around 10)
   int priority;
 
   // Not used at the moment: reserved for future use.
   int rating;
 };
 
+//void operator>>(const YAML::Node&, mp_properties&);
 
 // This stores the necessary informations on a given level
 struct level {

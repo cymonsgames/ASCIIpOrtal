@@ -81,7 +81,7 @@ all:
 	$(CXX) -c $(CXXFLAGS) $<
 
 # Replace by OBJECTS_NOSOUND if needed
-$(EXE_NAME): $(OBJECTS)
+$(EXE_NAME): $(OBJECTS_NOSOUND)
 	$(CXX) $^ $(LINKFLAGS) -o $@
 	@echo
 	@echo "[*] $(EXE_NAME) successfully built."
