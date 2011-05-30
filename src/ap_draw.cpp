@@ -26,26 +26,36 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+
 #ifdef __NOSDL__
 // Used for 'transform' to translate cp437 characters to unicode
 #include <algorithm>
 #endif
+
 #include <cmath>
 #include <ctime>
 #include <climits>
+
 using namespace std;
-#include "asciiportal.h"
+
+#include "ap_draw.h"
+
 #ifndef __NOSDL__
 #include "SDL/SDL.h"
 #include "pdcsdl.h"
 #endif
+
 #include <curses.h>
+
 #ifndef __NOSOUND__
 #include "ap_sound.h"
 #endif
+
 #include "menu.h"
 #include "ap_play.h"
-#include "ap_draw.h"
+#include "ap_object.h"
+#include "ap_pager.h"
+
 
 extern const int CharData [MAXColors][5] = // File, Screen, Forground, background, WA_BOLD
 {{' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // NONE
@@ -87,13 +97,6 @@ extern const int CharData [MAXColors][5] = // File, Screen, Forground, backgroun
  {0, 0, COLOR_YELLOW, COLOR_BLUE, 1}, // HELPMENU
  {0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
 };
-
-extern vector<vector<int> > map;
-extern ObjectManager objm;
-extern object aimobject;
-extern string lvlname;
-extern int ticks;
-Pager game_pager;
 
 int cheatview = 2;
 int animateportal = 0;
@@ -146,86 +149,13 @@ cchar_t convert_char(chtype character) {
 }
 #endif //NOSDL
 
-/* Pager implementation */
-Pager::Pager() {
-  scrolling_space = 8;
-  status.clear();
-  messages.clear();
-  levelname.clear();
-  status_tick = 0;
-}
-
-void Pager::add_scrolling(string message) {
-  // We add a trailing space in case the screen isn't cleared between
-  // each scroll_messages()
-  pair <string, int> mess(message + " ", 0);
-
-  // shift the previous messages to let enough space for this one
-  int shift = 0;
-  for (pairlist::iterator i = messages.begin(); i != messages.end(); ++i) {
-    int size = i->first.size(); // nasty unsigned int...
-
-    i->second += shift;
-    if (i->second - size < scrolling_space) {
-      shift = scrolling_space - i->second + size;
-      i->second += shift;
-    }
-  }
-  messages.push_front(mess);
-}
-
-void Pager::scroll_messages() {
-  for (pairlist::iterator i = messages.begin(); i != messages.end(); ++i) {
-    int tick = i->second;
-    if (tick < COLS + i->first.size() - 2) {
-      // display message (i->first)
-      int start = COLS - tick;
-      int substart = 0;
-      int subend = i->first.size();
-
-      if (start < 0) substart = tick - COLS;
-      if (tick < i->first.size()) subend = tick;
-      if (subend > COLS) subend = COLS;
-      attrset(color_pair(NONE) | WA_BOLD);
-      mvprintw(0, (start < 0) ? 0 : start, "%s", i->first.substr(substart, subend).c_str());
-      i->second++;
-    }
-    else //delete element at position i and following
-      i = messages.erase(i, messages.end());
-  } // for
-} // scroll_messages
-
-void Pager::set_status(string status_msg) {
-  status = status_msg;
-  status_tick = ticks + 30;
-}
-
-void Pager::set_levelname(string lvlname) {
-  levelname = lvlname;
-}
-
-void Pager::print_status() {
-  attrset(color_pair(NONE));
-  if (status.size() && status_tick > ticks)
-    mvprintw(LINES - 1, 0, "%s", status.c_str());
- 
-  if (levelname.size() && ticks < 200)
-    mvprintw(LINES - 1, COLS - levelname.size(), "%s", levelname.c_str());
-}
-
-void Pager::clear() {
-  messages.clear();
-  status.clear();
-  levelname.clear();
-}
-
 int color_pair(int objtype) {
   int fore = CharData[objtype][2];
   int back = CharData[objtype][3];
   return (COLOR_PAIR ((8 * fore) + back) | (WA_BOLD * CharData[objtype][4]));
 }
 
-int obj_color_pair (objiter obj) {
+int obj_color_pair(level const & lvl, objiter obj) {
   int fore = CharData[obj->type][2];
   int back = CharData[obj->type][3];
   int b = CharData[obj->type][4];
@@ -249,9 +179,9 @@ int obj_color_pair (objiter obj) {
     if (back >= COLOR_GREEN) back++;
     if (obj->d.y == 12) back = COLOR_GREEN;
   }
-  if (map.size()) {
+  if (lvl.map.size()) {
     if ((obj->type == PLAYER) || (obj->type == BOULDER) || (obj->type == FLASH)) {
-      int mapblock = map[obj->coord.y][obj->coord.x];
+      int mapblock = lvl.map[obj->coord.y][obj->coord.x];
       if ((mapblock != NONE) && (mapblock != NORMAL)) {
         back = CharData[mapblock][2];
         b = 0;
@@ -272,24 +202,24 @@ void fillscreen (int ch) {
       mvaddch (screen.y, screen.x, ch);
 }
 
-int displaystats (statstype stats, int level) {
+bool displaystats (level const & lvl) {
   attrset (color_pair(HELPMENU));
   XY upperleft;
   upperleft.y = (LINES - 13) / 2;
-  if (lvlname.length() > 22) {
-    upperleft.x = (COLS - lvlname.length() - 2) / 2;
-    fillsquare(upperleft.y, upperleft.x, 13, lvlname.length() + 2);
+  if (lvl.name.length() > 22) {
+    upperleft.x = (COLS - lvl.name.length() - 2) / 2;
+    fillsquare(upperleft.y, upperleft.x, 13, lvl.name.length() + 2);
   } else {
     upperleft.x = (COLS - 24) / 2;
     fillsquare(upperleft.y, upperleft.x, 13, 24);
   }
-  mvprintw (upperleft.y + 1, (COLS - 18) / 2, "Level %d Complete!", level + 1);
-  mvprintw (upperleft.y + 2, (COLS - lvlname.length()) / 2, "%s",lvlname.c_str());
+  mvprintw (upperleft.y + 1, (COLS - 18) / 2, "Level %d Complete!", lvl.name.c_str());
+  mvprintw (upperleft.y + 2, (COLS - lvl.name.length()) / 2, "%s",lvl.name.c_str());
 
-  mvprintw (upperleft.y + 4, (COLS - 18) / 2, "%d Game Beats", stats.numticks);
-  mvprintw (upperleft.y + 5, (COLS - 18) / 2, "%d Steps Taken", stats.numsteps);
-  mvprintw (upperleft.y + 6, (COLS - 18) / 2, "%d Portals Used", stats.numportals);
-  mvprintw (upperleft.y + 7, (COLS - 18) / 2, "%d Deaths/Restarts", stats.numdeaths);
+  mvprintw (upperleft.y + 4, (COLS - 18) / 2, "%d Game Beats", lvl.stats.numticks);
+  mvprintw (upperleft.y + 5, (COLS - 18) / 2, "%d Steps Taken", lvl.stats.numsteps);
+  mvprintw (upperleft.y + 6, (COLS - 18) / 2, "%d Portals Used", lvl.stats.numportals);
+  mvprintw (upperleft.y + 7, (COLS - 18) / 2, "%d Deaths/Restarts", lvl.stats.numdeaths);
 
   mvprintw (upperleft.y + 10, (COLS - 16) / 2, "Press R to Retry");
   mvprintw (upperleft.y + 11, (COLS - 19) / 2, "Any Key to Continue");
@@ -308,21 +238,21 @@ int displaystats (statstype stats, int level) {
   }
 }
 
-inline objiter object_at (XY coord) {
-  objiter retval = objm.NULLOBJ;
-  objset *s = &(objm.objmap[coord.y][coord.x]);
-  for (objset::iterator it = s->begin(); it != s->end(); it++) {
+inline objiter object_at (level & lvl, XY coord) {
+  objiter retval = lvl.objm.NULLOBJ;
+  objset *s = &(lvl.objm.objmap[coord.y][coord.x]);
+  for (objset::iterator it = s->begin(); it != s->end(); ++it) {
     switch ((*it)->type) {
       case NONE:
       case TEXTTRIGGER:
         break;
       case DOOR:
-        if ((*it)->d.x > 0 && retval == objm.NULLOBJ)
+        if ((*it)->d.x > 0 && retval == lvl.objm.NULLOBJ)
           retval = *it;
         break;
       case PORTAL1:
       case PORTAL2:
-        if (retval == objm.NULLOBJ)
+        if (retval == lvl.objm.NULLOBJ)
           retval = *it;
         break;
       default:
@@ -337,7 +267,7 @@ int screenchar(int o) {
   return (CharData[o][1] | color_pair(o) | WA_ALTCHARSET);
 }
 
-int obj_screenchar(objiter obj) {
+int obj_screenchar(level const & lvl, objiter obj) {
   int objtype;
 
   objtype = obj->type;
@@ -349,19 +279,11 @@ int obj_screenchar(objiter obj) {
       case 0: objtype = NONE; break;
     }
     if(objtype == DOOR && obj->d.y >= 6)
-#ifndef __NOSDL__
-      return (4 | obj_color_pair(obj) | WA_ALTCHARSET);
-#else
-    return (4 | obj_color_pair(obj));
-#endif
+      return (4 | obj_color_pair(lvl, obj) | WA_ALTCHARSET);
   }
   if (objtype == SWITCHON && obj->d.y >= 6) objtype = SWITCH;
   else if (objtype == SWITCH && obj->d.y >= 6) objtype = SWITCHON;
-#ifndef __NOSDL__
-  return (CharData[objtype][1] | obj_color_pair(obj) | WA_ALTCHARSET);
-#else
-  return (CharData[objtype][1] | obj_color_pair(obj));
-#endif
+  return (CharData[objtype][1] | obj_color_pair(lvl, obj) | WA_ALTCHARSET);
 }
 
 // Math library round() is slow for some reason, at least on my system.
@@ -395,9 +317,9 @@ inline int div_gt (int a, int b) {
 // gets the dimensions of the space behind (type = 1) or in front of (type = 0) a portal
 // s = screen (type = 1) or map (type = 0) coords of portal
 // d = direction vector of portal
-inline void portal_space (XY& s, XY& d, int type, int& zmax, int& wmin, int& wmax) {
-  int xmax = type ? (COLS - 1)  : (map[0].size() - 1);
-  int ymax = type ? (LINES - 1) : (map.size() - 1);
+inline void portal_space (level const & lvl, XY& s, XY& d, int type, int& zmax, int& wmin, int& wmax) {
+  int xmax = type ? (COLS - 1)  : (lvl.map[0].size() - 1);
+  int ymax = type ? (LINES - 1) : (lvl.map.size() - 1);
   int dir  = type ? 1 : -1;
   switch (qatan2 (dir * d.y, dir * d.x)) {
     case 0:
@@ -423,54 +345,55 @@ inline void portal_space (XY& s, XY& d, int type, int& zmax, int& wmin, int& wma
   }
 }
 
-void map_screen (vector<vector<chtype> >& screenmap) {
+// Fills screenmap according to the objects present in the world
+void map_screen (level & lvl, vector<vector<chtype> >& screenmap) {
   XY upperleft, screenc;
   screenmap.clear();
-  upperleft.x = objm.player->coord.x - (COLS/2);
-  upperleft.y = objm.player->coord.y - (LINES/2);
+  upperleft.x = lvl.objm.player->coord.x - (COLS/2);
+  upperleft.y = lvl.objm.player->coord.y - (LINES/2);
   for (screenc.y = 0; screenc.y < LINES; screenc.y++) {
     vector<chtype> screenline(COLS, screenchar(NONSTICK));
     XY mapc;
     mapc.y = upperleft.y + screenc.y;
-    if (mapc.y >= 0 && mapc.y < map.size()) {
+    if (mapc.y >= 0 && mapc.y < lvl.map.size()) {
       int sxa = (upperleft.x < 0) ? -upperleft.x : 0;
-      int sxb = ((upperleft.x + COLS) > map[0].size()) ? (map[0].size() - upperleft.x) : COLS;
+      int sxb = ((upperleft.x + COLS) > lvl.map[0].size()) ? (lvl.map[0].size() - upperleft.x) : COLS;
       for (screenc.x = sxa; screenc.x < sxb; screenc.x++) {
         mapc.x = upperleft.x + screenc.x;
-        objiter c_obj = object_at (mapc);
-        screenline[screenc.x] = (c_obj == objm.NULLOBJ) ? screenchar(map[mapc.y][mapc.x]) : obj_screenchar(c_obj);
+        objiter c_obj = object_at(lvl, mapc);
+        screenline[screenc.x] = (c_obj == lvl.objm.NULLOBJ) ? screenchar(lvl.map[mapc.y][mapc.x]) : obj_screenchar(lvl, c_obj);
       }
     }
     screenmap.push_back(screenline);
   }
 
-  XY sight = { objm.player->coord.x + aimobject.d.x, objm.player->coord.y + aimobject.d.y };
-  if (object_at (sight) == objm.NULLOBJ) {
-    screenc.x = (COLS/2)  + aimobject.d.x;
-    screenc.y = (LINES/2) + aimobject.d.y;
+  XY sight = { lvl.objm.player->coord.x + lvl.aimobject.d.x, lvl.objm.player->coord.y + lvl.aimobject.d.y };
+  if (object_at(lvl, sight) == lvl.objm.NULLOBJ) {
+    screenc.x = (COLS/2)  + lvl.aimobject.d.x;
+    screenc.y = (LINES/2) + lvl.aimobject.d.y;
     if (screenmap[screenc.y][screenc.x] == screenchar(NONE))
 #ifndef __NOSDL__
-      screenmap[screenc.y][screenc.x] = 250 | color_pair(aimobject.type) | WA_ALTCHARSET;
+      screenmap[screenc.y][screenc.x] = 250 | color_pair(lvl.aimobject.type) | WA_ALTCHARSET;
 #else
-    screenmap[screenc.y][screenc.x] = 250 | color_pair(aimobject.type);
+    screenmap[screenc.y][screenc.x] = 250 | color_pair(lvl.aimobject.type);
 #endif
     else
-      screenmap[screenc.y][screenc.x] = (screenmap[screenc.y][screenc.x] & ~A_COLOR) | color_pair(aimobject.type);
+      screenmap[screenc.y][screenc.x] = (screenmap[screenc.y][screenc.x] & ~A_COLOR) | color_pair(lvl.aimobject.type);
   }
 
-  if (objm.portals[0] == objm.NULLOBJ || objm.portals[1] == objm.NULLOBJ)
+  if (lvl.objm.portals[0] == lvl.objm.NULLOBJ || lvl.objm.portals[1] == lvl.objm.NULLOBJ)
     return;
 
   // look into portals
   for (int i = 0; i < 2; i++) {
-    objiter u = objm.portals[i];
-    objiter v = objm.portals[i^1];
+    objiter u = lvl.objm.portals[i];
+    objiter v = lvl.objm.portals[i^1];
     XY us = { u->coord.x - upperleft.x, u->coord.y - upperleft.y };
     if (us.x < 0 || us.x >= COLS || us.y < 0 || us.y >= LINES)
       continue;
 
     // fill portal u with any object in portal v
-    objiter check = hitsobj(v, v->coord.y, v->coord.x);
+    objiter check = hitsobj(lvl, v, v->coord.y, v->coord.x);
     if (check != v)
       screenmap[us.y][us.x] = screenchar(check->type);
 
@@ -480,8 +403,8 @@ void map_screen (vector<vector<chtype> >& screenmap) {
 
     while (b > 0 || ((COLS/2) == us.x && (LINES/2) == us.y)) {
       int zmax, wmin, wmax, vzmax, vwmin, vwmax;
-      portal_space (us, ud, 1, zmax, wmin, wmax);
-      portal_space (v->coord, v->d, 0, vzmax, vwmin, vwmax);
+      portal_space (lvl, us, ud, 1, zmax, wmin, wmax);
+      portal_space (lvl, v->coord, v->d, 0, vzmax, vwmin, vwmax);
       for (int z = 1; z <= zmax; z++) {
         int w1 = b ? (-2 + div_gt ((a - 2) * z, b)) : wmin;
         int w2 = b ? ( 2 + div_lt ((a + 2) * z, b)) : wmax;
@@ -491,8 +414,8 @@ void map_screen (vector<vector<chtype> >& screenmap) {
         XY mapc = { v->coord.x + z * v->d.x - w1 * v->d.y, v->coord.y + z * v->d.y + w1 * v->d.x };
         for (int w = w1; w <= w2; w++) {
           if (z<=vzmax && w>=vwmin && w<=vwmax) {
-            objiter c_obj = object_at (mapc);
-            screenmap[screenc.y][screenc.x] = (c_obj == objm.NULLOBJ) ? screenchar(map[mapc.y][mapc.x]) : obj_screenchar(c_obj);
+            objiter c_obj = object_at(lvl, mapc);
+            screenmap[screenc.y][screenc.x] = (c_obj == lvl.objm.NULLOBJ) ? screenchar(lvl.map[mapc.y][mapc.x]) : obj_screenchar(lvl, c_obj);
           }
           else
             screenmap[screenc.y][screenc.x] = screenchar(NONSTICK);
@@ -585,7 +508,7 @@ void draw_map (vector<vector<chtype> > const & map) {
 #endif
 }
 
-void draw_screen_angle (int angle, vector<vector<chtype> >& screenmap) {
+void draw_screen_angle (level & lvl, int angle, vector<vector<chtype> >& screenmap) {
   if (angle) {
     vector<chtype> blankline(COLS, screenchar(NONSTICK));
     vector<vector<chtype> > angledmap(LINES, blankline);
@@ -605,29 +528,29 @@ void draw_screen_angle (int angle, vector<vector<chtype> >& screenmap) {
   }
   else {
     draw_map (screenmap);
-    game_pager.scroll_messages();
+    lvl.pager.scroll_messages();
   }
 
   if (animateportal) animateportal--;
-  game_pager.print_status();
+  lvl.pager.print_status(lvl.ticks);
   refresh();
 }
 
-void draw_screen () {
+void draw_screen(level & lvl) {
   vector<vector<chtype> > screenmap;
-  map_screen (screenmap);
-  draw_screen_angle (0, screenmap);
+  map_screen(lvl, screenmap);
+  draw_screen_angle (lvl, 0, screenmap);
 }
 
-void draw_rotate (int num) { // num is the number of 90 degree rotations necessary;
+void draw_rotate (level & lvl, int num) { // num is the number of 90 degree rotations necessary;
   int step = 3;
   if (num > 2 || ((num == 2) && (rand() % 2)))
     step = -3;
 
   vector<vector<chtype> > screenmap;
-  map_screen (screenmap);
+  map_screen(lvl, screenmap);
   for (int angle = step + 90 * (4 - num); (angle > 0) && (angle < 360); angle += step) {
-    draw_screen_angle (angle, screenmap);
+    draw_screen_angle(lvl, angle, screenmap);
     napms(5);
   }
 }

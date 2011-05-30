@@ -1,5 +1,5 @@
-// ASCIIpOrtal ver 1.2 by Joseph Larson
-// Copyright (c) 2009 Joseph Larson
+// ASCIIpOrtal ver 1.3 by Joseph Larson
+// Copyright (c) 2009, 2011 Joseph Larson
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,20 +25,22 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 
+#include "asciiportal.h"
+#include "ap_maps.h"
 #include <string>
 
 void fillsquare(int, int, int, int);
 
 void help_menu ();
 
-int main_menu (std::string);
+int main_menu (MapPack &);
 
-int display_pause_menu ();
+int pause_menu (MapPack &);
 
-int select_level (int, int);
+int select_level (MapPack const &);
 
-void roll_credits (std::string);
+void roll_credits(MapPack const &);
 
-std::string select_mappack ();
+MapPack select_mappack (MapPack const & current);
 
 #endif // MENU_H_INCLUDED

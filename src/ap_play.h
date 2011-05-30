@@ -25,26 +25,40 @@
 #ifndef AP_PLAY_H_INCLUDED
 #define AP_PLAY_H_INCLUDED
 
+#include "asciiportal.h"
 #include "ap_object.h"
+#include "ap_maps.h"
 
-int setup_level (int, std::string);
+// Groups functions dedicated to the game itself.
+// This is instanciated for every level.
+class Game {
+private:
+  level &lvl;
+  objiter &NULLOBJ;
+  // Commodity: calls pager.set_status with a proper argument
+  void set_status(string);
+  void fireportal(int por);
+  objiter in_portal();
+  int switch_in_portal();
+  int por_col(int yy, int xx);
+  int will_hit(objiter c);
+  int applyd(objiter c);
+  void collapse_portals();
+  int move_object(objiter c);
+  int move_player();
 
-int hitswall(int, int);
+public:
+  Game(level&);
+  // whether the user requested the pause menu or not
+  bool pause;
+  bool still_alive();
+  bool has_won();
+  int physics();
+};
 
-objiter hitsobj(objiter, int, int);
-
-int still_alive ();
-
-void fireportal (int);
-
-int sc (int x);
-
-int move_object (objiter);
-
-int physics ();
-
-int move_player ();
-
-int play (std::string);
+int sc(int x);
+int hitswall(level const & lvl, int yy, int xx);
+objiter hitsobj(level & lvl, objiter, int, int);
+int play (MapPack&);
 
 #endif // AP_PLAY_H_INCLUDED

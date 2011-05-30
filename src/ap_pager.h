@@ -22,34 +22,44 @@
 // The source links with SDL, PDCurses compiled for SDL rendering (PDCSDL)
 // and SDL mixer.
 
-#ifndef AP_SOUND_H_INCLUDED
-#define AP_SOUND_H_INCLUDED
+#ifndef AP_PAGER_H_INCLUDED
+#define AP_PAGER_H_INCLUDED
+
+#include <utility>
+#include <list>
+#include <string>
+#include <curses.h>
 
 #include "asciiportal.h"
-#include "ap_maps.h"
 
-enum Sounds {
-  SILENT, WIN, SIZZLE, PORTALCOLLAPSE, CRUSH, SWITCHHIT, DOOROPEN, DOORCLOSE, DUPLICATE,
-  MENUBEEP, MENUCHOICE, GUNSHOT, PORTALCREATE, PORTALFAIL, THROUGH,
-  VOICE, VOICE2, VOICE3, VOICE4, VOICE5, VOICE6, VOICE7, VOICE8, VOICE9, VOICE0,
-  MAXSound
+using namespace std;
+
+typedef list< pair<string, int> > pairlist;
+
+// Used to display both status messages, level name and scrolling messages
+class Pager {
+ private:
+  // <message to scroll, tick>
+  list< pair<string, int> > messages;
+  // minimum space between two messages
+  int scrolling_space;
+
+  string status;
+  // the time at which the status was added
+  int status_time;
+  string levelname;
+ public:
+  Pager();
+  // Scrolling messages handling
+  void add_scrolling(string);
+  void scroll_messages();
+  // Status message handling
+  void set_status(int ticks, string status);
+  void set_levelname(string);
+  void print_status(int ticks);
+  void clear();
 };
 
-int sound_init ();
 
-int default_ambience (int);
 
-int load_ambience (std::string filename);
-int load_ambience (MapPack const & mappack, std::string filename);
-
-int start_ambience ();
-
-void stop_ambience ();
-
-void toggle_ambience ();
-
-int play_sound (int);
-
-void deinit_sound ();
-
-#endif
+#endif // AP_PAGER_H_INCLUDED

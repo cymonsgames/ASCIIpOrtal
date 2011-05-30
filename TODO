@@ -1,15 +1,6 @@
 TODO list:
- - check for bugs related to the structure change (moving everything in maps/) -zorun
-
  - 'make all' : the -j option gets discarded sometimes in the way (yeah, I own a quad core server and I want compilation to be fast :) ) -zorun
 
- - Have level files loaded as-needed instead of pre-loaded all at once. No need to tie up all that memory (albeit just a little) for levels that may not be played this session. -Joe
-
- - Get to code and use the new file manager, see src/ap_filemgr.h -zorun
-   => done
-
- - Create a "mappack" structure that hold everything related to it : name, maxlevel, rawmaps, Pager, ObjectManager... would be cleaner than the current bunch of global variables. -zorun
-
- - Sort official map packs by difficulty, and custom map packs would show up at the bottom. Anyway, need to find a way to distinguish between those (maybe a file listing official map packs?) -zorun
-
  - The mouse events should not do anything (ie. returning ERR), but they do have an effect sometimes. -zorun
+
+ - Refactor all of the user interaction (displaying menus, etc). Could use some curses wrapper (although many of them seem abandonned). Also, wtf, curses has a structure called a *window*, that makes things easier (no need to always stay in the main stdscr)

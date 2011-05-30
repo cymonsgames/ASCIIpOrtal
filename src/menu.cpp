@@ -29,18 +29,24 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include <cctype>
-#include "asciiportal.h"
+#include <algorithm>
+
+#include "menu.h"
+
 #ifndef __NOSDL__
 #include "SDL/SDL.h"
 #endif
 #ifndef __NOSOUND__
 #include "ap_sound.h"
 #endif
+
 #include "ap_filemgr.h"
-#include "menu.h"
 #include "ap_draw.h"
 #include "ap_input.h"
+#include "ap_play.h"
+#include "ap_pager.h"
 
 using namespace std;
 extern const int CharData[MAXColors][5];
@@ -60,6 +66,12 @@ void fillsquare(int y1, int x1, int height, int width) {
   for (int yy = y1; yy < height + y1; yy++)
     for (int xx = x1; xx < width + x1; xx++)
       mvaddch (yy, xx, ' ');
+}
+
+void wfillsquare(WINDOW* win, int y1, int x1, int height, int width) {
+  for (int yy = y1; yy < height + y1; yy++)
+    for (int xx = x1; xx < width + x1; xx++)
+      mvwaddch(win, yy, xx, ' ');
 }
 
 void help_menu () {
@@ -228,7 +240,7 @@ int menu (vector <string>& items, int selection) {
   }
 }
 
-int main_menu (string mappack) {
+int display_main_menu (MapPack &mappack) {
   string line, name;
   int maxwidth = 0;
   int input;
@@ -241,7 +253,7 @@ int main_menu (string mappack) {
 #endif
 
   // first load the 'inscreen' file
-  name = filemgr.get_inscreen(mappack);
+  name = mappack.filemgr.get_inscreen();
   ifstream mapfile(name.c_str());
 
   if (mapfile.is_open()) {
@@ -298,11 +310,11 @@ int main_menu (string mappack) {
   attrset(color_pair(NONE) | WA_BOLD);
   mvprintw (LINES - 2, COLS - 28, "v%s (%s)", AP_VERSION, __DATE__);
 
-  pager.set_status(mappack);
+  pager.set_status(0, mappack.name);
 
   do { 
     pager.scroll_messages();
-    pager.print_status();
+    pager.print_status(0);
     refresh ();
     restms (100);
     input = getinput();
@@ -346,10 +358,79 @@ int display_pause_menu () {
   return menu(options, 0);
 }
 
-int select_level (int maxlevel, int level){
-  int input;
 
-  level ++;
+// This gets called forever by the main function
+int main_menu(MapPack& mappack) {
+  int level;
+  cerr << "Main menu. Mappack name is " << mappack.name << endl;
+  switch (display_main_menu (mappack)) {
+    case 0: // Play
+      play(mappack); break;
+    case 1: // Select Level
+      level = select_level(mappack);
+      if (level != -1) {
+        mappack.set_currentlevel(level);
+        play(mappack);
+      }
+      break;
+    case 2: { // Change Map Set
+      MapPack newmappack = select_mappack(mappack);
+      if (&newmappack != &mappack) { // the user actually changed the mappack
+        /* attrset(color_pair(HELPMENU));
+           fillsquare(LINES / 2 - 3, (COLS - 26) / 2, 7, 26);
+           if (newmappack.name == "") {
+           mvprintw (LINES / 2, (COLS - 16) / 2, "Invalid Map Pack"); refresh ();
+           restms (150);
+           getch();
+           } else {
+           mvprintw (LINES / 2, (COLS - 15) / 2, "Map Pack Loaded!"); refresh ();
+           restms (150);
+           getch();*/
+        mappack = newmappack;
+        //}
+      }
+    }
+      break;
+    case 3: // Instructions
+      help_menu (); break;
+    case 4: // Credits
+      roll_credits (mappack); break;
+    default: // QUIT
+      return -1;
+  }
+  return 0;
+}
+
+
+// handles in-game menu.
+int pause_menu(MapPack & mappack) {
+  int pause = display_pause_menu();
+  switch (pause) {
+  case 0 : case -1 : break; // Resume
+  case 1 : // Restart
+    mappack.set_currentlevel(mappack.get_currentlevel());
+    break;
+  case 2 : { // Select level
+    int newlvl = select_level(mappack);
+    if (newlvl == -1) // Back to the menu (ESC key or something similar)
+      pause_menu(mappack);
+    else if (newlvl != mappack.get_currentlevel()) // Change level
+      mappack.set_currentlevel(newlvl);
+    break;
+  }
+  case 3 : help_menu (); break; // Help
+  default : return -1; break; // Quit
+  }
+}
+
+
+int select_level (MapPack const & mappack) {
+  int input;
+  int level = mappack.get_currentlevel();
+  int maxlevel = mappack.get_maxlevel();
+
+  if (level == 0) level = maxlevel;
+
   pauserun(1);
   fillsquare(LINES / 2 - 2, (COLS - 16) / 2, 4, 16);
   do {
@@ -394,10 +475,10 @@ int select_level (int maxlevel, int level){
 #ifndef __NOSOUND__
   play_sound(MENUCHOICE);
 #endif
-  return level - 1;
+  return level;
 }
 
-void roll_credits (string mappack) {
+void roll_credits (MapPack const & mappack) {
   const int numcredits = 13;
   char basecredits[numcredits][50] = {
     "ASCIIpOrtal by Joe Larson",
@@ -421,7 +502,7 @@ void roll_credits (string mappack) {
     credits.push_back(line);
   }
 
-  ifstream mapfile( filemgr.get_credits(mappack).c_str() );
+  ifstream mapfile( mappack.filemgr.get_credits().c_str() );
   if (mapfile.is_open()) {
     vector<string> map;
     while (! mapfile.eof() ) {
@@ -499,16 +580,97 @@ void roll_credits (string mappack) {
   } while (input == ERR);
 }
 
-string select_mappack () {
-  vector<string> mappacks, custommappacks;
-  int displayed_entries = 6;
+
+bool describe_mappack (MapPack const & mp) {
+
+  int const width = 60;
+  int const height = 16;
+  int input;
+  string tmp;
+  WINDOW *win = subwin(stdscr, height, width, (LINES - height) / 2, (COLS - width) / 2);
+
+  wattrset(win, color_pair(TEXTFIELD));
+  wfillsquare(win, 0, 0, height, width);
+  wattrset(win, color_pair(MENUSELECT));
+  wfillsquare(win, 1, 1, 1, width-2);
+  tmp = mp.properties.name + " (" + mp.properties.version + ")";
+  mvwprintw(win, 1, (width - tmp.size()) / 2, tmp.c_str());
+
+  wattrset(win, color_pair(TEXTFIELD));
+  mvwprintw(win, 3, 1, "Difficulty: ");
+  int diff = mp.properties.difficulty;
+  for (int i = 0; i < diff; ++i)
+    waddch(win, 3 | WA_ALTCHARSET);
+  tmp.clear();
+  if (diff < 2) tmp = "Numby Pumby";
+  else if (diff < 4) tmp = "Quite easy";
+  else if (diff < 6) tmp = "Achievable";
+  else if (diff < 8) tmp = "Challenging";
+  else if (diff < 10) tmp = "Hardcore";
+  else tmp = "Impossible";
+  wprintw(win, (" " + tmp).c_str());
+
+  mvwprintw(win, 4, 1, "Author: ");
+  wprintw(win, mp.properties.author.c_str());
+
+  mvwprintw(win, 5, 1, "Short name: ");
+  wprintw(win, mp.name.c_str());
+
+  mvwprintw(win, 6, 1, "Description:");
+  mvwprintw(win, 7, 2, mp.properties.description.c_str());
+
+  do {
+    wrefresh(win);
+    flushinput();
+    //nodelay(stdscr, 0);
+    restms(100);
+    input = getinput();
+    switch (input) {
+      case KEY_ENTER :
+      case KEY_RIGHT :
+      case '\n':
+      case ' ':
+#ifndef __NOSOUND__
+        play_sound(MENUCHOICE);
+#endif
+        delwin(win);
+        return true;
+        break;
+      case 27 : // ESC key
+      case KEY_LEFT :
+#ifndef __NOSOUND__
+        play_sound(MENUCHOICE);
+#endif
+        pauserun(0);
+        delwin(win);
+        return false;
+        break;
+      default: break;
+    }
+  } while (1);
+
+}
+
+
+MapPack select_mappack (MapPack const & current) {
+  vector<string> _mappacks = filemgr.list_mappacks();
+  vector<MapPack> mappacks;
+  int const displayed_entries = 6;
+  // Maximum displayed size of a map pack name
+  int const name_maxwidth = 30;
+  int width = name_maxwidth + 9;
   int input;
   
   // first, get available mappacks
-  mappacks = filemgr.list_official_mappacks();
-  custommappacks = filemgr.list_custom_mappacks();
-  mappacks.insert(mappacks.end(), custommappacks.begin(), custommappacks.end());
+  for (vector<string>::iterator i = _mappacks.begin(); i != _mappacks.end(); ++i) {
+    MapPack tmp(*i);
+    if (tmp.name != "")
+      mappacks.push_back(tmp);
+  }
 
+  // sort it
+  sort(mappacks.begin(), mappacks.end());
+  
   cout << mappacks.size() << " mappacks detected" << endl;
 
   nodelay(stdscr,0);
@@ -517,26 +679,43 @@ string select_mappack () {
   int position = 0;
   int top_map_displayed = 0;
   int size = mappacks.size();
+  stringstream namestream, levelstream, tmpstream;
+  string _name;
 
   do {
     attrset(color_pair(HELPMENU));
-    fillsquare(LINES / 2 - 3, (COLS - 28) / 2, 4 + displayed_entries, 28);
+    fillsquare(LINES / 2 - 3, (COLS - (width + 2)) / 2, 4 + displayed_entries, width + 2);
     attrset(color_pair(MENUDIM));
-    mvprintw (LINES / 2 - 2, (COLS - 26) / 2, "Select your map pack:");
+    mvprintw (LINES / 2 - 2, (COLS - width) / 2, "Select your map pack:");
     for (int i = 0; i < displayed_entries && i < size; ++i) {
       if (i == position - top_map_displayed) {
         attrset(color_pair(MENUSELECT));
-        fillsquare(LINES / 2 + i, (COLS - 26) / 2, 1, 26);
+        fillsquare(LINES / 2 + i, (COLS - width) / 2, 1, width);
       }
       else {
         attrset(color_pair(TEXTFIELD));
-        fillsquare(LINES / 2 + i, (COLS - 26) / 2, 1, 26);
+        fillsquare(LINES / 2 + i, (COLS - width) / 2, 1, width);
       }
-      mvprintw (LINES / 2 + i, (COLS - 26) / 2, (" " + mappacks[i+top_map_displayed]).c_str());
+      namestream.str("");
+      levelstream.str("");
+      tmpstream.str("");
+      namestream << left << setw(name_maxwidth)
+                 << setfill(' ');
+      levelstream << right << setw(width - name_maxwidth - 1)
+                  << setfill(' ');
+      if (mappacks[i+top_map_displayed].properties.name.size() > name_maxwidth)
+        _name = mappacks[i+top_map_displayed].properties.name.substr(0, name_maxwidth);
+      else
+        _name = mappacks[i+top_map_displayed].properties.name;
+      namestream << _name;
+      tmpstream << "(" << mappacks[i+top_map_displayed].get_maxlevel() << "/";
+      tmpstream << mappacks[i+top_map_displayed].properties.number_maps << ")";
+      levelstream << tmpstream.str();
+      mvprintw (LINES / 2 + i, (COLS - width) / 2, (" " + namestream.str() + levelstream.str()).c_str());
     }
     refresh();
     flushinput();
-    restms(50);
+    restms(100);
     input = getinput();
     switch (input) {
       case KEY_UP :
@@ -564,7 +743,8 @@ string select_mappack () {
         play_sound(MENUCHOICE);
 #endif
         pauserun(0);
-        return mappacks[position];
+        if (describe_mappack(mappacks[position]))
+          return mappacks[position];
         break;
       case 27 : // ESC key
       case KEY_LEFT :
@@ -572,10 +752,10 @@ string select_mappack () {
         play_sound(MENUCHOICE);
 #endif
         pauserun(0);
-        return "";
+        return current;
         break;
     }
   } while (1);
 
-  return "";
+  return current;
 }

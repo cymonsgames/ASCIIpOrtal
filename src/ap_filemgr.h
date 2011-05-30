@@ -59,58 +59,110 @@ using namespace std;
 
 #include "asciiportal.h"
 
-/*
- * TODO: is it possible to define custom binary operators in C++? It
- * would be very convenient to have a '+/' operator that would
- * concatenate string while adding a path separator between each.
- * Eg.: "foo" +/ "bar" +/ "in"  ->  "foo/bar/in" or "foo\\bar\\in"
- */
+// try to find a file in multiple locations; the first location that
+// exists gets chosen, "" if no location exists.
+string try_locations(string[]);
 
+
+// Base class for a file manager
 class FileManager {
- private:
+ protected:
   // eg. "/usr/share/asciiportal" or ""
   string basepath;
+
   // eg. "~/.asciiportal" if available
   string userpath;
+
   // path separator
   string s;
-  // available map packs
-  vector<string> mappacks;
-  // custom ones (only on unix atm)
-  vector<string> custommappacks;
-  // returns a list of all subdirectories of the given directory
-  vector<string> get_subdirectories(string const &);
-  // get the name of the given map file (eg 21 -> '0021.txt')
-  string get_lvl_filename(int);
-  // try to find a file in multiple locations; the first location that
-  // exists gets chosen, "" if no location exists.
-  string try_locations(string[]);
 
- public:
+  // returns a list of all subdirectories of the given directory
+  vector<string> get_subdirectories(string const &) const;
+
+  // get the name of the given map file (eg 21 -> '0021.txt')
+  string get_lvl_filename(int) const;
+
+public:
   FileManager();
-  string get_userpath();
-  string get_basepath();
-  // Note that the following functions only try to find a decent path
-  // for the request, they do not open the file.
+
+  // various constants paths and file names
+  // (WTF? C++ can't initialize constant members in a class
+  // declaration? The actual syntax for this is awful...)
+  static string inscreen;
+  static string credits;
+  static string infos;
+  // This makes sure we only have to modify it in one place if we want
+  // to change it.
+  static string default_mappack;
+
+  string get_userpath() const { return userpath; };
+  string get_basepath() const { return basepath; };
+
   // Get the path to the given media file.
-  string get_media(string const & media);
-  // This looks into the map pack directory, but falls back to the
-  // media directory if not found.
-  string get_media(string const & mappack, string const & media);
-  string get_map(string const & mappack, int level);
-  // Get the path to the 'inscreen' file for the given mappack.
-  // Falls back to the 'default' one if not found.
-  string get_inscreen(string const & mappack);
-  // Get the path to the 'credits' file for the given mappack.
-  string get_credits(string const & mappack);
-  // Get the highest level reached for the given map pack.
-  int get_maxlevel(string const & mappack);
-  // Store the highest level reached for the given map pack.
-  void save_maxlevel(string const & mappack, int maxlevel);
-  // with proper difficulty ordering.
-  vector<string> list_official_mappacks();
-  // maybe alphabetically for this one?
-  vector<string> list_custom_mappacks();
+  string get_media(string const & media) const;
+
+  // lists the potential mappacks
+  vector<string> list_mappacks() const;
 };
+
+
+// Specialized class to be used embedded into a map pack object.
+class MapPack_FileManager : public FileManager {
+private:
+  /*
+  // Used to access some properties of the map pack we're in.
+  Mappack *host;
+  */
+
+  // Name of the host map pack (eg. "default" or "n_a_portal")
+  // This also is the name of the directory where the level files are stored.
+  string name;
+
+  // eg. "/usr/share/asciiportal/maps/default" or "~/.asciiportal/default"
+  // Empty string if not found.
+  string fullpath;
+
+public:
+  /*
+  // The FileManager constructor should be called first by the compiler.
+  // A pointer to the host MapPack object.
+  MapPack_FileManager(Mappack *mappack);
+  */
+  // The FileManager constructor should be called first by the compiler.
+  // Name of the host map pack, see above.
+  MapPack_FileManager(string const & name);
+
+  string get_fullpath() const { return fullpath; };
+
+  // This looks into the host map pack directory, but falls back to the
+  // media directory if not found.
+  // Overloads the FileManager method.
+  string get_media(string const & media) const;
+
+  // Get the path to the given level's map file.
+  string get_map(int level) const { return fullpath + s + get_lvl_filename(level); };
+
+  // Get the path to the 'inscreen' file for the host mappack.
+  // Falls back to the 'default' one if not found.
+  string get_inscreen() const;
+
+  // Get the path to the 'credits' file for the host mappack.
+  string get_credits() const { return fullpath + s + credits; };
+
+  // Get the path to the 'infos' file for the host mappack.
+  string get_infos() const { return fullpath + s + infos; };
+
+  // Fetch the highest level reached for the host map pack.
+  // Note that this loads it from a file; the MapPack class stores a
+  // local copy of maxlevel.
+  // If not found, returns 0.
+  int fetch_maxlevel() const;
+
+  // Store the highest level reached for the host map pack in a file.
+  void save_maxlevel(int maxlevel) const;
+
+};
+
+bool file_exists(string const &);
 
 #endif // AP_DRAW_H_INCLUDED

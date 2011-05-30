@@ -25,6 +25,8 @@
 #ifndef ASCIIPORTAL_H_INCLUDED
 #define ASCIIPORTAL_H_INCLUDED
 
+#include <string>
+
 // This gets defined by the Makefile at compile time
 #ifndef AP_VERSION
 #define AP_VERSION "1.3"
@@ -58,23 +60,8 @@ enum GameObjs {
   MAXColors
 };
 
-class XY { // very simple class for keeping XY cooridnate pairs.
-  public:
+struct XY { // very simple struct for keeping XY cooridnate pairs.
   int x; int y;
-};
-
-class statstype {
-  public:
-  int numportals;
-  int numdeaths;
-  int numticks;
-  int numsteps;
-  void clear() {
-    numportals = 0;
-    numdeaths = 0;
-    numsteps = 0;
-    numticks = 0;
-  };
 };
 
 int loadmaps (std::string);

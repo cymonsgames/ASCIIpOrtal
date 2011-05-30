@@ -28,6 +28,7 @@
 #include <sstream>
 #include <fstream>
 #include <iomanip>
+#include <algorithm>
 using namespace std;
 
 // for readdir
@@ -40,6 +41,11 @@ using namespace std;
 #include "asciiportal.h"
 #include "ap_filemgr.h"
 
+
+string FileManager::inscreen = "inscreen.txt";
+string FileManager::credits = "credits.txt";
+string FileManager::infos = "infos.yaml";
+string FileManager::default_mappack = "default";
 
 // gets the content of an environment variable
 string get_env_var( string const & key ) {
@@ -57,6 +63,16 @@ bool file_exists( string const & filename ) {
   return (stat(filename.c_str(), &buffer) == 0);
 }
 
+string try_locations(string locations[]) {
+  int count = sizeof(locations) / sizeof(string);
+  for (int i = 0; i < count; ++i) {
+    if (file_exists(locations[i]))
+      return locations[i];
+  }
+  // Not found
+  return "";
+}
+
 void makedir( string const & path) {
 #ifndef WIN32
   mkdir(path.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
@@ -66,7 +82,7 @@ void makedir( string const & path) {
 }
 
 // returns a list of all subdirectories of the given directory
-vector<string> FileManager::get_subdirectories ( string const & _dir ) {
+vector<string> FileManager::get_subdirectories ( string const & _dir ) const {
   // code heavily inspired from 'man 3 stat'
   struct dirent *dp;
   struct stat statbuf;
@@ -89,40 +105,36 @@ vector<string> FileManager::get_subdirectories ( string const & _dir ) {
   return result;
 }
 
-string FileManager::get_lvl_filename(int level) {
+string FileManager::get_lvl_filename(int level) const {
   stringstream num;
   num << setw(3) << setfill( '0' ) << level;
   return (num.str() + ".txt");
 }
 
-string FileManager::try_locations(string locations[]) {
-  int count = sizeof(locations);
-  for (int i = 0; i < count; ++i) {
-    if (file_exists(locations[i]))
-      return locations[i];
-  }
-  // Not found
-  return "";
-}
-
-
 // Initialize everything based on the environment
 FileManager::FileManager() {
   userpath = "";
   basepath = ".";
-  s = "\\";
 
-#ifndef WIN32
+
+#ifdef WIN32
+  s = "\\";
+#else
   s = "/";
 
   // Search for a decent basepath for media and maps (on unix)
   if (file_exists("/usr/share/asciiportal"))
     basepath = "/usr/share/asciiportal";
+#endif
 
   // Look for a user-specific directory to store save data and custom maps
+#ifdef WIN32
+  userpath = get_env_var("APPDATA");
+#else
   userpath = get_env_var("HOME");
+#endif
   if (userpath != "") {
-    userpath += "/.asciiportal";
+    userpath += s +".asciiportal";
     if (! file_exists(userpath)) {
       cout << "Home directory " << userpath << " not existing, creating it." << endl;
       makedir(userpath);
@@ -143,76 +155,72 @@ FileManager::FileManager() {
       }
     }
   }
-#endif //!WIN32
+} //FileManager::FileManager
 
-  // now find available map packs
-  mappacks.clear();
-  custommappacks.clear();
-  mappacks = get_subdirectories(basepath + s + "maps");
-  if (userpath != "")
-    custommappacks = get_subdirectories(userpath);
-  
-}
 
-string FileManager::get_userpath()
-{
-  return userpath;
-}
-
-string FileManager::get_basepath()
-{
-  return basepath;
-}
-
-string FileManager::get_media(string const & media) {
+string FileManager::get_media(string const & media) const {
   return(basepath + s + "media" + s + media);
 }
 
-string FileManager::get_media(string const & mappack, string const & media) {
-  string locs[3] = { userpath + s + mappack + s + media,
-                     basepath + s + "maps" + s + mappack + s + media,
+vector<string> FileManager::list_mappacks() const {
+  vector<string> official = get_subdirectories(basepath + s + "maps");
+  if (userpath != "") {
+    vector<string> custom = get_subdirectories(userpath);
+    official.insert(official.end(), custom.begin(), custom.end());
+
+    // We need to remove duplicates
+    sort(official.begin(), official.end());
+    official.erase( unique(official.begin(), official.end()), official.end() );
+  }
+  return official;
+}
+
+
+MapPack_FileManager::MapPack_FileManager(string const & _name) {
+  name = _name;
+  
+  // Try to find where is the map stored. We look for the 'infos.txt'
+  // file.
+  string paths[2] = { userpath + s + name,
+                      basepath + s + "maps" + s + name};
+  int size = sizeof(paths) / sizeof(string);
+  for (int i = 0; i < size; ++i) {
+    // Atm, we are a bit more laxist
+    //     if (file_exists(paths[i] + s + infos)) {
+        if (file_exists(paths[i] + s + infos) || file_exists(paths[i] + s + get_lvl_filename(1))) {
+      fullpath = paths[i];
+      return;
+    }
+  }
+
+  // Not found
+  fullpath = "";
+}
+
+string MapPack_FileManager::get_media(string const & media) const {
+  string locs[2] = { fullpath + s + media,
                      basepath + s + "media" + s + media };
   return try_locations(locs);
 }
 
-string FileManager::get_map(string const & mappack, int level) {
-  string levelfilename = get_lvl_filename(level);
-  string localpath = userpath + s + mappack + s + levelfilename;
-  if (file_exists(localpath))
-    return localpath;
-  else
-    return basepath + s + "maps" + s + mappack + s + levelfilename;
-}
-
 // Get the path of the inscreen file, falling back to the default one
 // if not found.
-string FileManager::get_inscreen(string const & mappack)
-{
-  string inscreen = "inscreen.txt";
-  string locs[3] = { userpath + s + mappack + s + inscreen,
-                     basepath + s + "maps" + s + mappack + s + inscreen,
-                     basepath + s + "maps" + s + "default" + s + inscreen };
+string MapPack_FileManager::get_inscreen() const {
+  string locs[2] = { fullpath + s + inscreen,
+                     basepath + s + "maps" + s + default_mappack + s + inscreen };
 
   return try_locations(locs);
 }
 
-// Get the path of the credits file.
-string FileManager::get_credits(string const & mappack)
-{
-  string credits = "credits.txt";
-  string locs[2] = { userpath + s + mappack + s + credits,
-                     basepath + s + "maps" + s + mappack + s + credits };
-
-  return try_locations(locs);
-}
-
-int FileManager::get_maxlevel(string const & mappack) {
+int MapPack_FileManager::fetch_maxlevel() const {
+  //TODO: use only one file to store map pack persistent data (also,
+  //don't read/write into files in the file manager)
   int maxlevel;
   string mapdir;
   if (userpath != "")
-    mapdir = userpath + s + mappack;
+    mapdir = userpath + s + name;
   else
-    mapdir = basepath + s + "maps" + s + mappack;
+    mapdir = basepath + s + "maps" + s + name;
   
   string maxlevelfilename = mapdir + s + "save.dat";
 
@@ -226,12 +234,12 @@ int FileManager::get_maxlevel(string const & mappack) {
   else return 0;
 }
 
-void FileManager::save_maxlevel(string const & mappack, int level) {
+void MapPack_FileManager::save_maxlevel(int level) const {
   string mapdir;
   if (userpath != "")
-    mapdir = userpath + s + mappack;
+    mapdir = userpath + s + name;
   else
-    mapdir = basepath + s + "maps" + s + mappack;
+    mapdir = basepath + s + "maps" + s + name;
   
   string maxlevelfilename = mapdir + s + "save.dat";
 
@@ -245,12 +253,4 @@ void FileManager::save_maxlevel(string const & mappack, int level) {
     maxlevelfile << level;
     maxlevelfile.close();
   }
-}
-
-vector<string> FileManager::list_official_mappacks() {
-  return mappacks;
-}
-
-vector<string> FileManager::list_custom_mappacks() {
-  return custommappacks;
 }
