@@ -1,10 +1,13 @@
-ASCIIpOrtal 
+ASCIIpOrtal
 By Joe Larson
 Sound Design by Steve Fenton.
 
 Inspired by Increpare's Portile game 
 (http://www.increpare.com/2008/11/portile/) and Super Serif Bros 
 (http://foon.co.uk/farcade/ssb/) and Valve's Portal.
+
+Check http://cymonsgames.com/asciiportal for updates or our Github page
+at https://github.com/cymonsgames/ASCIIpOrtal
 
 HOW TO PLAY
 ===========
@@ -37,10 +40,10 @@ C ................. Clear Portals
 ESC/P/F1 .......... Pause Game Menu
 F2 ................ Change Portal Render
 F3 ................ Set to Default Speed
-+ ................. Increse Game Speed
-- ................. Decrese Game Speed
++ ................. Increase Game Speed
+- ................. Decrease Game Speed
 R ................. Restart Level
-M ................. Restart Level
+M ................. Mute/Unmute music
 ? ................. This menu
 
 The goal of each level is to make it to one of exits on the level. Exits 
