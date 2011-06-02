@@ -213,7 +213,7 @@ bool displaystats (level const & lvl) {
     upperleft.x = (COLS - 24) / 2;
     fillsquare(upperleft.y, upperleft.x, 13, 24);
   }
-  mvprintw (upperleft.y + 1, (COLS - 18) / 2, "Level %d Complete!", lvl.name.c_str());
+  mvprintw (upperleft.y + 1, (COLS - 18) / 2, "Level %d Complete!", lvl.id);
   mvprintw (upperleft.y + 2, (COLS - lvl.name.length()) / 2, "%s",lvl.name.c_str());
 
   mvprintw (upperleft.y + 4, (COLS - 18) / 2, "%d Game Beats", lvl.stats.numticks);

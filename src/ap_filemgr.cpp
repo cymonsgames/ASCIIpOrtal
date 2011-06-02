@@ -63,9 +63,17 @@ bool file_exists( string const & filename ) {
   return (stat(filename.c_str(), &buffer) == 0);
 }
 
-string try_locations(string locations[]) {
-  int count = sizeof(locations) / sizeof(string);
-  for (int i = 0; i < count; ++i) {
+string FileManager::try_locations(vector<string> const& locations, string const & filename) const {
+  for (int i = 0; i < locations.size(); ++i) {
+    if (file_exists(locations[i] + s + filename))
+      return locations[i];
+  }
+  // Not found
+  return "";
+}
+
+string FileManager::try_locations(vector<string> const& locations) const {
+  for (int i = 0; i < locations.size(); ++i) {
     if (file_exists(locations[i]))
       return locations[i];
   }
@@ -134,7 +142,7 @@ FileManager::FileManager() {
   userpath = get_env_var("HOME");
 #endif
   if (userpath != "") {
-    userpath += s +".asciiportal";
+    userpath += s + ".asciiportal";
     if (! file_exists(userpath)) {
       cout << "Home directory " << userpath << " not existing, creating it." << endl;
       makedir(userpath);
@@ -142,7 +150,7 @@ FileManager::FileManager() {
       readme.open( (userpath + s + "readme").c_str() );
       if (readme.is_open()) {
         readme << "This is the user-specific data directory for ASCIIpOrtal.\n\n"
-               << "It is used to store the current level for each map pack.\n"
+               << "It is used to store save data for each map pack, in Yaml format.\n"
                << "You might also want to provide custom mappacks; just put your maps under\n"
                << "a <map_pack_name> subdirectory, and make sure your maps are named properly\n"
                << "('001.txt', '002.txt', ...)\n\n"
@@ -179,78 +187,37 @@ vector<string> FileManager::list_mappacks() const {
 MapPack_FileManager::MapPack_FileManager(string const & _name) {
   name = _name;
   
-  // Try to find where is the map stored. We look for the 'infos.txt'
+  // Try to find where is the map stored. We look for the 'infos.yaml'
   // file.
-  string paths[2] = { userpath + s + name,
-                      basepath + s + "maps" + s + name};
-  int size = sizeof(paths) / sizeof(string);
-  for (int i = 0; i < size; ++i) {
-    // Atm, we are a bit more laxist
-    //     if (file_exists(paths[i] + s + infos)) {
-        if (file_exists(paths[i] + s + infos) || file_exists(paths[i] + s + get_lvl_filename(1))) {
-      fullpath = paths[i];
-      return;
-    }
-  }
-
-  // Not found
-  fullpath = "";
+  vector<string> paths;
+  paths.push_back(userpath + s + name);
+  paths.push_back(basepath + s + "maps" + s + name);
+  fullpath = try_locations(paths, infos);
 }
 
 string MapPack_FileManager::get_media(string const & media) const {
-  string locs[2] = { fullpath + s + media,
-                     basepath + s + "media" + s + media };
+  vector<string> locs;
+  locs.push_back(fullpath + s + media);
+  locs.push_back(basepath + s + "media" + s + media);
   return try_locations(locs);
 }
 
 // Get the path of the inscreen file, falling back to the default one
 // if not found.
 string MapPack_FileManager::get_inscreen() const {
-  string locs[2] = { fullpath + s + inscreen,
-                     basepath + s + "maps" + s + default_mappack + s + inscreen };
-
+  vector<string> locs;
+  locs.push_back(fullpath + s + inscreen);
+  locs.push_back(basepath + s + "maps" + s + default_mappack + s + inscreen);
   return try_locations(locs);
 }
 
-int MapPack_FileManager::fetch_maxlevel() const {
-  //TODO: use only one file to store map pack persistent data (also,
-  //don't read/write into files in the file manager)
-  int maxlevel;
-  string mapdir;
-  if (userpath != "")
-    mapdir = userpath + s + name;
-  else
-    mapdir = basepath + s + "maps" + s + name;
-  
-  string maxlevelfilename = mapdir + s + "save.dat";
-
-  ifstream maxlevelfile;
-  maxlevelfile.open ( maxlevelfilename.c_str() );
-  if (maxlevelfile.is_open()) {
-    maxlevelfile >> maxlevel;
-    maxlevelfile.close();
-    return maxlevel;
-  }
-  else return 0;
+string MapPack_FileManager::get_save() const {
+  return userpath + s + name + ".yaml";
 }
 
-void MapPack_FileManager::save_maxlevel(int level) const {
-  string mapdir;
-  if (userpath != "")
-    mapdir = userpath + s + name;
-  else
-    mapdir = basepath + s + "maps" + s + name;
-  
-  string maxlevelfilename = mapdir + s + "save.dat";
-
-  if (! file_exists(mapdir) )
-    // create the mappack directory under the user-specific directory
-    makedir(mapdir);
-
-  ofstream maxlevelfile;
-  maxlevelfile.open (maxlevelfilename.c_str());
-  if (maxlevelfile.is_open()) {
-    maxlevelfile << level;
-    maxlevelfile.close();
-  }
+string MapPack_FileManager::get_old_save() const {
+  vector<string> locs;
+  locs.push_back(userpath + s + name + s + "save.dat");
+  locs.push_back(basepath + s + "maps" + s + name + s + "save.dat");
+  return try_locations(locs);
 }

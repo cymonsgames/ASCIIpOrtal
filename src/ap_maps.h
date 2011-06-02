@@ -7,15 +7,12 @@
 #define MAPS_H_INCLUDED
 
 #include <string>
-//#include <fstream>
-//#include <yaml-cpp/yaml.h>
 using namespace std;
 
 #include "asciiportal.h"
 #include "ap_object.h"
 #include "ap_pager.h"
 #include "ap_filemgr.h"
-//#include "ap_draw.h"
 
 
 // Statistics of a level.
@@ -34,16 +31,25 @@ struct levelstats {
   };
 };
 
-// Statistics of a map pack.
+// Informations about a map pack.
 // Gets written to the disk.
-struct mappackstats {
+struct mp_save {
+  // for future use
+  int version;
+  /* stats */
   int numportals;
   int numdeaths;
   int numticks;
   int numsteps;
-  // Number of levels accomplished
+  // Number of levels accomplished (not necessarily distincts)
   int numlevels;
 
+  // The maximum level reached for this map pack.
+  // Upon starting, its value is 0; when level i is done, its value is i;
+  // when a map pack is done, its value is 'properties.number_maps'.
+  int maxlevel;
+  // Last played level
+  int lastlevel;
 };
 
 // Hold global persistent statistics, to be able to provide nice
@@ -52,7 +58,7 @@ struct globalstats {
   int numportals;
   int numdeaths;
   int numsteps;
-  // Number of levels accomplished
+  // Number of levels accomplished (not necessarily distincts)
   int numlevels;
   // Number of map packs accomplished
   int nummappacks;
@@ -127,15 +133,15 @@ struct level {
     name.clear();
     pager.clear();
     stats.clear();
+    ticks = 0;
   };
 };
 
 class MapPack {
 private:
-  // The maximum level reached for this map pack.
-  // Upon starting, its value is 0; when a map pack is done, its value
-  // is 'properties.number_maps'.
-  int maxlevel;
+  void load_properties();
+  void load_save();
+  void write_save();
 
 public:
   // Loads map pack description, initialize the bundled file manager.
@@ -143,6 +149,9 @@ public:
 
   // Copy operator
   //  MapPack &operator=(const MapPack &source);
+
+  // Holds map pack informations that needs to be saved
+  mp_save save;
 
   // Holds everything related to the current level.
   level lvl;
@@ -156,9 +165,12 @@ public:
   
   mp_properties properties;
 
-  int get_maxlevel() const { return maxlevel; };
+  int get_maxlevel() const { return save.maxlevel; };
   void set_maxlevel(int);
   int get_currentlevel() const { return lvl.id; };
+
+  // this causes save data to be flushed to disk
+  void set_lastlevel(int);
 
   // This loads the required level as appropriate.
   int set_currentlevel(int);
@@ -173,9 +185,6 @@ public:
 
   // Loads map, texttrigger, objm, ...
   int load_map();
-
-  // Hold map pack statistics
-  mappackstats stats;
 
   // Hold persistent global statistics
   //globalstats stats;

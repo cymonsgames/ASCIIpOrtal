@@ -51,4 +51,4 @@ execlean:
 # Remove any tarball generated
 distclean:
 	$(MAKE) -f Makefile.default distclean
-	$(foreach port,$(PORTS) $(RELEASE_PORTS),$(MAKE) -k -f Makefile.$(port) $@;)
+	$(foreach port,$(PORTS),$(MAKE) -k -f Makefile.$(port) $@;)

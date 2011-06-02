@@ -414,8 +414,11 @@ int pause_menu(MapPack & mappack) {
     int newlvl = select_level(mappack);
     if (newlvl == -1) // Back to the menu (ESC key or something similar)
       pause_menu(mappack);
-    else if (newlvl != mappack.get_currentlevel()) // Change level
+    else if (newlvl != mappack.get_currentlevel()) { // Change level
       mappack.set_currentlevel(newlvl);
+      play(mappack);
+      return -1;
+    }
     break;
   }
   case 3 : help_menu (); break; // Help
@@ -464,9 +467,9 @@ int select_level (MapPack const & mappack) {
 #endif
             level --;
           }
-          if (level > maxlevel + 1) {
+          if (level > maxlevel) {
             if ((input >= '0') && (input <= '9')) level = input - '0';
-            else level = maxlevel + 1;
+            else level = maxlevel;
           }
     if (level < 1) level = 1;
   } while ((input != '\n') && (input != ' ') && (input != 'z') && (input != 'x'));

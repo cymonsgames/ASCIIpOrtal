@@ -940,6 +940,7 @@ int play(MapPack &mappack) {
     if (game.physics() < 0) return 0;
     if (game.pause) {
       if (pause_menu(mappack) == -1) return 0;
+      game.pause = false;
     }
     else if (game.still_alive()) {
       draw_screen(lvl);
@@ -951,6 +952,9 @@ int play(MapPack &mappack) {
         lvl.stats.numticks = lvl.ticks;
         mappack.update_stats();
         mappack.set_maxlevel(mappack.get_currentlevel());
+        // if the user wants to quit now, he will restart with the
+        // next level
+        mappack.set_lastlevel(mappack.get_currentlevel() + 1);
         if (displaystats(lvl)) {
           if (mappack.get_currentlevel() == mappack.properties.number_maps)
             finished = true;
@@ -978,8 +982,8 @@ int play(MapPack &mappack) {
       beep ();
 #endif
       lvl.stats.numdeaths++;
-      mappack.stats.numticks += lvl.ticks;
-      mappack.stats.numdeaths++;
+      mappack.save.numticks += lvl.ticks;
+      mappack.save.numdeaths++;
       lvl.stats.numportals = 0;
       fillscreen(screenchar(XFIELD)); refresh();
       restms(100);

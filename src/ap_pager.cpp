@@ -90,7 +90,8 @@ void Pager::set_levelname(string lvlname) {
 
 void Pager::print_status(int ticks) {
   attrset(color_pair(NONE));
-  if (status.size() && status_time > ticks + 30)
+
+  if (status.size() && status_time <= ticks + 30)
     mvprintw(LINES - 1, 0, "%s", status.c_str());
  
   if (levelname.size() && ticks < 200)

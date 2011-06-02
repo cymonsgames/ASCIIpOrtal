@@ -59,14 +59,9 @@ using namespace std;
 
 #include "asciiportal.h"
 
-// try to find a file in multiple locations; the first location that
-// exists gets chosen, "" if no location exists.
-string try_locations(string[]);
-
-
 // Base class for a file manager
 class FileManager {
- protected:
+protected:
   // eg. "/usr/share/asciiportal" or ""
   string basepath;
 
@@ -81,6 +76,14 @@ class FileManager {
 
   // get the name of the given map file (eg 21 -> '0021.txt')
   string get_lvl_filename(int) const;
+
+  // try to find the given file in multiple locations; the first
+  // location where the file does exist gets chosen, "" if no such
+  // location exists.
+  string try_locations(vector<string> const& locations, string const & filename) const;
+
+  // same thing, but operates directly on files.
+  string try_locations(vector<string> const& locations) const;
 
 public:
   FileManager();
@@ -152,15 +155,13 @@ public:
   // Get the path to the 'infos' file for the host mappack.
   string get_infos() const { return fullpath + s + infos; };
 
-  // Fetch the highest level reached for the host map pack.
-  // Note that this loads it from a file; the MapPack class stores a
-  // local copy of maxlevel.
-  // If not found, returns 0.
-  int fetch_maxlevel() const;
+  // Get the path to the save file for the host mappack.
+  string get_save() const;
 
-  // Store the highest level reached for the host map pack in a file.
-  void save_maxlevel(int maxlevel) const;
-
+  // Get the path to the old save file (save.dat) for the host
+  // mappack.
+  // Only useful for people upgrading.
+  string get_old_save() const;
 };
 
 bool file_exists(string const &);

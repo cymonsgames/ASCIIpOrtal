@@ -8,9 +8,12 @@
 
 extern const int CharData [MAXColors][5];
 
-
-void operator>>(const YAML::Node& node, mp_properties& p)
-{
+// Overloading extraction operators to ease manipulation
+void operator>>(ifstream& instream, mp_properties& p) {
+  YAML::Parser parser(instream);
+  YAML::Node node;
+  parser.GetNextDocument(node);
+    
   node["protocol"] >> p.protocol;
   node["number_maps"] >> p.number_maps;
   node["name"] >> p.name;
@@ -21,6 +24,65 @@ void operator>>(const YAML::Node& node, mp_properties& p)
   node["priority"] >> p.priority;
   //node["rating"] >> p.rating;
 }
+
+void operator<<(ofstream& outstream, const mp_properties& p) {
+  YAML::Emitter out;
+  out << YAML::Comment("This is a YAML-formatted file designed to store informations about the given map pack.") << YAML::Newline;
+  out << YAML::BeginMap;
+  out << YAML::Key << "protocol" << YAML::Value << p.protocol;
+  out << YAML::Comment("The protocol version used. Leave this to the default value.");
+  out << YAML::Key << "number_maps" << YAML::Value << p.number_maps;
+  out << YAML::Comment("The number of levels stored in this map pack.");
+  out << YAML::Key << "name" << YAML::Value << p.name;
+  out << YAML::Comment("The name of the map pack. Should not exceed 30 characters.");
+  out << YAML::Key << "description" << YAML::Value << YAML::Literal << p.description;
+  out << YAML::Key << "author" << YAML::Value << p.author;
+  out << YAML::Comment("The author of the map pack.");
+  out << YAML::Key << "version" << YAML::Value << p.version;
+  out << YAML::Comment("Version. You might want to provide a changelog file.");
+  out << YAML::Key << "difficulty" << YAML::Value << p.difficulty;
+  out << YAML::Comment("Difficulty range from 0 (easiest) to 10 (hardest)");
+  out << YAML::Key << "priority" << YAML::Value << p.priority;
+  out << YAML::Comment("This is used for official map packs only. The default should be fine.");
+  out << YAML::EndMap << YAML::Newline;
+
+  outstream << out.c_str();
+}
+
+
+void operator>>(ifstream& instream, mp_save& s)
+{
+  YAML::Parser parser(instream);
+  YAML::Node node;
+  parser.GetNextDocument(node);
+    
+  node["version"] >> s.version;
+  node["numportals"] >> s.numportals;
+  node["numdeaths"] >> s.numdeaths;
+  node["numticks"] >> s.numticks;
+  node["numsteps"] >> s.numsteps;
+  node["numlevels"] >> s.numlevels;
+  node["maxlevel"] >> s.maxlevel;
+  node["lastlevel"] >> s.lastlevel;
+}
+
+void operator<<(ofstream& outstream, const mp_save& s) {
+  YAML::Emitter out;
+  out << YAML::Comment("This is a Yaml-formatted save file for ASCIIpOrtal.") << YAML::Newline;
+  out << YAML::BeginMap;
+  out << YAML::Key << "version" << YAML::Value << s.version;
+  out << YAML::Key << "numportals" << YAML::Value << s.numportals;
+  out << YAML::Key << "numdeaths" << YAML::Value << s.numdeaths;
+  out << YAML::Key << "numticks" << YAML::Value << s.numticks;
+  out << YAML::Key << "numsteps" << YAML::Value << s.numsteps;
+  out << YAML::Key << "numlevels" << YAML::Value << s.numlevels;
+  out << YAML::Key << "maxlevel" << YAML::Value << s.maxlevel;
+  out << YAML::Key << "lastlevel" << YAML::Value << s.lastlevel;
+  out << YAML::EndMap << YAML::Newline;
+
+  outstream << out.c_str();
+}
+
 
 // Initialize 'properties' and the bundled file manager. Map loading
 // will be done on-demand.
@@ -34,14 +96,23 @@ MapPack::MapPack(string const & _name) : filemgr(_name) {
   name = _name;
 
   // load properties from a file
+  load_properties();
+
+  // load saved data
+  load_save();
+
+  if (save.lastlevel >= properties.number_maps)
+    // final level
+    set_currentlevel(properties.number_maps);
+  else
+    set_currentlevel(save.lastlevel);
+}
+
+void MapPack::load_properties() {
   if (file_exists(filemgr.get_infos())) {
     ifstream infos(filemgr.get_infos().c_str());
-  
-    YAML::Parser parser(infos);
-    YAML::Node doc;
-    parser.GetNextDocument(doc);
-    
-    doc >> properties;
+    infos >> properties;
+    infos.close();
   }
   else {
     properties.protocol = 1;
@@ -53,95 +124,67 @@ MapPack::MapPack(string const & _name) : filemgr(_name) {
     properties.difficulty = rand() % 11;
     properties.priority = 5;
     //properties.rating = 0;
-    YAML::Emitter out;
-    out << YAML::Comment("This is a YAML-formatted file designed to store informations about the given map pack.") << YAML::Newline;
-    out << YAML::BeginMap;
-    out << YAML::Key << "protocol" << YAML::Value << properties.protocol;
-    out << YAML::Comment("The protocol version used. Leave this to the default value.");
-    out << YAML::Key << "number_maps" << YAML::Value << properties.number_maps;
-    out << YAML::Comment("The number of levels stored in this map pack.");
-    out << YAML::Key << "name" << YAML::Value << properties.name;
-    out << YAML::Comment("The name of the map pack. Should not exceed 30 characters.");
-    out << YAML::Key << "description" << YAML::Value << YAML::Literal << properties.description;
-    out << YAML::Key << "author" << YAML::Value << properties.author;
-    out << YAML::Comment("The author of the map pack.");
-    out << YAML::Key << "version" << YAML::Value << properties.version;
-    out << YAML::Comment("Version. You might want to provide a changelog file.");
-    out << YAML::Key << "difficulty" << YAML::Value << properties.difficulty;
-    out << YAML::Comment("Difficulty range from 0 (easiest) to 10 (hardest)");
-    out << YAML::Key << "priority" << YAML::Value << properties.priority;
-    out << YAML::Comment("This is used for official map packs only. The default should be fine.");
-    out << YAML::EndMap << YAML::Newline;
 
     cerr << "File " << filemgr.get_infos() << " not existing, creating it..." << endl;
 
     ofstream infos(filemgr.get_infos().c_str());
-    infos << out.c_str();
+    infos << properties;
+    infos.close();
     //ofstream tmp("/tmp/infos.yaml");
     //tmp << out.c_str();
+  }  
+}
+
+void MapPack::load_save() {
+  if (file_exists(filemgr.get_save())) {
+    ifstream savefile(filemgr.get_save().c_str());
+    savefile >> save;
+    savefile.close();
   }
-  /*
-  string filename = filemgr.get_infos(path);
-  string line;
-  bool ;
+  else { // save data was not found
+    save.version = 1;
+    save.numportals = 0;
+    save.numdeaths = 0;
+    save.numticks = 0;
+    save.numsteps = 0;
+    save.numlevels = 0;
+    save.maxlevel = 0;
+    save.lastlevel = 0;
 
-  ifstream infos(filename.c_str());
-  if (infos.is_open()) {
-    while (! infos.eof() ) {
-      getline (infos, line);
-      if (line[0] == '#') continue; // comment
-      if (line.find("maps") == 0) {
-
-      }
-      if (line.find("name") == 0) {
-
-      }
-      if (line.find("version") == 0) {
-
-      }
-      if (line.find("author") == 0) {
-
-      }
-      if (line.find("difficulty") == 0) {
-
-      }
-      if (line.find("priority") == 0) {
-
-      }
-      if (line.find("rating") == 0) {
-
-      }
-      if (line.find("description") == 0) {
-
-      }
+    // we still look at the old save.dat stuff
+    if (file_exists(filemgr.get_old_save())) {
+      ifstream oldsavefile(filemgr.get_old_save().c_str());  
+      oldsavefile >> save.maxlevel;
+      oldsavefile.close();
     }
-    infos.close();
-  }
-  */
 
+  }
 
 #ifdef GODMODE
-  maxlevel = properties.number_maps;
-  cout << "Godmode activated! maxlevel set to " << maxlevel << endl;
-#else
-  // load maxlevel from a file, using filemgr
-  // (0 if not found)
-  maxlevel = filemgr.fetch_maxlevel();
+  save.maxlevel = properties.number_maps;
+  cout << "Godmode activated! maxlevel set to " << save.maxlevel << endl;
 #endif
+  
+  if (save.lastlevel == 0) save.lastlevel = save.maxlevel + 1;
 
-  if (maxlevel == properties.number_maps)
-    // last level
-    set_currentlevel(maxlevel);
-  else
-    // set the current level to the next level
-    set_currentlevel(maxlevel + 1);
+}
+
+void MapPack::write_save() {
+  ofstream savefile(filemgr.get_save().c_str());
+  savefile << save;
+  savefile.close();
 }
 
 void MapPack::set_maxlevel(int new_maxlvl) {
-  if (new_maxlvl > maxlevel)
+  if (new_maxlvl > save.maxlevel)
     // write it to a file, using filemgr
-    filemgr.save_maxlevel(new_maxlvl);
-  maxlevel = new_maxlvl;
+    //filemgr.save_maxlevel(new_maxlvl);
+  save.maxlevel = new_maxlvl;
+}
+
+void MapPack::set_lastlevel(int last) {
+  save.lastlevel = last;
+  write_save();
 }
 
 int MapPack::set_currentlevel(int newlvl) {
@@ -149,6 +192,7 @@ int MapPack::set_currentlevel(int newlvl) {
     return -1;
 
   lvl.id = newlvl;
+  set_lastlevel(newlvl);
 
   if (lvl.id == properties.number_maps + 1)
     return -1; // the map pack is over, we don't load any map
