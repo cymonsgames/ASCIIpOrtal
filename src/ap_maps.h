@@ -171,6 +171,9 @@ public:
 
   // this causes save data to be flushed to disk
   void set_lastlevel(int);
+  int get_lastlevel() const;
+
+  int get_number_maps() const;
 
   // This loads the required level as appropriate.
   int set_currentlevel(int);

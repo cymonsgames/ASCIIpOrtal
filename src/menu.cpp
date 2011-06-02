@@ -430,9 +430,12 @@ int pause_menu(MapPack & mappack) {
 int select_level (MapPack const & mappack) {
   int input;
   int level = mappack.get_currentlevel();
-  int maxlevel = mappack.get_maxlevel();
+  int maxlevel = mappack.get_maxlevel() + 1;
 
-  if (level == 0) level = maxlevel;
+  if (maxlevel > mappack.get_number_maps())
+    maxlevel = mappack.get_number_maps();
+  if (level == 0)
+    level = mappack.get_lastlevel();
 
   pauserun(1);
   fillsquare(LINES / 2 - 2, (COLS - 16) / 2, 4, 16);
@@ -712,7 +715,7 @@ MapPack select_mappack (MapPack const & current) {
         _name = mappacks[i+top_map_displayed].properties.name;
       namestream << _name;
       tmpstream << "(" << mappacks[i+top_map_displayed].get_maxlevel() << "/";
-      tmpstream << mappacks[i+top_map_displayed].properties.number_maps << ")";
+      tmpstream << mappacks[i+top_map_displayed].get_number_maps() << ")";
       levelstream << tmpstream.str();
       mvprintw (LINES / 2 + i, (COLS - width) / 2, (" " + namestream.str() + levelstream.str()).c_str());
     }

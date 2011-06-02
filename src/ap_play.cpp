@@ -956,7 +956,7 @@ int play(MapPack &mappack) {
         // next level
         mappack.set_lastlevel(mappack.get_currentlevel() + 1);
         if (displaystats(lvl)) {
-          if (mappack.get_currentlevel() == mappack.properties.number_maps)
+          if (mappack.get_currentlevel() == mappack.get_number_maps())
             finished = true;
           ++mappack;
         }

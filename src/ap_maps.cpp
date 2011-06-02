@@ -101,9 +101,9 @@ MapPack::MapPack(string const & _name) : filemgr(_name) {
   // load saved data
   load_save();
 
-  if (save.lastlevel >= properties.number_maps)
+  if (save.lastlevel >= get_number_maps())
     // final level
-    set_currentlevel(properties.number_maps);
+    set_currentlevel(get_number_maps());
   else
     set_currentlevel(save.lastlevel);
 }
@@ -161,7 +161,7 @@ void MapPack::load_save() {
   }
 
 #ifdef GODMODE
-  save.maxlevel = properties.number_maps;
+  save.maxlevel = get_number_maps();
   cout << "Godmode activated! maxlevel set to " << save.maxlevel << endl;
 #endif
   
@@ -187,14 +187,22 @@ void MapPack::set_lastlevel(int last) {
   write_save();
 }
 
+int MapPack::get_lastlevel() const {
+  return save.lastlevel;
+}
+
+int MapPack::get_number_maps() const {
+  return properties.number_maps;
+}
+
 int MapPack::set_currentlevel(int newlvl) {
-  if (newlvl <= 0 || newlvl > properties.number_maps + 1)
+  if (newlvl <= 0 || newlvl > get_number_maps() + 1)
     return -1;
 
   lvl.id = newlvl;
   set_lastlevel(newlvl);
 
-  if (lvl.id == properties.number_maps + 1)
+  if (lvl.id == get_number_maps() + 1)
     return -1; // the map pack is over, we don't load any map
 
   load_map();
