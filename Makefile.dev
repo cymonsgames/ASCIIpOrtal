@@ -1,7 +1,7 @@
 include Makefile.common
 
 # If uncommented, every map will be available.
-GODMODE = -DGODMODE
+#GODMODE = -DGODMODE
 
 DEBUG = -g -DDEBUG_ME
 

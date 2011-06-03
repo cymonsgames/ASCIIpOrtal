@@ -25,7 +25,7 @@ void operator>>(ifstream& instream, mp_properties& p) {
   //node["rating"] >> p.rating;
 }
 
-void operator<<(ofstream& outstream, const mp_properties& p) {
+void operator<<(ostream& outstream, const mp_properties& p) {
   YAML::Emitter out;
   out << YAML::Comment("This is a YAML-formatted file designed to store informations about the given map pack.") << YAML::Newline;
   out << YAML::BeginMap;
@@ -66,7 +66,7 @@ void operator>>(ifstream& instream, mp_save& s)
   node["lastlevel"] >> s.lastlevel;
 }
 
-void operator<<(ofstream& outstream, const mp_save& s) {
+void operator<<(ostream& outstream, const mp_save& s) {
   YAML::Emitter out;
   out << YAML::Comment("This is a Yaml-formatted save file for ASCIIpOrtal.") << YAML::Newline;
   out << YAML::BeginMap;
@@ -81,6 +81,18 @@ void operator<<(ofstream& outstream, const mp_save& s) {
   out << YAML::EndMap << YAML::Newline;
 
   outstream << out.c_str();
+}
+
+void MapPack::dump() {
+  cerr << "Dumping mappack:" << endl;
+  cerr << save;
+  cerr << properties;
+  cerr << "Name: " << name << endl;
+
+  cerr << "lvl.id: " << lvl.id << endl;
+  cerr << "lvl.name: " << lvl.name << endl;
+  cerr << "lvl.mappack: " << lvl.mappack << endl;
+  cerr << "lvl.ticks: " << lvl.ticks << endl;
 }
 
 
@@ -176,10 +188,11 @@ void MapPack::write_save() {
 }
 
 void MapPack::set_maxlevel(int new_maxlvl) {
-  if (new_maxlvl > save.maxlevel)
-    // write it to a file, using filemgr
-    //filemgr.save_maxlevel(new_maxlvl);
-  save.maxlevel = new_maxlvl;
+  if (new_maxlvl > save.maxlevel) {
+    save.maxlevel = new_maxlvl;
+    write_save();
+  }
+  
 }
 
 void MapPack::set_lastlevel(int last) {
@@ -202,7 +215,7 @@ int MapPack::set_currentlevel(int newlvl) {
   lvl.id = newlvl;
   set_lastlevel(newlvl);
 
-  if (lvl.id == get_number_maps() + 1)
+  if (lvl.id >= get_number_maps() + 1)
     return -1; // the map pack is over, we don't load any map
 
   load_map();
@@ -353,8 +366,9 @@ int MapPack::load_map() {
 
   // TODO: error handling
 
-  /*  if (objm.objs.size() == 0) {
-    mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
+    if (lvl.objm.objs.size() == 0)
+      debug("objm.objs.size() == 0 : this is supposed to be bad");
+      /*  mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
     mvprintw (LINES / 2 , (COLS - 24) / 2,"Level contains no objects", lvl + 1);
     mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
     refresh ();

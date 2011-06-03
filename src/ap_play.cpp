@@ -937,6 +937,12 @@ int play(MapPack &mappack) {
  
     start = get_microseconds();
 
+    if (!lvl.objm.verify()) {
+      cout << "object manager state is inconsistent!\n";
+      lvl.objm.dump();
+      return 0;
+    }
+
     if (game.physics() < 0) return 0;
     if (game.pause) {
       if (pause_menu(mappack) == -1) return 0;

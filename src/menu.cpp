@@ -387,6 +387,8 @@ int main_menu(MapPack& mappack) {
            restms (150);
            getch();*/
         mappack = newmappack;
+        mappack.set_currentlevel(mappack.get_currentlevel());
+        //mappack.dump();
         //}
       }
     }

@@ -144,8 +144,9 @@ int ObjectManager::verify() {
 
 void ObjectManager::dump() {
   printf ("\n========\nOBJECT LIST:\n");
+  printf ("  %s %s %s %s %s %s\n", "x", "y", "type", "tick", "d.x", "d.y");
   for (objiter it = objs.begin(); it != objs.end(); it++)
-    printf ("  %d %d %d %d %d %d\n", it->coord.x, it->coord.y, it->type, it->tick, it->d.x, it->d.y);
+    printf ("  %d %d   %d   %d   %d  %d\n", it->coord.x, it->coord.y, it->type, it->tick, it->d.x, it->d.y);
   printf ("\nOBJECT MAP:\n");
   for (int y = 0; y < objmap.size(); y++) {
     for (int x = 0; x < objmap[y].size(); x++) {

@@ -147,6 +147,8 @@ public:
   // Loads map pack description, initialize the bundled file manager.
   MapPack(string const & name);
 
+  void dump();
+
   // Copy operator
   //  MapPack &operator=(const MapPack &source);
 
