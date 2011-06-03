@@ -799,11 +799,12 @@ int Game::move_player () {
     case 'P' :
     case 'p' : pause = true; break;
     case KEY_F(2) :
-      cheatview = (cheatview + 1) % 3;
+      cheatview = (cheatview + 1) % 4;
       switch (cheatview) {
         case 0: set_status("No Portal Edges view mode."); break;
         case 1: set_status("Portal Fill view mode"); break;
         case 2: set_status("Portal Edges view mode."); break;
+        case 3: set_status("Portal Mixed Edges view mode."); break;
       }
       break;
     case KEY_F(3) :

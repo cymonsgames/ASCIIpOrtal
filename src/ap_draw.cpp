@@ -98,7 +98,7 @@ extern const int CharData [MAXColors][5] = // File, Screen, Forground, backgroun
  {0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
 };
 
-int cheatview = 2;
+int cheatview = 3;
 int animateportal = 0;
 
 #ifdef __NOSDL__
@@ -348,6 +348,8 @@ inline void portal_space (level const & lvl, XY& s, XY& d, int type, int& zmax, 
 // Fills screenmap according to the objects present in the world
 void map_screen (level & lvl, vector<vector<chtype> >& screenmap) {
   XY upperleft, screenc;
+  bool draw_border[2] = {false, false};
+  if (cheatview == 2 || cheatview == 3) draw_border[0] = draw_border[1] = true;
   screenmap.clear();
   upperleft.x = lvl.objm.player->coord.x - (COLS/2);
   upperleft.y = lvl.objm.player->coord.y - (LINES/2);
@@ -434,7 +436,9 @@ void map_screen (level & lvl, vector<vector<chtype> >& screenmap) {
   screenmap[screenc.y][screenc.x] = (screenmap[screenc.y][screenc.x] & ~A_COLOR) | color_pair(PORTAL1 + i); \
 }
 
-      if (cheatview == 2 || animateportal == 1) {
+      if (draw_border[i] || animateportal == 1) {
+        if (cheatview == 3 && animateportal == 0) // mixed edges mode
+          draw_border[i] = false;
         if (b) {
           if (abs(2-a) <= b) {
             for (int z = 1; z <= zmax; z++) {
