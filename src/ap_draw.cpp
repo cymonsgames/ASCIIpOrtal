@@ -98,7 +98,7 @@ extern const int CharData [MAXColors][5] = // File, Screen, Forground, backgroun
  {0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
 };
 
-int cheatview = 3;
+int cheatview = 2;
 int animateportal = 0;
 
 #ifdef __NOSDL__

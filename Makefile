@@ -30,6 +30,9 @@ dev:
 source:
 	$(MAKE) -f Makefile.default $@
 
+debian-source:
+	$(MAKE) -f Makefile.default $@
+
 # Release target: compile and pack everything.
 # This assumes running on a 64 bits linux environment.
 all: source

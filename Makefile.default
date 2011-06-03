@@ -13,6 +13,7 @@ PORT = default
 PDCURSES_DIR = PDCurses-$(PDCURSES_VER)
 PDCURSES_VER = 3.4
 
+YAML-CPP_VER = 0.2.6
 
 ### Customisable variables ###
 
@@ -25,10 +26,10 @@ PDCURSES_VER = 3.4
 #DISTNAME := $(DISTNAME)-$(PORT)
 
 # This should pick up the local version of pdcurses_SDL
-CXXFLAGS := $(CXXFLAGS) -I ./$(PDCURSES_DIR) -I ./$(PDCURSES_DIR)/sdl1 `sdl-config --cflags` -U__NOSDL__ -U__NOSOUND__ -U__DINGOO__ -U__GP2X__
+CXXFLAGS := $(CXXFLAGS) -I yaml-cpp/include -I ./$(PDCURSES_DIR) -I ./$(PDCURSES_DIR)/sdl1 `sdl-config --cflags` -U__NOSDL__ -U__NOSOUND__ -U__DINGOO__ -U__GP2X__
 
 # Custom link flags
-LINKFLAGS := $(LINKFLAGS) $(PDCURSES_DIR)/sdl1/libpdcurses.a `sdl-config --libs` -L/usr/lib -l SDL_mixer
+LINKFLAGS := -L yaml-cpp $(LINKFLAGS) $(PDCURSES_DIR)/sdl1/libpdcurses.a `sdl-config --libs` -L/usr/lib -l SDL_mixer
 
 # Additional files to be included in release tarball.
 #FILES_INCLUDE_DIST := $(FILES_INCLUDE_DIST) custom_readme.txt example.dll foo/bar.xml
@@ -44,6 +45,8 @@ CXX = g++
 #TARBALL = $(DISTNAME).zip
 TARBALL = $(DISTNAME).tar.gz
 TARBALL_SRC = $(DISTNAME)-src.tar.gz
+# hard-coded at the moment (because of the '-' in the name)
+TARBALL_DEB = asciiportal_1.3.orig.tar.gz
 
 # Final executable name. Same thing, you should only edit the extension.
 #EXE_NAME = $(ASCIIPORTAL).exe
@@ -73,11 +76,11 @@ all:
 	$(MAKE) -f Makefile.$(PORT) dist
 
 # This is supposed to work out-of-the-box
-%.o: src/%.cpp
+%.o: src/%.cpp yaml-cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
 # Replace by OBJECTS_NOSOUND if needed
-$(EXE_NAME): $(PDCURSES_DIR)/sdl1/libpdcurses.a $(OBJECTS)
+$(EXE_NAME): yaml-cpp/libyaml-cpp.a $(PDCURSES_DIR)/sdl1/libpdcurses.a $(OBJECTS)
 	$(CXX) $^ $(LINKFLAGS) -o $@
 	@echo
 	@echo "[*] $(EXE_NAME) successfully built."
@@ -144,6 +147,9 @@ source:
 	$(MAKE) -f Makefile.$(PORT) clean distclean execlean saveclean
 	$(MAKE) -f Makefile.$(PORT) $(TARBALL_SRC)
 
+debian-source: $(TARBALL_SRC)
+	cp $(TARBALL_SRC) asciiportal_1.3.orig.tar.gz
+
 $(PDCURSES_DIR)/sdl1/libpdcurses.a: $(PDCURSES_DIR)
 	cd `dirname $@` && make libs
 
@@ -152,3 +158,14 @@ $(PDCURSES_DIR): PDCurses-$(PDCURSES_VER).tar.gz
 
 PDCurses-$(PDCURSES_VER).tar.gz:
 	wget http://sourceforge.net/projects/pdcurses/files/pdcurses/$(PDCURSES_VER)/PDCurses-$(PDCURSES_VER).tar.gz
+
+
+yaml-cpp/libyaml-cpp.a: yaml-cpp
+	cd yaml-cpp && cmake .
+	cd yaml-cpp && make
+
+yaml-cpp: yaml-cpp-$(YAML-CPP_VER).tar.gz
+	tar xvfz $<
+
+yaml-cpp-$(YAML-CPP_VER).tar.gz:
+	wget http://yaml-cpp.googlecode.com/files/yaml-cpp-$(YAML-CPP_VER).tar.gz
