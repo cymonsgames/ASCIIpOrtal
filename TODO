@@ -3,4 +3,8 @@ TODO list:
 
  - The mouse events should not do anything (ie. returning ERR), but they do have an effect sometimes. -zorun
 
- - Refactor all of the user interaction (displaying menus, etc). Could use some curses wrapper (although many of them seem abandonned). Also, wtf, curses has a structure called a *window*, that makes things easier (no need to always stay in the main stdscr)
+ - Refactor all of the user interaction (displaying menus, etc). Could use some curses wrapper (although many of them seem abandonned). Also, wtf, curses has a structure called a *window*, that makes things easier (no need to always stay in the main stdscr) -zorun
+
+ - There seems to be duplicate levels across map packs. Also, need to fill in descriptions (files 'infos.yaml'). -zorun
+
+ - Be able to configure keyboard (to play with ZQSD in France, for instance) -zorun
