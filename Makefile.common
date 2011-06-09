@@ -18,7 +18,7 @@ LINKFLAGS = -l yaml-cpp
 FILES_INCLUDE_DIST = maps/ media/ README CONTRIBUTE COPYING CHANGELOG pdcicon.bmp map_making_tips.txt
 
 # Files to include in source tarball
-FILES_INCLUDE_SRC = $(FILES_INCLUDE_DIST) src/ debian/ INSTALL TODO Doxyfile Makefile Makefile.*
+FILES_INCLUDE_SRC = $(FILES_INCLUDE_DIST) media-src/ src/ debian/ INSTALL TODO Doxyfile Makefile Makefile.*
 
 OBJECTS_NOSOUND = ap_pager.o ap_object.o ap_maps.o ap_filemgr.o ap_input.o ap_draw.o ap_play.o main.o menu.o
 OBJECTS = $(OBJECTS_NOSOUND) ap_sound.o

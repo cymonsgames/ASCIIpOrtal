@@ -50,31 +50,31 @@ string music_files[num_music_files] = {
 };
 
 string sound_files[MAXSound] = {
-  "stub.wav", // SILENT
-  "win.wav", // WIN
-  "sizzle.wav", // SIZZLE
-  "collapseportals.wav", // COLAPSEPORTALS
-  "crush.wav", // CRUSH
-  "switchhit.wav", // SWITCHHIT
-  "dooropen.wav", // DOOROPEN
-  "doorclose.wav", // DOORCLOSE
-  "dispenser.wav", // DUPLICATE
-  "keyhit.wav", // MENUBEEP
-  "menuselect.wav", // MENUSELECT
-  "gunshot.wav", // GUNSHOT
-  "portalshot.wav", // PORTALCREATE
-  "portalmiss.wav", // PORTALFAIL
-  "portalthrough.wav", // THROUGH
-  "glad1.wav", // VOICE
-  "glad2.wav", // VOICE2
-  "glad3.wav", // VOICE3
-  "glad4.wav", // VOICE
-  "glad5.wav", // VOICE2
-  "glad6.wav", // VOICE3
-  "glad7.wav", // VOICE
-  "glad8.wav", // VOICE2
-  "glad9.wav", // VOICE3
-  "glad10.wav", // VOICE3
+  "stub.ogg", // SILENT
+  "win.ogg", // WIN
+  "sizzle.ogg", // SIZZLE
+  "collapseportals.ogg", // COLAPSEPORTALS
+  "crush.ogg", // CRUSH
+  "switchhit.ogg", // SWITCHHIT
+  "dooropen.ogg", // DOOROPEN
+  "doorclose.ogg", // DOORCLOSE
+  "dispenser.ogg", // DUPLICATE
+  "keyhit.ogg", // MENUBEEP
+  "menuselect.ogg", // MENUSELECT
+  "gunshot.ogg", // GUNSHOT
+  "portalshot.ogg", // PORTALCREATE
+  "portalmiss.ogg", // PORTALFAIL
+  "portalthrough.ogg", // THROUGH
+  "glad1.ogg", // VOICE
+  "glad2.ogg", // VOICE2
+  "glad3.ogg", // VOICE3
+  "glad4.ogg", // VOICE
+  "glad5.ogg", // VOICE2
+  "glad6.ogg", // VOICE3
+  "glad7.ogg", // VOICE
+  "glad8.ogg", // VOICE2
+  "glad9.ogg", // VOICE3
+  "glad10.ogg", // VOICE3
 };
 
 string current_music = music_files[0];
