@@ -61,11 +61,11 @@ extern const int CharData [MAXColors][6] = // File, Screen, AltScreen (low-ascii
 {{' ', ' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // NONE
  {'Q', 'E', 'E', COLOR_WHITE, COLOR_GREEN, 1}, // GOAL
  {'+', 254, '+', COLOR_BLACK, COLOR_YELLOW, 0}, // LADDER
- {'#', 219, '#', COLOR_WHITE, COLOR_BLACK, 0}, // NORMAL
+ {'#', 219, '%', COLOR_WHITE, COLOR_BLACK, 0}, // NORMAL
 #ifndef __NOSDL__
- {'N', 219, '%', COLOR_BLACK, COLOR_WHITE, 1}, // NONSTICK
+ {'N', 219, ' ', COLOR_BLACK, COLOR_WHITE, 1}, // NONSTICK
 #else
- {'N', 177, '%', COLOR_WHITE, COLOR_BLACK, 0}, // NONSTICK
+ {'N', 177, '#', COLOR_WHITE, COLOR_BLACK, 0}, // NONSTICK
 #endif
  {'(', '(', '(', COLOR_BLACK, COLOR_WHITE, 0}, // LTREAD
  {')', ')', ')', COLOR_BLACK, COLOR_WHITE, 0}, // RTREAD
