@@ -26,7 +26,7 @@
 
 using namespace std;
 
-extern const int CharData [MAXColors][5];
+extern const int CharData [MAXColors][6];
 
 extern int color_pair(int);
 

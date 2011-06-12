@@ -49,7 +49,7 @@
 #include "ap_pager.h"
 
 using namespace std;
-extern const int CharData[MAXColors][5];
+extern const int CharData[MAXColors][6];
 
 // from main.cpp
 extern FileManager filemgr;
@@ -356,7 +356,7 @@ int display_pause_menu () {
   options.push_back("Exit to main menu");
 
   for (yy = 0; yy < LINES; yy++)
-    mvchgat (yy, 0, -1, WA_BOLD, 8 * CharData[PAUSE][2] + CharData[PAUSE][3], NULL);
+    mvchgat (yy, 0, -1, WA_BOLD, 8 * CharData[PAUSE][3] + CharData[PAUSE][4], NULL);
   return menu(options, 0);
 }
 

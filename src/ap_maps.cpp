@@ -6,7 +6,7 @@
 #include "yaml-cpp/yaml.h"
 #include "ap_maps.h"
 
-extern const int CharData [MAXColors][5];
+extern const int CharData [MAXColors][6];
 
 // Overloading extraction operators to ease manipulation
 void operator>>(ifstream& instream, mp_properties& p) {
