@@ -57,49 +57,50 @@ using namespace std;
 #include "ap_pager.h"
 
 
-extern const int CharData [MAXColors][5] = // File, Screen, Forground, background, WA_BOLD
-{{' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // NONE
- {'Q', 'E', COLOR_WHITE, COLOR_GREEN, 1}, // GOAL
- {'+', 254, COLOR_BLACK, COLOR_YELLOW, 0}, // LADDER
- {'#', 219, COLOR_WHITE, COLOR_BLACK, 0}, // NORMAL
+extern const int CharData [MAXColors][6] = // File, Screen, AltScreen (low-ascii), Foreground, background, WA_BOLD
+{{' ', ' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // NONE
+ {'Q', 'E', 'E', COLOR_WHITE, COLOR_GREEN, 1}, // GOAL
+ {'+', 254, '+', COLOR_BLACK, COLOR_YELLOW, 0}, // LADDER
+ {'#', 219, '#', COLOR_WHITE, COLOR_BLACK, 0}, // NORMAL
 #ifndef __NOSDL__
- {'N', 219, COLOR_BLACK, COLOR_WHITE, 1}, // NONSTICK
+ {'N', 219, '%', COLOR_BLACK, COLOR_WHITE, 1}, // NONSTICK
 #else
- {'N', 177, COLOR_WHITE, COLOR_BLACK, 0}, // NONSTICK
+ {'N', 177, '%', COLOR_WHITE, COLOR_BLACK, 0}, // NONSTICK
 #endif
- {'(', '(', COLOR_BLACK, COLOR_WHITE, 0}, // LTREAD
- {')', ')', COLOR_BLACK, COLOR_WHITE, 0}, // RTREAD
- {'$', 177, COLOR_BLACK, COLOR_WHITE, 0}, // FFIELD,
- {'%', 177, COLOR_CYAN, COLOR_BLACK, 0}, // PFIELD
- {'"', 177, COLOR_RED, COLOR_BLACK, 1}, // XFIELD
- {'X', 15, COLOR_RED, COLOR_BLACK, 0}, // SPIKE
- {0, 0, COLOR_WHITE, COLOR_WHITE, 0}, // MAXWall,
- {'=', 205, COLOR_BLUE, COLOR_BLACK, 1}, // DUPLICATOR,
- {0, 7, COLOR_BLUE, COLOR_BLACK, 1}, // SHOT1
- {0, 7, COLOR_YELLOW, COLOR_BLACK, 1}, // SHOT2
- {'y', 9, COLOR_BLUE, COLOR_BLACK, 1}, // PORTAL1
- {'z', 9, COLOR_YELLOW, COLOR_BLACK, 1}, // PORTAL2
- {'A', 220, COLOR_BLACK, COLOR_RED, 1}, // SWITCH
- {0, 220 | WA_PROTECT, COLOR_BLACK, COLOR_GREEN, 1}, // SWITCHON
- {'a', 30, COLOR_BLACK, COLOR_BLUE, 0}, // DOOR
- {0, 254, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR3,
- {0, 249, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR2
- {0, 250, COLOR_BLUE, COLOR_BLACK, 0}, // DOOR1,
- {'&', 3, COLOR_RED, COLOR_CYAN, 0}, // BOX
- {'O', 9, COLOR_MAGENTA, COLOR_BLACK, 1}, // BOULDER
- {'@', 143, COLOR_GREEN, COLOR_BLACK, 1}, // PLAYER
- {'1', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // TEXTTRIGGER
- {0, 15, COLOR_YELLOW, COLOR_BLACK, 0}, // FLASH
- {0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MAXObj
- {0, 0, COLOR_GREEN, COLOR_BLACK, 0}, // PAUSE
- {0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MENUDIM
- {0, 0, COLOR_YELLOW, COLOR_BLACK, 1}, // MENUSELECT
- {0, 0, COLOR_YELLOW, COLOR_BLUE, 1}, // HELPMENU
- {0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
+ {'(', '(', '(', COLOR_BLACK, COLOR_WHITE, 0}, // LTREAD
+ {')', ')', ')', COLOR_BLACK, COLOR_WHITE, 0}, // RTREAD
+ {'$', 177, '$', COLOR_BLACK, COLOR_WHITE, 0}, // FFIELD,
+ {'%', 177, '~', COLOR_CYAN, COLOR_BLACK, 0}, // PFIELD
+ {'"', 177, '~', COLOR_RED, COLOR_BLACK, 1}, // XFIELD
+ {'X', 15, 'X', COLOR_RED, COLOR_BLACK, 0}, // SPIKE
+ {0, 0, 0, COLOR_WHITE, COLOR_WHITE, 0}, // MAXWall,
+ {'=', 205, '=', COLOR_BLUE, COLOR_BLACK, 1}, // DUPLICATOR,
+ {0, 7, '*', COLOR_BLUE, COLOR_BLACK, 1}, // SHOT1
+ {0, 7, '*', COLOR_YELLOW, COLOR_BLACK, 1}, // SHOT2
+ {'y', 9, 'o', COLOR_BLUE, COLOR_BLACK, 1}, // PORTAL1
+ {'z', 9, 'o', COLOR_YELLOW, COLOR_BLACK, 1}, // PORTAL2
+ {'A', 220, '-', COLOR_BLACK, COLOR_RED, 1}, // SWITCH
+ {0, 220 | WA_PROTECT, '=', COLOR_BLACK, COLOR_GREEN, 1}, // SWITCHON
+ {'a', 30, '|', COLOR_BLACK, COLOR_BLUE, 0}, // DOOR
+ {0, 254, '|', COLOR_BLUE, COLOR_BLACK, 0}, // DOOR3,
+ {0, 249, '|', COLOR_BLUE, COLOR_BLACK, 0}, // DOOR2
+ {0, 250, '|', COLOR_BLUE, COLOR_BLACK, 0}, // DOOR1,
+ {'&', 3, '&', COLOR_RED, COLOR_CYAN, 0}, // BOX
+ {'O', 9, 'O', COLOR_MAGENTA, COLOR_BLACK, 1}, // BOULDER
+ {'@', 143, '@', COLOR_GREEN, COLOR_BLACK, 1}, // PLAYER
+ {'1', ' ', ' ', COLOR_WHITE, COLOR_BLACK, 0}, // TEXTTRIGGER
+ {0, 15, ' ', COLOR_YELLOW, COLOR_BLACK, 0}, // FLASH
+ {0, 0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MAXObj
+ {0, 0, 0, COLOR_GREEN, COLOR_BLACK, 0}, // PAUSE
+ {0, 0, 0, COLOR_WHITE, COLOR_BLACK, 0}, // MENUDIM
+ {0, 0, 0, COLOR_YELLOW, COLOR_BLACK, 1}, // MENUSELECT
+ {0, 0, 0, COLOR_YELLOW, COLOR_BLUE, 1}, // HELPMENU
+ {0, 0, 0, COLOR_BLACK, COLOR_WHITE, 0} // TEXTFIELD
 };
 
 int cheatview = 2;
 int animateportal = 0;
+bool pureAscii = false;
 
 #ifdef __NOSDL__
 // Used for standard ncurses build on a unicode terminal
@@ -150,15 +151,15 @@ cchar_t convert_char(chtype character) {
 #endif //NOSDL
 
 int color_pair(int objtype) {
-  int fore = CharData[objtype][2];
-  int back = CharData[objtype][3];
-  return (COLOR_PAIR ((8 * fore) + back) | (WA_BOLD * CharData[objtype][4]));
+  int fore = CharData[objtype][3];
+  int back = CharData[objtype][4];
+  return (COLOR_PAIR ((8 * fore) + back) | (WA_BOLD * CharData[objtype][5]));
 }
 
 int obj_color_pair(level const & lvl, objiter obj) {
-  int fore = CharData[obj->type][2];
-  int back = CharData[obj->type][3];
-  int b = CharData[obj->type][4];
+  int fore = CharData[obj->type][3];
+  int back = CharData[obj->type][4];
+  int b = CharData[obj->type][5];
 
   if (obj->type == DOOR) {
     if (obj->d.x == 4) {
@@ -167,8 +168,8 @@ int obj_color_pair(level const & lvl, objiter obj) {
       if (obj->d.y == 12) fore = COLOR_GREEN;
       if (fore == COLOR_BLUE) b = 1;
     } else {
-      fore = CharData[DOOR1][2];
-      back = CharData[DOOR1][3];
+      fore = CharData[DOOR1][3];
+      back = CharData[DOOR1][4];
     }
   }
   if (obj->type == FLASH) {
@@ -183,11 +184,11 @@ int obj_color_pair(level const & lvl, objiter obj) {
     if ((obj->type == PLAYER) || (obj->type == BOULDER) || (obj->type == FLASH)) {
       int mapblock = lvl.map[obj->coord.y][obj->coord.x];
       if ((mapblock != NONE) && (mapblock != NORMAL)) {
-        back = CharData[mapblock][2];
+        back = CharData[mapblock][3];
         b = 0;
       }
       if (mapblock == LADDER) {
-        back = CharData[mapblock][3];
+        back = CharData[mapblock][4];
         b = 0;
       }
     }
@@ -263,8 +264,15 @@ inline objiter object_at (level & lvl, XY coord) {
   return retval;
 }
 
+int screenglyph(int o) {
+  if (pureAscii)
+    return CharData[o][2];
+  else
+    return CharData[o][1];
+}
+
 int screenchar(int o) {
-  return (CharData[o][1] | color_pair(o) | WA_ALTCHARSET);
+  return (screenglyph(o) | color_pair(o) | WA_ALTCHARSET);
 }
 
 int obj_screenchar(level const & lvl, objiter obj) {
@@ -279,11 +287,13 @@ int obj_screenchar(level const & lvl, objiter obj) {
       case 0: objtype = NONE; break;
     }
     if(objtype == DOOR && obj->d.y >= 6)
-      return (4 | obj_color_pair(lvl, obj) | WA_ALTCHARSET);
+      return ((pureAscii ? '|' : 4) |
+          obj_color_pair(lvl, obj) | WA_ALTCHARSET);
+      
   }
   if (objtype == SWITCHON && obj->d.y >= 6) objtype = SWITCH;
   else if (objtype == SWITCH && obj->d.y >= 6) objtype = SWITCHON;
-  return (CharData[objtype][1] | obj_color_pair(lvl, obj) | WA_ALTCHARSET);
+  return (screenglyph(objtype) | obj_color_pair(lvl, obj) | WA_ALTCHARSET);
 }
 
 // Math library round() is slow for some reason, at least on my system.
@@ -559,7 +569,9 @@ void draw_rotate (level & lvl, int num) { // num is the number of 90 degree rota
   }
 }
 
-void graphics_init (bool fullscreen, int height, int width) {
+void graphics_init (bool fullscreen, int height, int width, bool usePureAscii)
+{
+  pureAscii = usePureAscii;
 #ifndef __NOSDL__
 #ifdef __GP2X__
   pdc_screen = SDL_SetVideoMode(320, 200, 16, SDL_SWSURFACE | (SDL_FULLSCREEN * fullscreen));

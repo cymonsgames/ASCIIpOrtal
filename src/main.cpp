@@ -53,6 +53,7 @@ void debug(string message) {
 int main(int args, char* argv[]) {
   string mappack_name = filemgr.default_mappack;
   bool fullscreen = false;
+  bool pureAscii = false;
   string resolution;
   istringstream res_buffer;
   int height=480;
@@ -76,6 +77,7 @@ int main(int args, char* argv[]) {
           res_buffer >> height;
           break;
 #endif
+        case 'a' : pureAscii = true; break;
         default :
           cout << "ASCIIpOrtal Command Line Parameters:\n\n"
                << " -?                  This help menu\n"
@@ -85,6 +87,7 @@ int main(int args, char* argv[]) {
                << " -f                  Fullscreen mode\n"
                << " -w                  Windowed mode (default)\n"
 #endif
+               << " -a                  Use only standard ASCII characters\n"
             ;
           exit (0); break;
       }
@@ -117,7 +120,7 @@ int main(int args, char* argv[]) {
   
   setlocale (LC_ALL, "");
 
-  graphics_init (fullscreen, height, width);
+  graphics_init (fullscreen, height, width, pureAscii);
 #ifndef __NOSOUND__
   sound_init ();
 #endif

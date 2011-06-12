@@ -53,7 +53,7 @@ void draw_rotate (level &, int num);
 
 void draw_screen (level &);
 
-void graphics_init (bool fullscreen, int height, int width);
+void graphics_init (bool fullscreen, int height, int width, bool usePureAscii);
 
 void graphics_deinit ();
 

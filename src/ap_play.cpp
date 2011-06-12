@@ -62,7 +62,7 @@ extern int animateportal;
 extern FileManager filemgr;
 
 // from ap_draw.cpp
-extern const int CharData[MAXObjects][5];
+extern const int CharData[MAXObjects][6];
 extern int cheatview;
 
 /*
@@ -456,13 +456,13 @@ void Game::collapse_portals () {
   // cancel all portals
   for (int i = 0; i < 2; ++i) {
     if (lvl.objm.portals[i] != NULLOBJ) {
-      lvl.objm.portals[i]->d.y = CharData[PORTAL1 + i][2];
+      lvl.objm.portals[i]->d.y = CharData[PORTAL1 + i][3];
       lvl.objm.portals[i]->type = FLASH;
       lvl.objm.portals[i] = NULLOBJ;
       playsound = 1;
     }
     if (lvl.objm.shots[i] != NULLOBJ) {
-      lvl.objm.shots[i]->d.y = CharData[SHOT1 + i][2];
+      lvl.objm.shots[i]->d.y = CharData[SHOT1 + i][3];
       lvl.objm.shots[i]->type = FLASH;
       lvl.objm.shots[i] = NULLOBJ;
       playsound = 1;
@@ -622,7 +622,7 @@ int Game::physics () {
           int col = por_col(c->coord.y, c->coord.x);
           if (col) {
             if (col == NONSTICK) {
-              c->d.y = CharData[c->type][2];
+              c->d.y = CharData[c->type][3];
               lvl.objm.shots[c->type - SHOT1] = NULLOBJ;
               c->type = FLASH;
 #ifndef __NOSOUND__
@@ -657,7 +657,7 @@ int Game::physics () {
 #ifndef __NOSOUND__
               play_sound (PORTALFAIL);
 #endif
-              c->d.y = CharData[c->type][2];
+              c->d.y = CharData[c->type][3];
               lvl.objm.shots[c->type - SHOT1] = NULLOBJ;
               c->type = FLASH;
               z = portalspeed; continue;
@@ -672,7 +672,7 @@ int Game::physics () {
                   switch_in_portal();
                 }
               }
-              d->d.y = CharData[d->type][2];
+              d->d.y = CharData[d->type][3];
               d->type = FLASH;
             }
             lvl.stats.numportals++;
@@ -994,7 +994,7 @@ int play(MapPack &mappack) {
       lvl.stats.numportals = 0;
       fillscreen(screenchar(XFIELD)); refresh();
       restms(100);
-      fillscreen(CharData[XFIELD][1] | color_pair(XFIELD) | WA_ALTCHARSET); refresh();
+      fillscreen(CharData[XFIELD][2] | color_pair(XFIELD) | WA_ALTCHARSET); refresh();
       restms(150);
       mappack.set_currentlevel(mappack.get_currentlevel());
       flushinput();
