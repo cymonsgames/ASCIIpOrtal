@@ -8,3 +8,5 @@ TODO list:
  - There seems to be duplicate levels across map packs. Also, need to fill in descriptions (files 'infos.yaml'). -zorun
 
  - Be able to configure keyboard (to play with ZQSD in France, for instance) -zorun
+
+ - Rework the very first levels (it is confusing to have the portal gun while not being able to use it) -zorun
