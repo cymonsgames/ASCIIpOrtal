@@ -163,12 +163,14 @@ void help_menu () {
       case ERR : break;
       default :
         pauserun(0);
+        nodelay(stdscr, 1);
         return;
     }
     //input = getinput ();
     input = getch();
   }
 
+  nodelay(stdscr, 1);
   pauserun(0);
 }
 
@@ -586,6 +588,7 @@ void roll_credits (MapPack const & mappack) {
 #endif
     input = getch();
   } while (input == ERR);
+  nodelay(stdscr,1);
 }
 
 
@@ -681,7 +684,6 @@ MapPack select_mappack (MapPack const & current) {
   
   cout << mappacks.size() << " mappacks detected" << endl;
 
-  nodelay(stdscr,0);
   pauserun(1);
 
   int position = 0;
@@ -724,7 +726,9 @@ MapPack select_mappack (MapPack const & current) {
     refresh();
     flushinput();
     restms(100);
+    nodelay(stdscr,0);
     input = getinput();
+    nodelay(stdscr,1);
     switch (input) {
       case KEY_UP :
 #ifndef __NOSOUND__
