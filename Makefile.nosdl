@@ -20,11 +20,11 @@ DISTNAME := $(DISTNAME)-linux64
 
 # Custom C flags: you may define ('-D') or unset ('-U') macros to get your specific
 # code to work.
-CXXFLAGS := $(CXXFLAGS) -I/usr/include/ncursesw -D__NOSDL__ -D__NOSOUND__ -U__DINGOO__ -U__GP2X__
+CXXFLAGS := $(CXXFLAGS) -I yaml-cpp/include -I/usr/include/ncursesw -D__NOSDL__ -D__NOSOUND__ -U__DINGOO__ -U__GP2X__
 
 # Custom link flags: either dynamic (default) or static linking (see the last form,
 # 'man ld' for details).
-LINKFLAGS := $(LINKFLAGS) -l ncursesw
+LINKFLAGS := $(LINKFLAGS) -L yaml-cpp -l ncursesw
 
 # Additional files to be included in release tarball.
 # We need to remove music files...
