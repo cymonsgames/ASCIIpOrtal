@@ -65,69 +65,6 @@ extern FileManager filemgr;
 extern const int CharData[MAXObjects][5];
 extern int cheatview;
 
-/*
-  Needs a big cleanup here... Functions defined:
-
-  int pause_menu(string mappack)
-  > objm, levelstats
-
-  int hitswall(int xx, int xx)
-  > map (const)
-  => out of class
-
-  objiter hitsobj(objiter it0, int yy, int xx)
-  > objm (const)
-  Used in ap_draw.cpp
-  => out of class
-
-  int still_alive()
-  > objm (const)
-  => out of class
-
-  void fireportal(int por)
-  > objm
-
-  objiter in_portal()
-  > objm (const)
-  => out of class
-
-  int switch_in_portal()
-  > objm
-
-  int sc(int x)
-  > 
-
-  int por_col(int yy, int xx)
-  > map (const), objm (const)
-  => out of class
-
-  int will_hit(objiter c)
-  > texttrigger, pager, objm
-
-  int applyd(objiter c)
-  > objm
-
-  void collapse_portals()
-  > objm
-
-  int move_object(objiter c)
-  > 
-
-  int physics()
-  > objm, levelstats, map
-
-  int move_player()
-  > aimobject, pager, objm, levelstats, map
-
-  int play()
-  > objm, map
-
-  unsigned long long int get_microseconds()
-
-  Could use an object to avoid passing a level structure as argument
-  everywhere.
-*/
-
 Game::Game(level &level) : lvl(level),
                            NULLOBJ(level.objm.NULLOBJ)
 {
