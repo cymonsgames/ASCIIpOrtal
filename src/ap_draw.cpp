@@ -264,7 +264,7 @@ inline objiter object_at (level & lvl, XY coord) {
   return retval;
 }
 
-int screenglyph(int o) {
+inline int screenglyph(int o) {
   if (pureAscii)
     return CharData[o][2];
   else
