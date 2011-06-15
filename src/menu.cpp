@@ -389,7 +389,7 @@ int main_menu(MapPack& mappack) {
            restms (150);
            getch();*/
         mappack = newmappack;
-        mappack.set_currentlevel(mappack.get_currentlevel());
+        mappack.reload_level();
         //mappack.dump();
         //}
       }
@@ -412,7 +412,7 @@ int pause_menu(MapPack & mappack) {
   switch (pause) {
   case 0 : case -1 : break; // Resume
   case 1 : // Restart
-    mappack.set_currentlevel(mappack.get_currentlevel());
+    mappack.reload_level();
     break;
   case 2 : { // Select level
     int newlvl = select_level(mappack);

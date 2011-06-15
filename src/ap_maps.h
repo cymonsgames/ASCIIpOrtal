@@ -180,6 +180,8 @@ public:
   // This loads the required level as appropriate.
   int set_currentlevel(int);
 
+  void reload_level();
+
   // Incrementation of the current level (prefix notation)
   MapPack &operator++(void);
   MapPack &operator--(void);

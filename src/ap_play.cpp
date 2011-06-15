@@ -905,7 +905,7 @@ int play(MapPack &mappack) {
           ++mappack;
         }
         else
-          mappack.lvl.clear();
+          mappack.reload_level();
       } else { // Game is still running
         seconds = ((double)stop - (double)start)/1000000.0;
         if (gamespeed > 0) {
@@ -933,7 +933,7 @@ int play(MapPack &mappack) {
       restms(100);
       fillscreen(CharData[XFIELD][2] | color_pair(XFIELD) | WA_ALTCHARSET); refresh();
       restms(150);
-      mappack.set_currentlevel(mappack.get_currentlevel());
+      mappack.reload_level();
       flushinput();
     }
   }

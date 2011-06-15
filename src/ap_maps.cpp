@@ -209,9 +209,11 @@ int MapPack::get_number_maps() const {
 }
 
 int MapPack::set_currentlevel(int newlvl) {
+  //cerr << "Setting current level to " << newlvl << endl;
   if (newlvl <= 0 || newlvl > get_number_maps() + 1)
     return -1;
 
+  lvl.clear();
   lvl.id = newlvl;
   set_lastlevel(newlvl);
 
@@ -219,6 +221,10 @@ int MapPack::set_currentlevel(int newlvl) {
     return -1; // the map pack is over, we don't load any map
 
   load_map();
+}
+
+void MapPack::reload_level() {
+  set_currentlevel(get_currentlevel());
 }
 
 // incrementation of the current level
