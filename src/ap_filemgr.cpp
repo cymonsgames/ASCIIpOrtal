@@ -221,3 +221,38 @@ string MapPack_FileManager::get_old_save() const {
   locs.push_back(basepath + s + "maps" + s + name + s + "save.dat");
   return try_locations(locs);
 }
+
+// returns true if the given file name is likely to contain a map
+// (i.e. "xyz.txt" where x, y, z are digits)
+bool is_level_file(string const & name) {
+  if (name.size() != 7)
+    return false;
+  if (name.substr(3, 4) != ".txt")
+    return false;
+  for (int i=0; i < 3; ++i) {
+    if (!isdigit(name[i]))
+      return false;
+  }
+
+  return true;
+}
+
+int MapPack_FileManager::get_number_maps() const {
+
+  struct dirent *dp;
+  struct stat statbuf;
+  string filename, fullname;
+  int result = 0;
+  DIR *dirp = opendir(fullpath.c_str());
+
+  while ((dp = readdir(dirp)) != NULL) {
+    filename = dp->d_name;
+    fullname = fullpath + s + filename;
+    if (stat(fullname.c_str(), &statbuf) == -1)
+      continue;
+    if (is_level_file(filename))
+      ++result;
+  }
+
+  return result;
+}

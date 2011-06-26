@@ -1,6 +1,5 @@
   # This is a YAML-formatted file designed to store informations about the given map pack.
 protocol: 1  # The protocol version used. Leave this to the default value.
-number_maps: 50  # The number of levels stored in this map pack.
 name: Default levels # The name of the map pack. Should not exceed 30 characters.
 description: |
   The map set of choice to begin with ASCIIpOrtal. You will discover all the nice features of ASCIIpOrtal through a serie of levels, ranging from the most basics concepts to more difficult ones.

@@ -15,7 +15,6 @@ void operator>>(ifstream& instream, mp_properties& p) {
   parser.GetNextDocument(node);
     
   node["protocol"] >> p.protocol;
-  node["number_maps"] >> p.number_maps;
   node["name"] >> p.name;
   node["description"] >> p.description;
   node["author"] >> p.author;
@@ -31,8 +30,6 @@ void operator<<(ostream& outstream, const mp_properties& p) {
   out << YAML::BeginMap;
   out << YAML::Key << "protocol" << YAML::Value << p.protocol;
   out << YAML::Comment("The protocol version used. Leave this to the default value.");
-  out << YAML::Key << "number_maps" << YAML::Value << p.number_maps;
-  out << YAML::Comment("The number of levels stored in this map pack.");
   out << YAML::Key << "name" << YAML::Value << p.name;
   out << YAML::Comment("The name of the map pack. Should not exceed 30 characters.");
   out << YAML::Key << "description" << YAML::Value << YAML::Literal << p.description;
@@ -128,7 +125,6 @@ void MapPack::load_properties() {
   }
   else {
     properties.protocol = 1;
-    properties.number_maps = 42;
     properties.name = name + "'s funny levels";
     properties.description = "This is a dumb default description intended to serve as an example.\nYou should really edit it to reflect the description of your own map pack!";
     properties.author = "ASCIIpOrtal";
@@ -144,7 +140,9 @@ void MapPack::load_properties() {
     infos.close();
     //ofstream tmp("/tmp/infos.yaml");
     //tmp << out.c_str();
-  }  
+  }
+  // calculate how many levels we have
+  properties.number_maps = filemgr.get_number_maps();
 }
 
 void MapPack::load_save() {

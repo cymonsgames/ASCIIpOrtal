@@ -162,6 +162,9 @@ public:
   // mappack.
   // Only useful for people upgrading.
   string get_old_save() const;
+
+  // Looks into the mappack directory to calculate how many levels we get
+  int get_number_maps() const;
 };
 
 bool file_exists(string const &);
