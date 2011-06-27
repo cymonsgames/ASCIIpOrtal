@@ -30,6 +30,10 @@
 #include <vector>
 #include <ctime>
 #include <locale.h>
+
+// Necessary to compile on OS X
+#include <SDL/SDL.h>
+
 using namespace std;
 #include "asciiportal.h"
 #include "ap_filemgr.h"
