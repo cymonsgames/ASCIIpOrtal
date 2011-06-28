@@ -41,6 +41,7 @@ using namespace std;
 #include "asciiportal.h"
 #include "ap_filemgr.h"
 
+extern string execpath;
 
 string FileManager::inscreen = "inscreen.txt";
 string FileManager::credits = "credits.txt";
@@ -122,7 +123,7 @@ string FileManager::get_lvl_filename(int level) const {
 // Initialize everything based on the environment
 FileManager::FileManager() {
   userpath = "";
-  basepath = ".";
+  basepath = execpath;
 
 
 #ifdef WIN32
