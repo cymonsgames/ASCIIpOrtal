@@ -35,6 +35,7 @@ void restms(int);
 
 int pollevent ();
 
-void pauserun (int);
+// true: make calls to getinput blocking.
+void setblocking(bool);
 
 #endif // AP_INPUT_H_INCLUDED

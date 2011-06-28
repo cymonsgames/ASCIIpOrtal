@@ -138,7 +138,7 @@ void help_menu () {
 #endif
 
 
-  pauserun(1);
+  setblocking(true);
 
   for (int yy = 0; yy < numkeys; yy++)
     if ((signed)keys[yy].size() > maxwidth) maxwidth = (signed)keys[yy].size();
@@ -152,9 +152,7 @@ void help_menu () {
   refresh();
   restms(100);
   flushinput();
-  nodelay(stdscr, 0);
-  //int input = getinput();
-  int input = getch();
+  int input = getinput();
   while (1) {
     switch (input) {
 #ifdef PDCURSES
@@ -162,16 +160,13 @@ void help_menu () {
 #endif
       case ERR : break;
       default :
-        pauserun(0);
-        nodelay(stdscr, 1);
+        setblocking(false);
         return;
     }
-    //input = getinput ();
-    input = getch();
+    input = getinput ();
   }
 
-  nodelay(stdscr, 1);
-  pauserun(0);
+  setblocking(false);
 }
 
 int menu (vector <string>& items, int selection) {
@@ -180,7 +175,7 @@ int menu (vector <string>& items, int selection) {
 #ifndef __NOSOUND__
   play_sound(MENUBEEP);
 #endif
-  pauserun(1);
+  setblocking(true);
   XY s;
   int w = 0;
   attrset (color_pair(MENUDIM));
@@ -225,7 +220,7 @@ int menu (vector <string>& items, int selection) {
 #ifndef __NOSOUND__
         play_sound(MENUCHOICE);
 #endif
-        pauserun(0);
+        setblocking(false);
         return -1;
         break;
       case KEY_ENTER:
@@ -235,7 +230,7 @@ int menu (vector <string>& items, int selection) {
 #ifndef __NOSOUND__
         play_sound(MENUCHOICE);
 #endif
-        pauserun(0);
+        setblocking(false);
         return selection;
     }
     selection %= items.size();
@@ -441,7 +436,7 @@ int select_level (MapPack const & mappack) {
   if (level == 0)
     level = mappack.get_lastlevel();
 
-  pauserun(1);
+  setblocking(true);
   fillsquare(LINES / 2 - 2, (COLS - 16) / 2, 4, 16);
   do {
     mvprintw(LINES / 2 - 1, (COLS - 14) / 2, "Choose a Level");
@@ -481,7 +476,7 @@ int select_level (MapPack const & mappack) {
     if (level < 1) level = 1;
   } while ((input != '\n') && (input != ' ') && (input != 'z') && (input != 'x'));
 
-  pauserun(0);
+  setblocking(false);
 #ifndef __NOSOUND__
   play_sound(MENUCHOICE);
 #endif
@@ -542,8 +537,8 @@ void roll_credits (MapPack const & mappack) {
     refresh ();
     restms (250);
     clear();
-    nodelay(stdscr, 1);
-    int input = getch();
+    setblocking(false);
+    int input = getinput();
 #ifdef PDCURSES
     if (input == KEY_RESIZE) {
       resize_term(0,0);
@@ -562,7 +557,7 @@ void roll_credits (MapPack const & mappack) {
     }
     refresh ();
     restms (250);
-    input = getch();
+    input = getinput();
 #ifdef PDCURSES
     if (input == KEY_RESIZE) {
       resize_term(0,0);
@@ -577,8 +572,8 @@ void roll_credits (MapPack const & mappack) {
     }
   }
 
-  nodelay(stdscr, 0);
-  int input = getch();
+  setblocking(true);
+  int input = getinput();
   do {
 #ifdef PDCURSES
     if (input == KEY_RESIZE) {
@@ -586,9 +581,9 @@ void roll_credits (MapPack const & mappack) {
       input = ERR;
     }
 #endif
-    input = getch();
+    input = getinput();
   } while (input == ERR);
-  nodelay(stdscr,1);
+  setblocking(false);
 }
 
 
@@ -633,7 +628,7 @@ bool describe_mappack (MapPack const & mp) {
   do {
     wrefresh(win);
     flushinput();
-    //nodelay(stdscr, 0);
+    setblocking(true);
     restms(100);
     input = getinput();
     switch (input) {
@@ -652,7 +647,7 @@ bool describe_mappack (MapPack const & mp) {
 #ifndef __NOSOUND__
         play_sound(MENUCHOICE);
 #endif
-        pauserun(0);
+        setblocking(false);
         delwin(win);
         return false;
         break;
@@ -684,7 +679,7 @@ MapPack select_mappack (MapPack const & current) {
   
   cout << mappacks.size() << " mappacks detected" << endl;
 
-  pauserun(1);
+  setblocking(true);
 
   int position = 0;
   int top_map_displayed = 0;
@@ -726,9 +721,9 @@ MapPack select_mappack (MapPack const & current) {
     refresh();
     flushinput();
     restms(100);
-    nodelay(stdscr,0);
+    setblocking(true);
     input = getinput();
-    nodelay(stdscr,1);
+    setblocking(false);
     switch (input) {
       case KEY_UP :
 #ifndef __NOSOUND__
@@ -754,7 +749,7 @@ MapPack select_mappack (MapPack const & current) {
 #ifndef __NOSOUND__
         play_sound(MENUCHOICE);
 #endif
-        pauserun(0);
+        setblocking(false);
         if (describe_mappack(mappacks[position]))
           return mappacks[position];
         break;
@@ -763,7 +758,7 @@ MapPack select_mappack (MapPack const & current) {
 #ifndef __NOSOUND__
         play_sound(MENUCHOICE);
 #endif
-        pauserun(0);
+        setblocking(false);
         return current;
         break;
     }

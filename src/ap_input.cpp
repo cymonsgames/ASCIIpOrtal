@@ -59,7 +59,7 @@ extern vector<vector<int> > map;
 #ifndef __NOSDL__
 SDL_Event event;
 int mouseon = 0;
-int delay = 0;
+bool blocking = false;
 int hasevent = 0;
 int oldkey = ERR;
 
@@ -138,11 +138,19 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
   return tmp;
 #else
   int key = oldkey;
+  bool ismouseevent = false;
 
-  if (!hasevent) hasevent = SDL_PollEvent( &event );
-  if ( hasevent ) {
-    hasevent = 0;
-    switch (event.type) {
+  do { // while (ismousevent)
+    ismouseevent = false;
+    if (blocking)
+      hasevent = SDL_WaitEvent( &event );
+    else
+      if (!hasevent) hasevent = SDL_PollEvent( &event );
+
+    if ( hasevent ) {
+      hasevent = 0;
+      //      printf("%d\n", event.type);
+      switch (event.type) {
       case SDL_QUIT:
         exit(1);
       case SDL_VIDEORESIZE: // shameless copied from sdl1/pdckbd.c
@@ -158,15 +166,16 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
         break;
 
       case SDL_MOUSEMOTION:
-//        if (mouseon)
-//          SDL_ShowCursor(SDL_ENABLE);
+        //        if (mouseon)
+        //          SDL_ShowCursor(SDL_ENABLE);
       case SDL_MOUSEBUTTONUP:
       case SDL_MOUSEBUTTONDOWN:
-//        oldkey = SDLK_SPACE;
-//        if (SP->_trap_mbe)
-//          return _process_mouse_event();
-//        key = ERR;
-        return ERR;
+      case SDL_ACTIVEEVENT:
+        //        oldkey = SDLK_SPACE;
+        //        if (SP->_trap_mbe)
+        //          return _process_mouse_event();
+        key = ERR;
+        ismouseevent = true;
         break;
       case SDL_KEYUP :
         key = ERR;
@@ -174,24 +183,24 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
 #ifdef __GP2X__
       case SDL_JOYBUTTONDOWN:
         switch (event.jbutton.button) {
-          case 0 : key = KEY_UP; break; // up
-          case 1 : key = KEY_LEFT; break; // upleft
-          case 2 : key = KEY_LEFT; break; // left
-          case 3 : key = KEY_LEFT; break; // downleft
-          case 4 : key = KEY_DOWN; break; // down
-          case 5 : key = KEY_RIGHT; break; // downright
-          case 6 : key = KEY_RIGHT; break; // right
-          case 7 : key = KEY_RIGHT; break; // upright
-          case 8 : key = KEY_F(1); break; // GP2X start
-          case 9 : key = KEY_F(2); break; // GP2X select
-          case 10: key = 'z'; break; // GP2X L
-          case 11: key = 'x'; break; // GP2X R
-          case 12: key = 'z'; break; // GP2X A (left)
-          case 13: key = 'x'; break; // GP2X B (right)
-          case 14: key = ' '; break; // GP2X X (down)
-          case 15: key = 'c'; break; // GP2X y (up)
-          case 16: key = '+'; break; // GP2X VolUp
-          case 17: key = '-'; break; // CP2X VolDown
+        case 0 : key = KEY_UP; break; // up
+        case 1 : key = KEY_LEFT; break; // upleft
+        case 2 : key = KEY_LEFT; break; // left
+        case 3 : key = KEY_LEFT; break; // downleft
+        case 4 : key = KEY_DOWN; break; // down
+        case 5 : key = KEY_RIGHT; break; // downright
+        case 6 : key = KEY_RIGHT; break; // right
+        case 7 : key = KEY_RIGHT; break; // upright
+        case 8 : key = KEY_F(1); break; // GP2X start
+        case 9 : key = KEY_F(2); break; // GP2X select
+        case 10: key = 'z'; break; // GP2X L
+        case 11: key = 'x'; break; // GP2X R
+        case 12: key = 'z'; break; // GP2X A (left)
+        case 13: key = 'x'; break; // GP2X B (right)
+        case 14: key = ' '; break; // GP2X X (down)
+        case 15: key = 'c'; break; // GP2X y (up)
+        case 16: key = '+'; break; // GP2X VolUp
+        case 17: key = '-'; break; // CP2X VolDown
         }
 #endif
       default :
@@ -205,30 +214,30 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
         if (key == ERR) key = event.key.keysym.unicode;
 
         switch( event.key.keysym.sym ) {
-        // handle specalized checking here that will override the default info:
+          // handle specalized checking here that will override the default info:
 #ifdef __DINGOO__
-          case SDLK_UP: key = KEY_UP; break;
-          case SDLK_DOWN: key = KEY_DOWN; break;
-          case SDLK_LEFT: key = KEY_LEFT; break;
-          case SDLK_RIGHT: key = KEY_RIGHT; break;
-          case SDLK_LCTRL: key = 'z'; break; // A key (right)
-          case SDLK_LALT: key = ' '; break; // B key (down)
-          case SDLK_SPACE: key = 'c'; break; // X key (up)
-          case SDLK_LSHIFT: key = 'x'; break; // Y key (left)
-          case SDLK_TAB: key = 'x'; break; // Left Shoulder
-          case SDLK_BACKSPACE: key = 'z'; break; // Right Shoulder
-          case SDLK_RETURN: key = KEY_F(1); break; // Start button
-          case SDLK_ESCAPE: key = KEY_F(2); break; // Y key (left)
+        case SDLK_UP: key = KEY_UP; break;
+        case SDLK_DOWN: key = KEY_DOWN; break;
+        case SDLK_LEFT: key = KEY_LEFT; break;
+        case SDLK_RIGHT: key = KEY_RIGHT; break;
+        case SDLK_LCTRL: key = 'z'; break; // A key (right)
+        case SDLK_LALT: key = ' '; break; // B key (down)
+        case SDLK_SPACE: key = 'c'; break; // X key (up)
+        case SDLK_LSHIFT: key = 'x'; break; // Y key (left)
+        case SDLK_TAB: key = 'x'; break; // Left Shoulder
+        case SDLK_BACKSPACE: key = 'z'; break; // Right Shoulder
+        case SDLK_RETURN: key = KEY_F(1); break; // Start button
+        case SDLK_ESCAPE: key = KEY_F(2); break; // Y key (left)
 #endif
-          default: break;
+        default: break;
         }
         break;
+      }
     }
-  }
-  oldkey = key;
+    oldkey = key;
 
-  // This section is for keys you do not want repeated if the key is pressed
-  switch (oldkey) {
+    // This section is for keys you do not want repeated if the key is pressed
+    switch (oldkey) {
     case ' ':
     case '\n':
     case 'c':
@@ -239,10 +248,11 @@ int processevent () { // Convert keys down to PDC key commands. Introduces prior
     case 'Z':
     case '+':
     case '-':
-    //case 27: // ESC key
-     oldkey = -1;
-  }
-  if (delay) oldkey = -1;
+      //case 27: // ESC key
+      oldkey = -1;
+    }
+  //  if (delay) oldkey = -1;
+  } while (ismouseevent);
 
   return key;
 #endif //!NOSDL
@@ -527,8 +537,13 @@ int pollevent () {
 #endif
 }
 
-void pauserun (int d) {
+void setblocking(bool _blocking) {
 #ifndef __NOSDL__
-  delay = d;
+  blocking = _blocking;
+#else
+  if (_blocking)
+    nodelay(stdscr, 0); // blocking mode
+  else
+    nodelay(stdscr, 1); // non-blocking mode
 #endif
 }
