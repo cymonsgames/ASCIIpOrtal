@@ -51,6 +51,8 @@ public:
   Game(level&);
   // whether the user requested the pause menu or not
   bool pause;
+  // in-game lightweight pause menu
+  bool light_pause;
   bool still_alive();
   bool has_won();
   int physics();

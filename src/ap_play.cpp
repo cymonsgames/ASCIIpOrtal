@@ -69,6 +69,7 @@ Game::Game(level &level) : lvl(level),
                            NULLOBJ(level.objm.NULLOBJ)
 {
   pause = false;
+  light_pause = false;
 }
 
 void Game::set_status(string status) {
@@ -732,9 +733,9 @@ int Game::move_player () {
       break;
     case '?' : help_menu (); break;
     case 27 : // ASCII for escape
-    case KEY_F(1) :
+    case KEY_F(1) : pause = true; break;
     case 'P' :
-    case 'p' : pause = true; break;
+    case 'p' : light_pause = true; break;
     case KEY_F(2) :
       cheatview = (cheatview + 1) % 4;
       switch (cheatview) {
@@ -848,6 +849,23 @@ int Game::move_player () {
   return 1;
 }
 
+void light_pause(MapPack &mappack) {
+  mappack.lvl.pager.set_status(mappack.lvl.ticks, "Game paused (press 'p' to resume)");
+  mappack.lvl.pager.print_status(mappack.lvl.ticks);
+
+  refresh();
+  restms(10);
+  setblocking(true);
+  int input;
+  do {
+    input = getinput();
+  } while (input != 'p' && input != 'P');
+  flushinput();
+  setblocking(false);
+
+  mappack.lvl.pager.set_status(mappack.lvl.ticks, "Game resumed");
+}
+
 int play(MapPack &mappack) {
   unsigned long long int start, stop;
   double seconds;
@@ -882,6 +900,10 @@ int play(MapPack &mappack) {
     }
 
     if (game.physics() < 0) return 0;
+    if (game.light_pause) {
+      light_pause(mappack);
+      game.light_pause = false;
+    }
     if (game.pause) {
       if (pause_menu(mappack) == -1) return 0;
       game.pause = false;
