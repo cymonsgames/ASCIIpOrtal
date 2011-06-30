@@ -47,9 +47,8 @@ using namespace std;
 #include "ap_play.h"
 #include "menu.h"
 
-// Directory where the binary is to be found.
-// Used to find the maps in case they are along with the binary
-string execpath;
+// File manager for filesystem operations
+FileManager filemgr;
 
 // easy debug
 void debug(string message) {
@@ -60,10 +59,8 @@ void debug(string message) {
 
 int main(int args, char* argv[]) {
 
-  execpath = dirname(argv[0]);
-
-  // this needs execpath...
-  FileManager filemgr;
+  // to be able to find maps/media in the same directory as the binary
+  chdir(dirname(argv[0]));
 
   string mappack_name = filemgr.default_mappack;
   bool fullscreen = false;
@@ -145,6 +142,3 @@ int main(int args, char* argv[]) {
   cout << "Thank you for playing ASCIIpOrtal\n";
   _exit(0);
 }
-
-// File manager for filesystem operations (needs execpath)
-FileManager filemgr;
