@@ -31,6 +31,9 @@
 #include <ctime>
 #include <locale.h>
 
+// for chdir() on windows
+#include <unistd.h>
+
 // for dirname
 #include <libgen.h>
 
