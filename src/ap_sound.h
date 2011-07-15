@@ -50,6 +50,8 @@ void toggle_ambience ();
 
 int play_sound (int);
 
+int play_voice ();
+
 void deinit_sound ();
 
 #endif

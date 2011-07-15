@@ -28,8 +28,10 @@
 
 #include "ap_sound.h"
 
+#define NUMBER_VOICES 10
+
 #ifndef __NOSOUND__
-#ifndef __NOSLD__
+#ifndef __NOSDL__
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_mixer.h"
@@ -157,6 +159,10 @@ void toggle_ambience () {
 int play_sound (int c) {
   if (Mix_PlayChannel( -1, soundEffects[c], 0 ) == -1) return 0;
   return 1;
+}
+
+int play_voice () {
+  return play_sound(VOICE + rand() % NUMBER_VOICES);
 }
 
 void deinit_sound () {
