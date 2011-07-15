@@ -222,7 +222,10 @@ int MapPack::set_currentlevel(int newlvl) {
 }
 
 void MapPack::reload_level() {
+  // keep stats
+  levelstats oldstats = lvl.stats;
   set_currentlevel(get_currentlevel());
+  lvl.stats = oldstats;
 }
 
 // incrementation of the current level
@@ -283,18 +286,12 @@ int MapPack::load_map() {
 #ifndef __NOSOUND__
     if (rawmap[yy].find("music") == 0) {
       if (rawmap[yy].find("default") == 6) {
-        //if ((rawmap[yy][13] >= '1') && (rawmap[yy][13] <= '9'))
-        // default_ambience(rawmap[yy][13] - '1' + 1);
-        //else default_ambience(0);
+        if ((rawmap[yy][13] >= '1') && (rawmap[yy][13] <= '9'))
+          lvl.musicid = rawmap[yy][13] - '1' + 1;
+        else lvl.musicid = 0;
       }
-      else {
-        string musicfile = rawmap[yy].substr (6, (signed)rawmap[yy].size() - 6);
-        //TODO: move this somewhere else
-        //load_ambience(mappack, musicfile);
-        musicfile.clear();
-      }
-      //TODO:
-      //start_ambience();
+      else
+        lvl.musicfile = rawmap[yy].substr (6, (signed)rawmap[yy].size() - 6);
     } else
 #endif
     if (rawmap[yy].find("message") == 0) {
@@ -303,7 +300,7 @@ int MapPack::load_map() {
       } else {
         lvl.pager.add_scrolling(rawmap[yy].substr (8, (signed)rawmap[yy].size() - 8));
 #ifndef __NOSOUND__
-        //TODO:        play_sound(VOICE + rand() % 10);
+        lvl.has_message = true;
 #endif
       }
     } else if (rawmap[yy].find("name") == 0) {

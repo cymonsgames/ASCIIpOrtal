@@ -32,6 +32,9 @@
 #include <locale.h>
 #include <unistd.h>
 
+// for chdir() on windows
+#include <unistd.h>
+
 // for dirname
 #include <libgen.h>
 

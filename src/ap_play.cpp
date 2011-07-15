@@ -281,7 +281,7 @@ int Game::will_hit (objiter c) {
         if (lvl.texttrigger[c_obj->d.y].size()) {
           lvl.pager.add_scrolling(lvl.texttrigger[c_obj->d.y]);
 #ifndef __NOSOUND__
-          play_sound(VOICE + rand() % 10);
+          play_voice();
 #endif
         }
         lvl.objm.killtriggers(c_obj->d.y);
@@ -866,22 +866,28 @@ void light_pause(MapPack &mappack) {
   mappack.lvl.pager.set_status(mappack.lvl.ticks, "Game resumed");
 }
 
-int play(MapPack &mappack) {
+// main loop for playing a level
+int play_level(MapPack &mappack) {
   unsigned long long int start, stop;
   double seconds;
 
   level &lvl = mappack.lvl;
   Game game(lvl);
 
-  // Have we finished the map pack yet?
-  bool finished = false;
-    
 #ifndef __NOSOUND__
-  default_ambience (0);
-  start_ambience ();
+  // ambience music
+  if (lvl.musicfile.size() == 0)
+    default_ambience(lvl.musicid);
+  else
+    load_ambience(mappack, lvl.musicfile);
+  start_ambience();
+
+  if (lvl.has_message)
+    play_voice();
 #endif
- 
-  while (!finished) {
+
+  do { // while still alive and has not yet won
+
     for (objiter c = lvl.objm.objs.begin(); c != lvl.objm.objs.end(); ) { // clean up NONEs.
       if (c->type == FLASH) {
         c->type = NONE;
@@ -900,6 +906,7 @@ int play(MapPack &mappack) {
     }
 
     if (game.physics() < 0) return 0;
+    if (!game.still_alive()) break;
     if (game.light_pause) {
       light_pause(mappack);
       game.light_pause = false;
@@ -908,42 +915,45 @@ int play(MapPack &mappack) {
       if (pause_menu(mappack) == -1) return 0;
       game.pause = false;
     }
-    else if (game.still_alive()) {
-      draw_screen(lvl);
-      stop = get_microseconds();
-      if (game.has_won()) {
-#ifndef __NOSOUND__
-        play_sound(WIN);
-#endif
-        lvl.stats.numticks = lvl.ticks;
-        mappack.update_stats();
-        mappack.set_maxlevel(mappack.get_currentlevel());
-        // if the user wants to quit now, he will restart with the
-        // next level
-        mappack.set_lastlevel(mappack.get_currentlevel() + 1);
-        if (displaystats(lvl)) {
-          if (mappack.get_currentlevel() == mappack.get_number_maps())
-            finished = true;
-          ++mappack;
-        }
-        else
-          mappack.reload_level();
-      } else { // Game is still running
-        seconds = ((double)stop - (double)start)/1000000.0;
-        if (gamespeed > 0) {
-          if (seconds < (1.0 / beatspersecond[gamespeed]))
-            restms (((1.0 / beatspersecond[gamespeed]) - seconds) * 1000);
-          lvl.ticks++;
-        } else { // handles rogue-like time mode (?)
-          while (!pollevent()) {
-            restms (150);
-            draw_screen(lvl);
-            refresh();
-          }
-          lvl.ticks++;
-        }
+    draw_screen(lvl);
+    stop = get_microseconds();
+
+    seconds = ((double)stop - (double)start)/1000000.0;
+    if (gamespeed > 0) {
+      if (seconds < (1.0 / beatspersecond[gamespeed]))
+        restms (((1.0 / beatspersecond[gamespeed]) - seconds) * 1000);
+      lvl.ticks++;
+    } else { // handles rogue-like time mode (?)
+      while (!pollevent()) {
+        restms (150);
+        draw_screen(lvl);
+        refresh();
       }
-    } else { // We're dead...
+      lvl.ticks++;
+    }
+
+  } while (game.still_alive() && !game.has_won());
+
+  if (!game.still_alive()) return 2;
+  if (game.has_won()) return 3;
+}
+
+
+int play(MapPack &mappack) {
+  level &lvl = mappack.lvl;
+
+  // Have we finished the map pack yet?
+  bool finished = false;
+    
+#ifndef __NOSOUND__
+  default_ambience (0);
+  start_ambience ();
+#endif
+ 
+  while (!finished) {
+    switch (play_level(mappack)) {
+    case 0: return 0; break;
+    case 2: // We're dead...
 #ifndef __NOSOUND__
       beep ();
 #endif
@@ -957,8 +967,26 @@ int play(MapPack &mappack) {
       restms(150);
       mappack.reload_level();
       flushinput();
-    }
-  }
+      break;
+    case 3: // We've won!
+#ifndef __NOSOUND__
+      play_sound(WIN);
+#endif
+      lvl.stats.numticks = lvl.ticks;
+      mappack.update_stats();
+      mappack.set_maxlevel(mappack.get_currentlevel());
+      // if the user wants to quit now, he will restart with the next level
+      mappack.set_lastlevel(mappack.get_currentlevel() + 1);
+      if (displaystats(lvl)) {
+        if (mappack.get_currentlevel() == mappack.get_number_maps())
+          finished = true;
+        ++mappack;
+      } else
+        mappack.reload_level();
+      break;
+    } // switch
+  } // while (!finished)
+
   roll_credits(mappack);
   return 1;
 }

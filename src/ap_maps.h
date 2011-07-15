@@ -110,6 +110,15 @@ struct level {
 
   int ticks;
   
+#ifndef __NOSOUND__
+  // either a custom music file, or if empty, a default ambience (between 0 and 9)
+  string musicfile;
+  int musicid;
+
+  // whether we need to play GladOS voice at the very beginning of the level
+  bool has_message;
+#endif
+  
   // Stores the current map
   vector< vector<int> > map;
 
@@ -133,7 +142,9 @@ struct level {
     name.clear();
     pager.clear();
     stats.clear();
-    ticks = 0;
+    ticks = musicid = 0;
+    musicfile.clear();
+    has_message = false;
   };
 };
 
