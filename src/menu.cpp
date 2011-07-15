@@ -245,7 +245,7 @@ int display_main_menu (MapPack &mappack) {
   vector<string> inscreen;
   vector<string> options;
   Pager pager;
- 
+
 #ifndef __NOSOUND__
   load_ambience ("menumusic.ogg");
 #endif
@@ -310,7 +310,7 @@ int display_main_menu (MapPack &mappack) {
 
   pager.set_status(0, mappack.name);
 
-  do { 
+  do {
     pager.scroll_messages();
     pager.print_status(0);
     refresh ();
@@ -424,6 +424,7 @@ int pause_menu(MapPack & mappack) {
   case 3 : help_menu (); break; // Help
   default : return -1; break; // Quit
   }
+  return 0;
 }
 
 
@@ -522,7 +523,7 @@ void roll_credits (MapPack const & mappack) {
         line.clear();
       }
     }
-  } 
+  }
 
   for (int c = 0; c < (LINES / 2); c++) credits.push_back("");
   credits.push_back("Thank you for playing.");
@@ -667,7 +668,7 @@ MapPack select_mappack (MapPack const & current) {
   int const name_maxwidth = 30;
   int width = name_maxwidth + 9;
   int input;
-  
+
   // first, get available mappacks
   for (vector<string>::iterator i = _mappacks.begin(); i != _mappacks.end(); ++i) {
     MapPack tmp(*i);
@@ -677,7 +678,7 @@ MapPack select_mappack (MapPack const & current) {
 
   // sort it
   sort(mappacks.begin(), mappacks.end());
-  
+
   cout << mappacks.size() << " mappacks detected" << endl;
 
   setblocking(true);

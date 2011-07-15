@@ -30,6 +30,7 @@
 #include <vector>
 #include <ctime>
 #include <locale.h>
+#include <unistd.h>
 
 // for dirname
 #include <libgen.h>
@@ -58,7 +59,6 @@ void debug(string message) {
 }
 
 int main(int args, char* argv[]) {
-
   // to be able to find maps/media in the same directory as the binary
   chdir(dirname(argv[0]));
 
@@ -128,7 +128,7 @@ int main(int args, char* argv[]) {
 
     cin.get();
   }
-  
+
   setlocale (LC_ALL, "");
 
   graphics_init (fullscreen, height, width, pureAscii);

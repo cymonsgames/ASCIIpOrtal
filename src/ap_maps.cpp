@@ -13,7 +13,7 @@ void operator>>(ifstream& instream, mp_properties& p) {
   YAML::Parser parser(instream);
   YAML::Node node;
   parser.GetNextDocument(node);
-    
+
   node["protocol"] >> p.protocol;
   node["name"] >> p.name;
   node["description"] >> p.description;
@@ -52,7 +52,7 @@ void operator>>(ifstream& instream, mp_save& s)
   YAML::Parser parser(instream);
   YAML::Node node;
   parser.GetNextDocument(node);
-    
+
   node["version"] >> s.version;
   node["numportals"] >> s.numportals;
   node["numdeaths"] >> s.numdeaths;
@@ -163,7 +163,7 @@ void MapPack::load_save() {
 
     // we still look at the old save.dat stuff
     if (file_exists(filemgr.get_old_save())) {
-      ifstream oldsavefile(filemgr.get_old_save().c_str());  
+      ifstream oldsavefile(filemgr.get_old_save().c_str());
       oldsavefile >> save.maxlevel;
       oldsavefile.close();
     }
@@ -174,7 +174,7 @@ void MapPack::load_save() {
   save.maxlevel = get_number_maps();
   cout << "Godmode activated! maxlevel set to " << save.maxlevel << endl;
 #endif
-  
+
   if (save.lastlevel == 0) save.lastlevel = save.maxlevel + 1;
 
 }
@@ -190,7 +190,7 @@ void MapPack::set_maxlevel(int new_maxlvl) {
     save.maxlevel = new_maxlvl;
     write_save();
   }
-  
+
 }
 
 void MapPack::set_lastlevel(int last) {
@@ -254,7 +254,7 @@ int MapPack::load_map() {
   vector<string> rawmap;
   unsigned int maxwidth = 0;
   string line;
-  
+
   if (mapfile.is_open()) {
     while (! mapfile.eof() ) {
       getline (mapfile, line);
@@ -293,7 +293,7 @@ int MapPack::load_map() {
         //load_ambience(mappack, musicfile);
         musicfile.clear();
       }
-      //TODO: 
+      //TODO:
       //start_ambience();
     } else
 #endif
@@ -372,7 +372,8 @@ int MapPack::load_map() {
 
     if (lvl.objm.objs.size() == 0)
       debug("objm.objs.size() == 0 : this is supposed to be bad");
-      /*  mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
+#if WAITING_FOR_REFACTORING
+    mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
     mvprintw (LINES / 2 , (COLS - 24) / 2,"Level contains no objects", lvl + 1);
     mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
     refresh ();
@@ -388,9 +389,9 @@ int MapPack::load_map() {
       input = getch ();
     } while (input == ERR);
     return 0;
-    }*/
+    }
 
-  /*  if (hasplayer != 1) {
+  if (hasplayer != 1) {
     mvprintw (LINES / 2 - 1, (COLS - 20) / 2, "Error in level %03d", lvl + 1);
     mvprintw(LINES / 2, (COLS - 50) / 2,"Level contains more or less than one player object");
     mvprintw (LINES / 2 + 1, (COLS - 11) / 2, "Press a key");
@@ -407,8 +408,9 @@ int MapPack::load_map() {
       input = getch ();
     } while (input == ERR);
     return 0;
-    }*/
-
+    }
+#endif
+    return 0;
 } // MapPack::load_map
 
 void MapPack::update_stats() {
