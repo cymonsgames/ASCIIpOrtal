@@ -142,9 +142,12 @@ struct level {
     name.clear();
     pager.clear();
     stats.clear();
-    ticks = musicid = 0;
+    ticks = 0;
+#ifndef __NOSDL__
+    musicid = 0;
     musicfile.clear();
     has_message = false;
+#endif
   };
 };
 
