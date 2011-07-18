@@ -1,0 +1,20 @@
+name:The Simples'
+music:default
+message:This little test chamber was made by the Simple family, or at least until they died a horrible death.
+message1:Don't feel bad about the Simples death. I'm the one who killed them. 
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNN                      N
+NNNNNNNNN                 #    N
+NNNNNNNNN                 #NNNNN
+NNNNNNNNN                 #    N
+NNNNNNNNN                      N
+N   % 1 h                      N
+N Q % 1 h                      N
+NNNNNNNNNNNNNNNN#       #NHNNNNN
+NNNNNNNNNNNNNNNN#       #NNNNNNN
+NNN##############       #N&NNNNN
+NNN#                    #N=NNNNN
+NNN#                    #NiNNNNN
+NNN# @                  i  NNNNN
+NNN###############I#####(((NNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN

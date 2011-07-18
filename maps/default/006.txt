@@ -1,23 +1,28 @@
 music:default
 name:Portile2
-message:Sorry, this one's broken.
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNN##########N
-NNNNNNNNN#        #N
-NNNNNNNNN#        #N
-NNNNNNNNN#      Q #N
-NNNNNNNNN#   +#####N
-NNNNNNNNN#   +#NNNNN
-NNNNNNNNN#    #NNNNN
-NNNNNNNNN#    #NNNNN
-NNNNNNNNN#   +#NNNNN
-NNNNNNNNN#    #NNNNN
-NN########   +#NNNNN
-NN#          +#NNNNN
-NN#           #NNNNN
-NN#          +#NNNNN
-NN#  @       +#NNNNN
-NN#############NNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
+message:Maintance has been called about this broken ladder.
+NNN N
+NNN N
+NNN N
+NNN N
+NNN N
+NNN N
+NNN N
+NNN NNNNNNNNNNNNNN###############N
+NNN NNNNNNNNNNNNN##       $ $   #N
+NNN NNN###########        $ $   #N
+NNN NNN#                  $ $   #N
+NNN@NNN#                  ###   #N
+NNN NNN#                  #N# Q #N
+NNN NNN#   +###############N#####N
+NNN NNN#   +#
+NNN NNN#    #
+NNN NNN#    #
+NNN NNN#   +#
+NNN NNN#    #
+### ####   +#
+#          +#
+#           #
+#          +#
+#          +#
+#############

@@ -7,10 +7,3 @@ NNNNN    NNNN
 NNNNNN   NNNN
 NNNNNN###NNNN
 message1:From up here you can see a walkway you couldn't see below.
-
-###########
-#       Q #
-#       + #
-#       + #
-#   X & + #
-###########

@@ -1,3 +1,5 @@
+message: Open a door with a text trigger using only one momentary switch type and one permanent switch type.
+message1: Solution by Joe.
 #1&#
 #G #
 #N #

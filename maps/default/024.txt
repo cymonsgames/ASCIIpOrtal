@@ -1,43 +1,27 @@
-music:ascii_threat2.ogg
-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN#########NNN
-NNQ                                %        #NNN
-NNNNN$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$        #NNN
-N                                           #NNN
-N ####################+######################NNN
-N NNNNNNNNNN>N   N  ON+NO  N   N<NNNNNNNNNNNNNNN
-N NNNNNNN   =     =N= + =N=     =   NNNNNNNNNNNN
-N NNNNNN    j     i j + i j     i    NNNNNNNNNNN
-N NNNNNN      N N     +     N N      NNNNNNNNNNN
-N NNNNNN      N NNN+NN+NN+NNN N      NNNNNNNNNNN
-N NNNNNN      N    +  +  +    N      NNNNNNNNNNN
-N NNNNNN  N   N    +NN+NN+    N   N  NNNNNNNNNNN
-N NNNNNN  N+N+N+N+NNN + NNN+N+N+N+N  NNNNNNNNNNN
-N NNNNNN    N N+ +    +    + +N N    NNNNNNNNNNN
-N NNNNNNC   N N+NN+NNN+NNN+NN+N N   BNNNNNNNNNNN
-N NNNNNN    N N+  +   +   +  +N N    NNNNNNNNNNN
-N NNNNNN    N N+  +   +   +  +N N    NNNNNNNNNNN
-N NNNNNN  NNN N+N+NNNN+NNNN+N+N NNN  NNNNNNNNNNN
-N NNNNNN  N    + +    +    + +    N  NNNNNNNNNNN
-N NNNNNN  N+NN+NN+NNNN+NNNN+NN+NN+N  NNNNNNNNNNN
-N NNNNNNNNN+  +  +    +    +  +  +NNNNNNNNNNNNNN
-N NNNNN    +  +  +    +    +  +  +    NNNNNNNNNN
-N NNNNN+NNN+NNN+NN+NNN+NNN+NN+NNN+NNN+NNNNNNNNNN
-N NNNNN+   +   +  +   +   +  +   +   +NNNNNNNNNN
-N NNNNN+   +   +  +   +   +  +   +   +NNNNNNNNNN
-N NNNNN+   +   +  + +NNN+ +  +   +   +NNNNNNNNNN
-N     %+%%%+%%%+%%+%+%@%+%+%%+%%%+%%%+NNNNNNNNNN
-N#NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-name:devils tower by Nicholas McGuire
-N
-N
-N
-N
-N
-N
-N
-N
-N
-N
-bc
-IJ
+music:default3
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN<N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNN N
+NNNN##############NNNNNNNNNN=NNNNNNNN
+NNNN#            #                  N
+NNNN#          @ #                  N
+NNNN#+############     N NNN N N    N
+NNNN#+#N&NNNNNNNNN     N i N h N    N
+NNNN#+##=#########     NHN NNN N    N
+NNNN#+           #         NN  N    N
+NNNN#+NNN) NNNN  #  N NNN NNN IN    N
+NNNN#+           #  N j N k N       N
+NNNN#+NNNNNN NN  #  NKN NNN N       N
+NNNN#+           #      NN  N       N
+NNNN#+NNNNNNNN   # NNN NNN JN       N
+NNNN#+           # m N l N          N
+NNNN#+#+########jNLN NNN N          N
+NNNN#+#+    N"       NN  N          N
+NNNN###+    NNAN NNNNNN MN          N
+NNNNNNN+       #                    N
+N     a+       #                    N
+N     a+       #                    N
+N  Q  a+       #                    N
+NNNNNNNNNNNNNNNNNNNNNN""""""""""""""N
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+name:Counting Machine by Sparky
+message:This fascinating machine seems incomplete. You won't be able to leave if you don't fix it.

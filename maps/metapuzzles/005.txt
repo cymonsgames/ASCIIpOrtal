@@ -1,9 +1,11 @@
+message:Build a "gate" which is "opened" by a text trigger, using only one pressure pad.
 NNNNNNNNNNNNN
 NNN+1       #
 NNN+N"""""""N
-1N@+       QN
+1N@+     2 QN
 GNNNgggggNNNN
 NNNNN    NNNN
 NNNNNN   NNNN
 NNNNNN###NNNN
 message1:From up here you can see a walkway you couldn't see below.
+message2:Level by Joe

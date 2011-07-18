@@ -1,10 +1,9 @@
   # This is a YAML-formatted file designed to store informations about the given map pack.
 protocol: 1  # The protocol version used. Leave this to the default value.
-name: metapuzzles's funny levels  # The name of the map pack. Should not exceed 30 characters.
+name: Metapuzzles  # The name of the map pack. Should not exceed 30 characters.
 description: |
-  This is a dumb default description intended to serve as an example.
-  You should really edit it to reflect the description of your own map pack!
-author: ASCIIpOrtal  # The author of the map pack.
-version: 0.1  # Version. You might want to provide a changelog file.
+  These maps demonstrate various aspects of the ASCIIpOrtal engine including it's own turring complete-ness, believe it or not.
+author: Various # The author of the map pack.
+version: 1.0  # Version. You might want to provide a changelog file.
 difficulty: 8  # Difficulty range from 0 (easiest) to 10 (hardest)
 priority: 5  # This is used for official map packs only. The default should be fine.

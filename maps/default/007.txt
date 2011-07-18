@@ -1,23 +1,12 @@
-music:default
-name:Portile3
-message:Alternately you can aim and shoot with the number pad.
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NN################NN
-NN#        $ $   #NN
-NN#        $ $   #NN
-NN#        $ $   #NN
-NN#        ###   #NN
-NN#   @    #N# Q #NN
-NN##########N#####NN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNNNNN
+music:default1
+name:Portile4
+######################N
+#                     N
+#                     N
+# @                   N
+####  ###  ###  ###   N
+NNN#  #N#  #N#  #N#   N
+NNN#  #N#  #N#  #N#   N
+NNN#  #N#  #N#  #N#   N
+NNN#XX#N#XX#N#XX#N# Q N
+NNN####N####N####N####N

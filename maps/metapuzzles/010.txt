@@ -1,5 +1,7 @@
+message:Design an "elevator for boulders" without using switches.
+message1:Solution by zugz
 &N>NNNNNNNNNNN
-=N=NNNN@QNNNNN
+=N=NNNN@1QNNNN
 &>>NNNNNNNNNNN
 )&NNNNNNNNNNNN
 N>NNNNNNNNNNNN
