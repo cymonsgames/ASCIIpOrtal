@@ -8,4 +8,4 @@ description: |
 author: Joe Larson (and others)  # The author of the map pack.
 version: 1.0  # Version. You might want to provide a changelog file.
 difficulty: 5  # Difficulty range from 0 (easiest) to 10 (hardest)
-priority: 5  # This is used for official map packs only. The default should be fine.
+priority: 10  # This is used for official map packs only. The default should be fine.
