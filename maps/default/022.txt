@@ -1,23 +1,14 @@
-music:ascii_threat2.ogg
-name:Portile23
-NNNNNNNNNNNNNNNNNNNN
-NO        NNNNNNNNNN
-NNNNNNNN#=########NN
-NNNNNNNN#        #NN
-NNNNNNNN######## #NN
-N###NNNNNNNNNNN# #NN
-N# ############# #NN
-N# $           $ #NN
-N# ############# #####
-N# #NNNNNNNNNNN# $   #
-N# #NNNNNNNNNNN# $ Q #
-N# #NNNNNNNNNNN# #####
-N# #NNNNNNNNNNN# #NN
-N# #NNNNNNNNN### ###
-N# #NNNNNNNNN#     #
-N# #NNNNNNNNN### ###
-## ##NNNNNNNNNN# #NN
-#   #NNNNNNNNNN# #NN
-#   #NNNNNNNNNN# #NN
-# @ #NNNNNNNNNN#"#NN
-#####NNNNNNNNNN###NN
+music:default3
+message:Catch 'em if you can.
+NNNNNNN&N
+NNNNNNN=N
+NNNNNNN+NNNNNNNNNNNNN
+NNNNNNN+NNNNNNNNN   N
+#     1+1       a Q N
+#      +      NANNNNN
+#      +      N
+#@     +      N
+#######+NNNNNNN
+NNNNNNN NNNNNNN
+NNNNNNN"NNNNNNN
+message1:The trick is to push the boxes off the ladder as they fall and stack them up to reach the exit.

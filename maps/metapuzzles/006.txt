@@ -1,3 +1,5 @@
+message:Without using switches, design a mechanism that takes an arbitrary stream of boulders as input (with at least some minimum spacing between adjacent boulders) and outputs only the even (or odd) boulders in the sequence.
+message1:Solution by zugz
 N       ONNN
 N=NNNNNNNNNN
 N NNNNNNNNNN
@@ -9,4 +11,4 @@ N&       NNN
 N& NNNNN NNN
 "& "NNNN   "
 NNNNNNNNNNNN
-N@         Q
+N@   1     Q

@@ -2,9 +2,10 @@
 protocol: 1  # The protocol version used. Leave this to the default value.
 name: Default levels # The name of the map pack. Should not exceed 30 characters.
 description: |
-  The map set of choice to begin with ASCIIpOrtal. You will discover all the nice features of ASCIIpOrtal through a serie of levels, ranging from the most basics concepts to more difficult ones.
-  However, it is only a starting point, and you might be looking forward for more challenge: others map packs are available!
+  The map set of choice to begin with ASCIIpOrtal. Basic skills of ASCIIpOrtal are introduced here. The game defaults to this map pack.
+  Version 1.0 - 50 grueling levels.
+  Version 2.0 - 25 easy levels. The extra leves were put into their own map pack called ChallengeMe.
 author: Joe Larson  # The author of the map pack.
-version: 0.1  # Version. You might want to provide a changelog file.
+version: 2.0  # Version. You might want to provide a changelog file.
 difficulty: 2  # Difficulty range from 0 (easiest) to 10 (hardest)
 priority: 13  # This is used for official map packs only. The default should be fine.

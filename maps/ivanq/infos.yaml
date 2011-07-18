@@ -1,9 +1,10 @@
   # This is a YAML-formatted file designed to store informations about the given map pack.
 protocol: 1  # The protocol version used. Leave this to the default value.
-name: kris's Map Pack  # The name of the map pack. Should not exceed 30 characters.
+name: Ivanq's levels  # The name of the map pack. Should not exceed 30 characters.
 description: |
-  Prepare to have your expectations challenged and your mind stretched.
-author: kris  # The author of the map pack.
+  One artistic and two diabolical levels by Ivanq on the Cymon's Games forums.
+  Can you solve the diabolical machine presented?
+author: Ivanq  # The author of the map pack.
 version: 0.1  # Version. You might want to provide a changelog file.
 difficulty: 10  # Difficulty range from 0 (easiest) to 10 (hardest)
 priority: 5  # This is used for official map packs only. The default should be fine.

@@ -1,2 +1,4 @@
+message:Build a "gate" which is "opened" by a text trigger, using only one pressure pad.
+message1:Solution by ivanq
 1N@ 1  &    Q
 GNNNN gNg NNN

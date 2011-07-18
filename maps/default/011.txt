@@ -1,16 +1,18 @@
-music:default
-message:You can use X or Z to choose which portal to fire.
-NNNNNNNNN#N
-NNNNNNNNN N
-NNNNNNNNN N
-########N NNNNNNNNN
-#  $    $ $h"     #
-#  &    $ $h"     #
-######11N NNNNNNN N
-#       N N     N N
-#       N N     N N
-#       N N   NNN NNNNN
-#       %     N   %   N
-# @     %     N   % Q N
-####H######NNNNNNNNNNNN
-message1:When momentum is involved sometimes default is the wrong choice.
+music:default1
+message:After that one this should be easy.
+###
+#O#
+#O#
+#O#
+#O#
+#a#
+# #NNNNNNNNNNNNNNNNNNNNNNNNNNN
+# #NN#######NNNNNNNNN#       N
+# #NN#   @ #NNNNNNNNNN       N
+# #NN# #####NNNNNNNNNN     Q N
+# #### ###########NNNN       N
+#                    b       N
+####A#########  ##NBNN#######N
+NNNNNNNNNNNNN#  #NNN
+NNNNNNNNNNNNN#  #NNN
+NNNNNNNNNNNNN#XX#NNN

@@ -1,19 +1,25 @@
-name:Portile16
-message:If you haven't figured it out by now, portals only work on flat surfaces. They don't like corners.
-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-NNNNNNNNNNNNNNNNN <          N
-NNNNNNNNNNNNNNNN#=#NNNNNNNNNNN
-NNNNNNNNNNNNNNNN# #N
-NNNNNNNNNNNNNNNN# ######NNNNN
-NNNNN###NNNNNNNN#       a   N
-NNNNN# ##########       a Q N
-NNNNN#            ###A##NNNNN
-NNNNN# ########## #N
-####N# #NNNNNNNN# #N
-#@ #N# #NNNN##### #N
-## ### ######     #N
-#             #####N
-# #############NNNNN
-# #
-#"#
-###
+music:default2
+name:Portile6
+message:Use portals to look ahead.
+message1:You can move while falling.
+###############
+#1            #
+#1            #
+##  ####   $###
+N#  #NN#""""#
+N#  #NN#    #
+N#  #NN#    #NNN#######N
+N#  #NN#    #NNN#  Q  #N
+N#  ####    #####     #N
+N#                    #N
+N#  ####    ###########N
+N#XX#NN#    #
+N####NN#    #
+NNNNNNN#    #
+NNNNNNN#    #
+NNNNNNN#    #
+#####NN#    #
+#   #NN#    #
+#   ####    #
+# @         #
+#############
