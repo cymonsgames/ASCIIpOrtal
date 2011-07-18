@@ -4,7 +4,8 @@ About ASCIIpOrtal
 See README.
 This is documenting the way to build ASCIIpOrtal; if you only want to
 play, you should check ASCIIpOrtal main website, we have pre-compiled
-packages for Windows, Linux 32-bits and Linux 64-bits.
+packages for Windows, Linux 32-bits and Linux 64-bits (we also have an
+experimental package for OS X on intel).
 
 http://cymonsgames.com/asciiportal/
 
@@ -46,16 +47,16 @@ the moment (most notably, the keyboard input really sucks)
 Using the Makefiles
 ~~~~~~~~~~~~~~~~~~~
 
-If you don't have PDCurses with SDL support on your system, just run
-the default target:
+If you have neither PDCurses with SDL support, nor yaml-cpp available on
+your system, then just run the default target:
 
 $ make
 
-It should download and build PDCurses, then build ASCIIpOrtal.
+It should download and build PDCurses and yaml-cpp, then build ASCIIpOrtal.
 
-If you already have PDCurses on your system, you might want to use the
-'linux' target:
+If you already have PDCurses and yaml-cpp on your system, you might want to
+use the 'linux' target (note that it could work fine on OS X too):
 
 $ make linux
 
-It basically does the same, without caring for PDCurses.
+It basically does the same, without building PDCurses or yaml-cpp first.

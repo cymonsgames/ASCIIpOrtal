@@ -41,7 +41,7 @@ So far, ASCIIpOrtal has been known to work on the following systems:
    should work using Mingw);
  + Linux 32 bits;
  + Linux 64 bits;
- + Mac OS X (an old version though);
+ + Mac OS X;
  + GP2X;
  + DINGOO.
 
@@ -55,8 +55,12 @@ Official releases
 
 We officially release ASCIIpOrtal packages for the following systems:
  + Windows: binary zip file;
- + Linux: binary tarball, debian package (not yet available),
-   Archlinux package (AUR);
+ + Linux: binary tarball for 32 and 64-bits, debian package (not yet
+   available), Archlinux package (AUR);
+ + OS X Intel dmg (courtesy of cynddl, it might be sometimes outdated)
+
+See the website for downloads: http://cymonsgames.com/zorun/test-website
+for the moment (it should become http://asciiportal.cymonsgames.com soon)
 
 We would be very happy to add other systems to that list -- especially
 GP2X and DINGOO, since the code is already running on these.
