@@ -15,6 +15,15 @@ void operator>>(ifstream& instream, mp_properties& p) {
   parser.GetNextDocument(node);
 
   node["protocol"] >> p.protocol;
+
+  if (p.protocol > MAPS_PROTOCOL) { // new format we don't know about
+    //TODO: use the window manager when it's done
+    string _name;
+    node["name"] >> _name;
+    cerr << "Warning!! This map pack (" << _name << ") makes use of a newer description format! Please upgrade your ASCIIpOrtal, or weird things will happen..." << endl;
+    return;
+  }
+
   node["name"] >> p.name;
   node["description"] >> p.description;
   node["author"] >> p.author;
