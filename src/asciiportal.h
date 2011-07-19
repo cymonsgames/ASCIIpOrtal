@@ -32,6 +32,11 @@
 #define AP_VERSION "1.3"
 #endif
 
+// level file syntax
+#ifndef MAPS_PROTOCOL
+#define MAPS_PROTOCOL 1
+#endif
+
 // Note that the Makefile handles this
 #ifndef __NOSDL__
 //#define __NOSDL__

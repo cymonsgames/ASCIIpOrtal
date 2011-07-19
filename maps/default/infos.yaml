@@ -4,7 +4,7 @@ name: Default levels # The name of the map pack. Should not exceed 30 characters
 description: |
   The map set of choice to begin with ASCIIpOrtal. Basic skills of ASCIIpOrtal are introduced here. The game defaults to this map pack.
   Version 1.0 - 50 grueling levels.
-  Version 2.0 - 25 easy levels. The extra leves were put into their own map pack called ChallengeMe.
+  Version 2.0 - 25 easy levels. The extra levels were put into their own map pack called "Bonus Challenge" (ChallengeMe).
 author: Joe Larson  # The author of the map pack.
 version: 2.0  # Version. You might want to provide a changelog file.
 difficulty: 2  # Difficulty range from 0 (easiest) to 10 (hardest)

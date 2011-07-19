@@ -114,6 +114,7 @@ o If a portal is on one side of a wall, and you attempt to place a portal on
   the other side of the same wall in the same time you will not be allowed. 
   This is because both portals, despite not being invisible to each other, 
   will be trying to occupy the same space. Does not warrant the time to fix it.
+o See the issue tracker on Github
 
 THANK YOU
 =========

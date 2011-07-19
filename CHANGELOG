@@ -12,6 +12,7 @@ o Save data is persistent across reinstallation (%APPDATA% on win32,
   ~/.asciiportal otherwise)
 o Map pack's 'credits.txt' now gets added to the default credits.
 o The nosdl port (truly ASCII!) should be roughly working now.
+o OS X port with the latest version.
 
 1.2c bugfixes.
 
