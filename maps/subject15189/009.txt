@@ -1,0 +1,30 @@
+name: Chapter 1 Chain what?
+message1: Whats that chain link doing there? Well, just ignore it like it's not there.                                                            
+NNN###########NNNNNNNNNNNNNNNNNNN
+NN##########NNNNNNNNNNNNNNNNNNNNN
+NN                             NN
+NN                             NN
+NN                             NN                           
+NN                             NN
+##                             #N
+##                             #N
+NN$$$$$$$$$$$$$NNNNNNNNNN$$$$$$NN
+NN             NNNNNNNNNN      NN
+NN             NNNNNNNNNN      NN
+NN             NNN####NNN      NN
+NN             N#######NN      NN
+NN             N########N      NN
+NN             ##########      NN
+NN             ##########      NNNNNNNNNNNNNNNNN
+NN             ##########$$$$$$NNNNNNNNNNNNNNNNN
+NN             ##########                     NN            
+NN$$$$$$$$$$$$$##########                     NN            
+NN             ##########                     NN            
+NN             ##########                    QNN            
+NN             ##########          NNNNNNNNNNNNN            
+NN             ##########          NNNNNNNNNNNNN            
+NN             ##########          NNNNNNNNNNNNN            
+NN11           ##########          NNNNNN#######            
+N#@1           ##########          NNN##########            
+#################################NNNNN##########            
+################################NNNNN###########

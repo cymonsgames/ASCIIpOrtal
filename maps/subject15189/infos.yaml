@@ -1,0 +1,16 @@
+  # This is a YAML-formatted file designed to store informations about the given map pack.
+protocol: 1  # The protocol version used. Leave this to the default value.
+number_maps: 41  # The number of levels stored in this map pack.
+name: Portal Subject 15189  # The name of the map pack. Should not exceed 30 characters.
+description: |
+  Your are Subject 15189, get ready to test as GLaDOS
+  wakes you up from stasis and puts you to another round
+  of testing. When a elevator malfunction puts you in the
+  deepest parts of Apeture Science, you must escape. But
+  something more devious is going on here as you don't
+  believe that a elevator just malfunctions like that.
+  Is GLaDOS at work here or is something else going on...
+author: BinaryTerabyte  # The author of the map pack.
+version: 0.75  # Version. You might want to provide a changelog file.
+difficulty: 7  # Difficulty range from 0 (easiest) to 10 (hardest)
+priority: 5  # This is used for official map packs only. The default should be fine.

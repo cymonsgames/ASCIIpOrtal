@@ -1,0 +1,23 @@
+name: Chapter 7 Collapse
+message1: You here metal clashing
+NNNNNNNNNNNNNNNNNNNNN
+NN+NNNNNNNN+NNN+++NNN
+N++NNN+++N++N+++N+NNN
+N+NN+NNN+N+NN+NNN++NN
+N++++N+N++++++NNNN+NN
+N+NN+++NNN+NN+NNNN++N
+N+N++NNNNNNN++N++++NN
+N+NN++++NNNN+NNN+NNNN
+N++NNNN+NNN+++NN+NNNN
+NN+NNN+++N++N+NN++++N
+NN+NN++NNN+NNNNNNNN+N
+NN++NNNN+++N+NNNN+N+N
+NNN+NN+++N+N++NNN+N+N
+N##+NNN+NN+++NN+++++N
+N1+N++++NNNNNNNNNN+N
+N ANN+NNNNNN+NNNNNN+N
+N     N+++NN++++++N+N
+#     N+N+NNNN+NN+N+N
+#     NNN+NNNNNNN+++@
+NNNNaN++++++++++++NNN
+NNNNQNNNNNNNNNNNNNNNN

@@ -1,0 +1,34 @@
+Update 1(Jun. 14 2011):
+Released 20 levels
+Level Fixes
+
+Update 2(Jun 15 2011):
+Redesigned levels to make it more difficult.
+Released Demo
+Fixed more level bugs.
+
+Update 3(July 8 2011):
+16 Levels Added
+Bug Fixes
+Added challenges to some levels like
+13 and 15, finally.
+
+Update 5c:Almost forgot, if you thought that the demo wasn't that hard, check out the new screenshot to see what's to come in the final release.
+Update 5d:The project has a new name, now to finish the maps. I hope it'll be done by friday, but no promises.
+Update 6a:It seems as I've furthered progress on this map pack and I've needed to create ever more increasingly complex puzzles, the project is slowed. Which isn't that big of a deal on my part, but it isn't gonna be releasing as fast as I would like it to be. Because I wanna share these maps with all and I think you all will like(well, anyone who still hangs around these forums).
+Update 7a: I'm releasing Portal: Subject 15189 the day after I have all 40 map names up.
+Update 8a: Added a good handful of stuff by now obviously, and fixed alot of stuff, so I'm putting up some of them here:
+Added more changes to the changelog
+01000001011001000110010001101001011011100110011100100000010001000110010101110110010000110110111101101101
+Fixed alot of map breaking bugs in levels 25-33
+Finally added challenges to 13 and 15.
+Change the looks of some levels to look cleaner and nicer.
+Update 8b: Be worried when the maps get suddenly easy!
+Update 8c: Out of boredom, I am adding strings of 0's and 1's(know as binary) in a separate file. I'll leave it to the ones who play it to figure out the rest.
+Update 8d:
+Adding 38 and 39 tomorrow. 40 will require some planning
+Changed name of map pack folder from portal_flashedition to portal_subject15189
+Added _ to portal_subject15189
+Dang, I have to make a new title screen
+
+Update 9a: Commentary added, zip file will be password protected. Pay attention in the game, you need to find it. Also, don't wanna lay out a 'for sure' release date that'll I'll miss. So I'll just say soon-ish.

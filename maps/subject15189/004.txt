@@ -1,0 +1,18 @@
+name: Chapter 1 Good Job
+message1: Good job, you managed to succeed in a extremely pessimistic enviroment.
+NNNNNNN####NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNN#####NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+N#                                         NN
+N#                                         NN
+NN                                         NN
+NN                                        QNN
+NN                NNNNNNNNNNNNNNNNNNNNNNNNNNN
+NN                NNNNNNNNNNNNNNNNNNNNNNNNNNN
+N#                NN
+N#                NN
+N#                NN
+N#                NN
+##11              NN
+##@1              NN
+############NNNNNNNN
+#############NNNNNNN

@@ -1,0 +1,16 @@
+name: Chapter 1 Test Begin
+message1:Hello and again, welcome to the Aperture Science Enrichment Center. To begin testing, you must escape from this room.
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNN######################################NNN
+NNN################                     NNNN
+NNN################                    QNNNN
+NNN#                 #NNNNNNNNNNNNNNNNNNNNNN
+NNN#                 #NNNNNNNNNNNNNNNNNNNNNN
+NNN#                 #NNNNNNNNNNNNNNNNNNNNNN
+NNN#                 #NNNNNNNNNNNNNNNNNNNNNN
+NNN#             1@1 #NNNNNNNNNNNNNNNNNNNNNN
+NNN###################NNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+music:ls.ogg

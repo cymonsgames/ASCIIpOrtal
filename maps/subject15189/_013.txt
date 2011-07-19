@@ -1,0 +1,1 @@
+This map shows the player that lasers won't kill them if a ladder is right above it. I used this for a much later map.

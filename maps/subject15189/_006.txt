@@ -1,0 +1,1 @@
+In playtesting, some players either didn't solve this map the way it was intended or couldn't figure it out very quickly. So I took some inspiration from Valve and tryed to figure out a way to make it obvious without being obvious. Like the dots showing what button connects to what door in Portal. I settled on the Nonstick Walls encasing a regular wall.

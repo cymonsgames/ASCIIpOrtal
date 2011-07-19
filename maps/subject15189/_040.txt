@@ -1,0 +1,4 @@
+So, here is GLaDoS, how did I do that. Uhm, truth is I don't have a clue. I was drawing GLaDoS out in the JavaScript Map Editor,
+and I was using a reference photo, and drew the outline. Then 'shaded' it with a combanation of black wall, white wall and vice versa.
+Then I designed the level around her. And the puzzles came from how you defeat her in the real game. But changed up a bit to give it
+some challenge. 

@@ -1,0 +1,20 @@
+name: Chapter 1 Science is Fun
+message1:This level tests you on how you understand momentum through portals, or more specificially, how they do not. 
+##############################NNNNNNNNNNNNNNNN              
+###############################NNNNNNNNNNNNNNN                         
+##                                          NN              
+##                                          NN              
+##                                          NN              
+##                                         QNN              
+##            ###############         NNNNNNNN              
+##            #########N#####         NNNN#NNN              
+##            #########N#####         NNN#N#NN                    
+##            #######N#N#N###         NN#N#N#N            
+##            ########N#N####         NNNN#NNN              
+##            #########N#####         ##NN#NNN                                  
+##            ###############         ##NNNNNN                               
+##                                    ##NNNNNN                                
+##                                    ##NNNNNN              
+##@1                                  ##NNNNNN              
+#############################NN#NN#NN###NNNNNN              
+########################################NNNNNN              

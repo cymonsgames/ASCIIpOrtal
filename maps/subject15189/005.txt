@@ -1,0 +1,26 @@
+name: Chapter 1 Missing File
+message1: *CORRUPTION* Level Missing
+          NNNNNNNNNNNNNNNNNNNNNNNNNN
+          NNNNNNNNNNNNNNNNNNNNNNNNNN
+          NNN                     NN
+          NN                      #N                        
+          ##                      ##
+          ##                      ##                                              
+          ##                      ##
+          ##                      ##
+          ##        #########     ##
+          ##        #########     N#
+          ##        #########     NN
+NNNNNNN#####        #########     NNNN####NNNNNN            
+NNNNNNNNNNNN        #########     NNNNN##NNNNNNN            
+##                  #########                 NN            
+##                  #########                 NN            
+NN                  #########                 NN            
+NN         ##################                 NN            
+NN         ##################                QNN            
+NN         ##################       NNNNNNNNNNNN            
+NN         ##################       NNNNNNNNNNNN            
+NN         ##################       NNNNNNNNN###            
+NN@1       ##################       NNNNNNN#####            
+###NNNNNNNNNN###################NNNNNNNNNN######            
+##NNNNNNNNN####################NNNNNNNNNN#######  

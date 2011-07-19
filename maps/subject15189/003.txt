@@ -1,0 +1,20 @@
+name: Chapter 1 'Impossible'?
+message1: Don't even try to complete this map. I'm serious it doesn't work.
+message2: You know, it's funny your still trying to complete this map. This map was an accident on my part.
+message3: We here at the Aperture Science Enrichment center apoligize for the inconvenience.
+NNNNNNNNNNNNNNNNN##########################NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN##########################NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN##                      ##NNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNN##                      ##NNNNNNNNNNNNNNNNN
+###################       33333333       ##NNNNNNNNNNNNNNNNN
+###################       ########       ##NNNNNNNNNNNNNNNNN
+##                        ########       ##NNNNNNNNNNNNNNNNN
+##                        ########       ##NNNNNNNNNNNNNNNNN
+##       2222222222       ########       ##NNNNNNNNNNNNNNNNN
+##       ##########       ########       ##NNNNNNNNNNNNNNNNN
+##       ##########       ########       ##NNNNNNNNNNNNNNNNN
+##       ##########       ########       ##NNNNNNNNNNNNNNNNN
+##11     ##########       ########       ##NNNNNNNNNNNNNNNNN
+##@1     ##########       ########      Q##NNNNNNNNNNNNNNNNN
+###########################################NNNNNNNNNNNNNNNNN
+###########################################NNNNNNNNNNNNNNNNN

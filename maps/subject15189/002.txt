@@ -1,0 +1,13 @@
+name: Chapter 1 Aperture Science Quantum Tunnelling Device
+message1: The gun you have in the Aperture Science Quantum Tunnelling Device. You can use this to make portals that can teleport you to a otherwise unreachable area.
+####################################
+####################################
+##                                ##
+##                                ##
+##         ##############         ##
+##         #######N######         ##
+##         ######N#N#####         ##
+##11       #####N#N#N####         ##
+##@1       #######N######        Q##
+##################N#################
+####################################
