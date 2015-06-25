@@ -10,27 +10,25 @@ extern const int CharData [MAXColors][6];
 
 // Overloading extraction operators to ease manipulation
 void operator>>(ifstream& instream, mp_properties& p) {
-  YAML::Parser parser(instream);
-  YAML::Node node;
-  parser.GetNextDocument(node);
+  YAML::Node node = YAML::Load(instream);
 
-  node["protocol"] >> p.protocol;
+  p.protocol = node["protocol"].as<int>();
 
   if (p.protocol > MAPS_PROTOCOL) { // new format we don't know about
     //TODO: use the window manager when it's done
     string _name;
-    node["name"] >> _name;
+    _name = node["name"].as<std::string>();
     cerr << "Warning!! This map pack (" << _name << ") makes use of a newer description format! Please upgrade your ASCIIpOrtal, or weird things will happen..." << endl;
     return;
   }
 
-  node["name"] >> p.name;
-  node["description"] >> p.description;
-  node["author"] >> p.author;
-  node["version"] >> p.version;
-  node["difficulty"] >> p.difficulty;
-  node["priority"] >> p.priority;
-  //node["rating"] >> p.rating;
+  p.name = node["name"].as<std::string>();
+  p.description = node["description"].as<std::string>();
+  p.author = node["author"].as<std::string>();
+  p.version = node["version"].as<std::string>();
+  p.difficulty = node["difficulty"].as<int>();
+  p.priority = node["priority"].as<int>();
+  //node["rating"].as<int>() >> p.rating;
 }
 
 void operator<<(ostream& outstream, const mp_properties& p) {
@@ -58,18 +56,16 @@ void operator<<(ostream& outstream, const mp_properties& p) {
 
 void operator>>(ifstream& instream, mp_save& s)
 {
-  YAML::Parser parser(instream);
-  YAML::Node node;
-  parser.GetNextDocument(node);
+  YAML::Node node = YAML::Load(instream);
 
-  node["version"] >> s.version;
-  node["numportals"] >> s.numportals;
-  node["numdeaths"] >> s.numdeaths;
-  node["numticks"] >> s.numticks;
-  node["numsteps"] >> s.numsteps;
-  node["numlevels"] >> s.numlevels;
-  node["maxlevel"] >> s.maxlevel;
-  node["lastlevel"] >> s.lastlevel;
+  s.version = node["version"].as<int>();
+  s.numportals = node["numportals"].as<int>();
+  s.numdeaths = node["numdeaths"].as<int>();
+  s.numticks = node["numticks"].as<int>();
+  s.numsteps = node["numsteps"].as<int>();
+  s.numlevels = node["numlevels"].as<int>();
+  s.maxlevel = node["maxlevel"].as<int>();
+  s.lastlevel = node["lastlevel"].as<int>();
 }
 
 void operator<<(ostream& outstream, const mp_save& s) {
