@@ -48,9 +48,9 @@ Using the Makefiles
 ~~~~~~~~~~~~~~~~~~~
 
 If you have neither PDCurses with SDL support, nor yaml-cpp available on
-your system, then just run the default target:
+your system, then run this target:
 
-$ make
+$ make everything
 
 It should download and build PDCurses and yaml-cpp, then build ASCIIpOrtal.
 

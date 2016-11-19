@@ -8,11 +8,17 @@
 # List of available ports
 PORTS = mingw32 nosdl nosdl32 linux linux32
 
-# standard build (should work on most unix if SDL is available)
-# downloads and builds PDcurses against SDL for convenience.
+help:
+	@echo
+	@echo "[*] To build asciiportal on Linux, run 'make linux', you need pdcurses and yaml-cpp."
+	@echo "[*] To build all dependencies locally, run 'make everything'."
+	@echo "[*] For other options (mingw32, no SDL), read the Makefile."
+
+# Build every dependency locally (yaml-cpp and pdcurses), then asciiportal.
+# You only need SDL.
 # See 'linux' target if you already have PDCurses built against SDL.
-default:
-	$(MAKE) -f Makefile.$@ $@
+everything:
+	$(MAKE) -f Makefile.default default
 
 # Other ports
 $(PORTS):
