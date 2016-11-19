@@ -13,7 +13,7 @@ PORT = default
 PDCURSES_DIR = PDCurses-$(PDCURSES_VER)
 PDCURSES_VER = 3.4
 
-YAML-CPP_VER = 0.2.6
+YAML-CPP_VER = 0.5.3
 
 ### Customisable variables ###
 
@@ -162,10 +162,11 @@ PDCurses-$(PDCURSES_VER).tar.gz:
 
 yaml-cpp/libyaml-cpp.a: yaml-cpp
 	cd yaml-cpp && cmake .
-	cd yaml-cpp && make
+	cd yaml-cpp && make yaml-cpp
 
 yaml-cpp: yaml-cpp-$(YAML-CPP_VER).tar.gz
 	tar xvfz $<
+	mv yaml-cpp-release-$(YAML-CPP_VER) yaml-cpp
 
 yaml-cpp-$(YAML-CPP_VER).tar.gz:
-	wget http://yaml-cpp.googlecode.com/files/yaml-cpp-$(YAML-CPP_VER).tar.gz
+	wget -O $@ https://github.com/jbeder/yaml-cpp/archive/release-$(YAML-CPP_VER).tar.gz
