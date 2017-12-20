@@ -11,9 +11,9 @@ useful tips and tricks in this guide that will enhance you level designing.
 
 Maps are simply text files that all have the same root name with incrementing
 numbers after the root name in a directory with the same root name. By
-default ```maps``` is the root name ASCIIpOrtal looks in first for maps unless
+default `maps` is the root name ASCIIpOrtal looks in first for maps unless
 you pass it another root name to look in when you run it. So the first map it
-will load will be ```maps/maps001.txt```. The next is ```maps/maps002.txt``` and so
+will load will be `maps/maps001.txt`. The next is `maps/maps002.txt` and so
 on. You can place your levels in the "extralevels" directory and test them
 using the "ASCIIpOrtal_extra_levels.bat" file.
 
@@ -50,7 +50,7 @@ description of each.:
 'Q' - Goal, where the player ultimately is trying to go.
 '+' - Ladder. This allows for movement vertically.
 '#' - Normal wall. Portals stick to it. Nothing goes through it.
-'N' � Nonstick wall. Like the normal wall but with a finish that portals
+'N' - Nonstick wall. Like the normal wall but with a finish that portals
       don't like.
 '(' - Left Conveyer. The player or any companion cubes on a treadmill will be
       moved automatically every turn.

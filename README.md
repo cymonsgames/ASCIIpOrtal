@@ -95,7 +95,7 @@ After each level you will be given your stats for that level. They are:
 ---
 ## MAKING YOUR OWN CHALLENGES
 
-Please see the included ```MAP_MAKING_TIPS.md``` for the how-to on making your own
+Please see the included `MAP_MAKING_TIPS.md` for the how-to on making your own
 challenging maps.
 
 ---
