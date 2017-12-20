@@ -6,14 +6,14 @@ As your release might be out-of-date, you might want to have a look at
 our Github repository first:
 https://github.com/cymonsgames/ASCIIpOrtal
 
-
+---
 ## Bug report
 
 If you find a bug, please report it either on the issue tracker at
 [Github](https://github.com/cymonsgames/ASCIIpOrtal/issues) or on the
 [ASCIIpOrtal forum](http://cymonsgames.com/forum/index.php?board=14.0).
 
-
+---
 ## Contributing code
 
 If you have some improvements or any change to the code in mind,
@@ -29,7 +29,7 @@ please act according to this list:
 If possible, fork the Github repo and fill a merge request when you're
 done. Another way to contribute code is to send out patches on the forum.
 
-
+---
 ## Porting ASCIIpOrtal to new systems
 
 So far, ASCIIpOrtal has been known to work on the following systems:
@@ -45,7 +45,7 @@ If you want to add a new system to this list, you should start a new
 thread on the forum, as it often requires a lot work (getting SDL to
 run on the target system, handling user input, ...).
 
-
+---
 ## Official releases
 
 We officially release ASCIIpOrtal packages for the following systems:
@@ -63,7 +63,7 @@ GP2X and DINGOO, since the code is already running on these.
 To build the releases, we are relying on a custom Makefile set: see
 next section. The actual build is done on a 64 bits GNU/Linux system.
 
-
+---
 ## Adding a Makefile
 
 If you are willing to help, take a look at our Makefile set; it should

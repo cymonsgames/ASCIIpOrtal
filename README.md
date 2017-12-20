@@ -9,6 +9,7 @@ Inspired by [Increpare's Portile game](http://www.increpare.com/2008/11/portile/
 Check http://cymonsgames.com/asciiportal for updates or our Github page
 at https://github.com/cymonsgames/ASCIIpOrtal
 
+---
 ## HOW TO PLAY
 
 Grab your hand-held portal device and enter the test chambers for a
@@ -50,6 +51,7 @@ M ................. Mute/Unmute music
 The goal of each level is to make it to one of exits on the level. Exits
 appear as an E on a green field.
 
+---
 ## USING PORTALS
 
 Portals link 2 places on the map and make them as one place. Remember that
@@ -78,6 +80,7 @@ or in the path of an object can aid in getting things where you want them.
 
 For any other use of portals experimentation is key.
 
+---
 ## STATS
 
 After each level you will be given your stats for that level. They are:
@@ -89,11 +92,13 @@ After each level you will be given your stats for that level. They are:
 
 **Deaths/Restarts** - How many times you had to try to get that last successful run.
 
+---
 ## MAKING YOUR OWN CHALLENGES
 
 Please see the included ```MAP_MAKING_TIPS.md``` for the how-to on making your own
 challenging maps.
 
+---
 ## COMMAND LINE PROMPTS
 
 ```
@@ -109,6 +114,7 @@ Please visit Cymon's Games and register on the forums
 Any comments or critisism you can either post on the forums or e-mail me
 directly at joealarson@gmail.com.
 
+---
 ## KNOWN ISSUES
 
 * If a portal is on one side of a wall, and you attempt to place a portal on
@@ -117,6 +123,7 @@ directly at joealarson@gmail.com.
   will be trying to occupy the same space. Does not warrant the time to fix it.
 * See the issue tracker on Github
 
+---
 ## THANK YOU
 
 Thanks again to Erin Robinson who without which I would not have been as well

@@ -8,7 +8,7 @@ experimental package for OS X on intel).
 
 http://cymonsgames.com/asciiportal/
 
-
+---
 ## Compiling ASCIIpOrtal
 
 Many Makefiles are provided for convenience, though the default one
@@ -20,7 +20,7 @@ are likely to have to tweak the build system a bit.
 If you are able to build it, feel free to contribute! Best would be to
 use 'Makefile.example' as a starting point though.
 
-
+---
 ## Dependencies
 
 To build ASCIIpOrtal the standard way (that is, using SDL to emulate a
@@ -40,7 +40,7 @@ Note that the 'nosdl' port is only using standard ncurses, so you don't
 need SDL nor PDCurses. However, it's text-only and it's a bit buggy at
 the moment (most notably, the keyboard input really sucks)
 
-
+---
 ## Using the Makefiles
 
 If you have neither PDCurses with SDL support, nor yaml-cpp available on
