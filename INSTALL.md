@@ -1,5 +1,4 @@
-About ASCIIpOrtal
-=================
+# About ASCIIpOrtal
 
 See README.
 This is documenting the way to build ASCIIpOrtal; if you only want to
@@ -9,9 +8,8 @@ experimental package for OS X on intel).
 
 http://cymonsgames.com/asciiportal/
 
-
-Compiling ASCIIpOrtal
-=====================
+---
+## Compiling ASCIIpOrtal
 
 Many Makefiles are provided for convenience, though the default one
 should be ok for most usages.
@@ -22,9 +20,8 @@ are likely to have to tweak the build system a bit.
 If you are able to build it, feel free to contribute! Best would be to
 use 'Makefile.example' as a starting point though.
 
-
-Dependencies
-~~~~~~~~~~~~
+---
+## Dependencies
 
 To build ASCIIpOrtal the standard way (that is, using SDL to emulate a
 curses environment), you need the following:
@@ -43,20 +40,19 @@ Note that the 'nosdl' port is only using standard ncurses, so you don't
 need SDL nor PDCurses. However, it's text-only and it's a bit buggy at
 the moment (most notably, the keyboard input really sucks)
 
-
-Using the Makefiles
-~~~~~~~~~~~~~~~~~~~
+---
+## Using the Makefiles
 
 If you have neither PDCurses with SDL support, nor yaml-cpp available on
 your system, then run this target:
-
+```
 $ make everything
-
+```
 It should download and build PDCurses and yaml-cpp, then build ASCIIpOrtal.
 
 If you already have PDCurses and yaml-cpp on your system, you might want to
 use the 'linux' target (note that it could work fine on OS X too):
-
+```
 $ make linux
-
+```
 It basically does the same, without building PDCurses or yaml-cpp first.
