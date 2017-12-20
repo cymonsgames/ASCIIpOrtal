@@ -1,4 +1,4 @@
-A guide for map makers:
+# Guide For Map Makers
 
 Making maps in ASCIIpOrtal is very simple to understand, but hard to master.
 
@@ -6,8 +6,8 @@ The following guide is intended for those writing their levels by hand. If
 you are using a map editor like the one by Mads Lund there are still many
 useful tips and tricks in this guide that will enhance you level designing.
 
-BASICS
-======
+## BASICS
+
 Maps are simply text files that all have the same root name with incrementing
 numbers after the root name in a directory with the same root name. By
 default ```maps``` is the root name ASCIIpOrtal looks in first for maps unless
@@ -39,8 +39,8 @@ ASCIIpOrtal would look like this:
 Tho this isn't very interesting. To really get the game going you need to add
 some objects.
 
-TABLE OF CHARACTERS
-===================
+## TABLE OF CHARACTERS
+
 Below is the list of all objects recognized in ASCIIpOrtal and a short
 description of each.:
 ```
@@ -86,8 +86,8 @@ description of each.:
       touched by the player all of that type of text trigger will be removed
 	  from the map.
 ```
-NUANCES AND SUBTELTIES
-======================
+## NUANCES AND SUBTELTIES
+
 There are certain interactions that a map maker may need to be aware of:
 
 * There is no limit to how tall or wide or short or narrow a map can be.
@@ -154,8 +154,8 @@ There are certain interactions that a map maker may need to be aware of:
 
 * Place your own notes here and send the changes to joealarson@gmail.com.
 
-SPECIAL LINES
-=============
+## SPECIAL LINES
+
 At the start of each level a message can be displayed across the top, banner
 style. This message is taken from the map data. You must start a line with
 the word "message:" (case sensitive) and the proceed with the message you
@@ -181,8 +181,8 @@ other words the game makes no attempt to figure out what music the level
 "should" be playing if you don't tell it. If the mp3 described is already
 playing it will simply continue playing it without interruption.
 
-FILE NAMES
-==========
+## FILE NAMES
+
 If ASCIIpOrtal is passed the runtime paraamter of '-m ' followed by the name
 of a directory upon run time it will look for that directory and begin
 reading files from there. If it has not had any parameter passed to it the

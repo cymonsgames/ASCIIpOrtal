@@ -9,8 +9,8 @@ Inspired by [Increpare's Portile game](http://www.increpare.com/2008/11/portile/
 Check http://cymonsgames.com/asciiportal for updates or our Github page
 at https://github.com/cymonsgames/ASCIIpOrtal
 
-HOW TO PLAY
-===========
+## HOW TO PLAY
+
 Grab your hand-held portal device and enter the test chambers for a
 non-euclidean good time.
 
@@ -50,8 +50,8 @@ M ................. Mute/Unmute music
 The goal of each level is to make it to one of exits on the level. Exits
 appear as an E on a green field.
 
-USING PORTALS
-=============
+## USING PORTALS
+
 Portals link 2 places on the map and make them as one place. Remember that
 you can aim diagonally to aid portal placement, except when on ladders. While
 on ladders your aim remains steady and can only be adjusted using the Number
@@ -78,8 +78,8 @@ or in the path of an object can aid in getting things where you want them.
 
 For any other use of portals experimentation is key.
 
-STATS
-=====
+## STATS
+
 After each level you will be given your stats for that level. They are:
 
 **Game beats** - How many in game "turns" it took you.
@@ -89,13 +89,13 @@ After each level you will be given your stats for that level. They are:
 
 **Deaths/Restarts** - How many times you had to try to get that last successful run.
 
-MAKING YOUR OWN CHALLENGES
-==========================
+## MAKING YOUR OWN CHALLENGES
+
 Please see the included ```MAP_MAKING_TIPS.md``` for the how-to on making your own
 challenging maps.
 
-COMMAND LINE PROMPTS
-====================
+## COMMAND LINE PROMPTS
+
 ```
  -?                  This help menu
  -m [mappackname]    load a map pack
@@ -109,16 +109,16 @@ Please visit Cymon's Games and register on the forums
 Any comments or critisism you can either post on the forums or e-mail me
 directly at joealarson@gmail.com.
 
-KNOWN ISSUES
-============
+## KNOWN ISSUES
+
 * If a portal is on one side of a wall, and you attempt to place a portal on
   the other side of the same wall in the same time you will not be allowed.
   This is because both portals, despite not being invisible to each other,
   will be trying to occupy the same space. Does not warrant the time to fix it.
 * See the issue tracker on Github
 
-THANK YOU
-=========
+## THANK YOU
+
 Thanks again to Erin Robinson who without which I would not have been as well
 known as quickly. It was her tweet that got me on Kotaku, Boing Boing, Wired,
 Joystiq, and just about every other games news website.

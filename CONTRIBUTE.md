@@ -1,5 +1,4 @@
-Contribute to ASCIIpOrtal
-=========================
+# Contribute to ASCIIpOrtal
 
 ASCIIpOrtal is free software (as in freedom), feel free to look at the
 code and adapt it to suit your needs.
@@ -8,16 +7,14 @@ our Github repository first:
 https://github.com/cymonsgames/ASCIIpOrtal
 
 
-Bug report
-==========
+## Bug report
 
 If you find a bug, please report it either on the issue tracker at
 [Github](https://github.com/cymonsgames/ASCIIpOrtal/issues) or on the
 [ASCIIpOrtal forum](http://cymonsgames.com/forum/index.php?board=14.0).
 
 
-Contributing code
-=================
+## Contributing code
 
 If you have some improvements or any change to the code in mind,
 please act according to this list:
@@ -33,8 +30,7 @@ If possible, fork the Github repo and fill a merge request when you're
 done. Another way to contribute code is to send out patches on the forum.
 
 
-Porting ASCIIpOrtal to new systems
-==================================
+## Porting ASCIIpOrtal to new systems
 
 So far, ASCIIpOrtal has been known to work on the following systems:
  + Windows (cross-compiled on a Linux box, but native compilation
@@ -50,8 +46,7 @@ thread on the forum, as it often requires a lot work (getting SDL to
 run on the target system, handling user input, ...).
 
 
-Official releases
-=================
+## Official releases
 
 We officially release ASCIIpOrtal packages for the following systems:
  + Windows: binary zip file;
@@ -69,8 +64,7 @@ To build the releases, we are relying on a custom Makefile set: see
 next section. The actual build is done on a 64 bits GNU/Linux system.
 
 
-Adding a Makefile
-=================
+## Adding a Makefile
 
 If you are willing to help, take a look at our Makefile set; it should
 be as easy as copying 'Makefile.example' and start editing it.
