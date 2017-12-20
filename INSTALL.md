@@ -24,7 +24,7 @@ use 'Makefile.example' as a starting point though.
 
 
 Dependencies
-~~~~~~~~~~~~
+============
 
 To build ASCIIpOrtal the standard way (that is, using SDL to emulate a
 curses environment), you need the following:
@@ -45,18 +45,18 @@ the moment (most notably, the keyboard input really sucks)
 
 
 Using the Makefiles
-~~~~~~~~~~~~~~~~~~~
+===================
 
 If you have neither PDCurses with SDL support, nor yaml-cpp available on
 your system, then run this target:
-
+```
 $ make everything
-
+```
 It should download and build PDCurses and yaml-cpp, then build ASCIIpOrtal.
 
 If you already have PDCurses and yaml-cpp on your system, you might want to
 use the 'linux' target (note that it could work fine on OS X too):
-
+```
 $ make linux
-
+```
 It basically does the same, without building PDCurses or yaml-cpp first.

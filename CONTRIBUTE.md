@@ -12,8 +12,8 @@ Bug report
 ==========
 
 If you find a bug, please report it either on the issue tracker at
-Github [https://github.com/cymonsgames/ASCIIpOrtal/issues] or on the
-ASCIIpOrtal forum [http://cymonsgames.com/forum/index.php?board=14.0]
+[Github](https://github.com/cymonsgames/ASCIIpOrtal/issues) or on the
+[ASCIIpOrtal forum](http://cymonsgames.com/forum/index.php?board=14.0).
 
 
 Contributing code
