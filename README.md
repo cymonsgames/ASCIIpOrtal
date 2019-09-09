@@ -17,7 +17,7 @@ non-euclidean good time.
 
 ASCIIpOrtal is a text based puzzle game inspired by the popular video game.
 In ASCIIpOrtal you overcome challenges by placing portal way-points, joining
-two points in the map. If they player or any object passes through one portal
+two points in the map. If the player or any object passes through one portal
 way-point it will seamlessly exit the other. Since both way-points are the
 same point on the map the player's view through the portal reflects this and
 space warps around you as you pass through the portal.
