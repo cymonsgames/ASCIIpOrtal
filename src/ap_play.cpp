@@ -936,6 +936,7 @@ int play_level(MapPack &mappack) {
 
   if (!game.still_alive()) return 2;
   if (game.has_won()) return 3;
+  return 0;
 }
 
 
