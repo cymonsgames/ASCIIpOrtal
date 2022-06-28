@@ -224,6 +224,7 @@ int MapPack::set_currentlevel(int newlvl) {
     return -1; // the map pack is over, we don't load any map
 
   load_map();
+  return 0;
 }
 
 void MapPack::reload_level() {
